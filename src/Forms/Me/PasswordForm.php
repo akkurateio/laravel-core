@@ -10,16 +10,16 @@ class PasswordForm extends Form
     {
         $this
             ->add('password_actual', 'password', [
-                'label' => __('Votre mot de passe actuel')
+                'label' => __('Votre mot de passe actuel'),
             ])
             ->add('password', 'repeated', [
                 'type' => 'password',
                 'second_name' => 'password_confirmation',
                 'first_options' => [
-                    'label' => __('Nouveau mot de passe')
+                    'label' => __('Nouveau mot de passe'),
                 ],
                 'second_options' => [
-                    'label' => __('Confirmation')
+                    'label' => __('Confirmation'),
                 ],
             ])
         ;

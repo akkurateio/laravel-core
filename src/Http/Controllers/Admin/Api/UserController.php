@@ -2,10 +2,10 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Api;
 
+use Akkurate\LaravelCore\Http\Controllers\Controller;
+use Akkurate\LaravelCore\Http\Requests\Admin\User\UpdateUserRequest;
 use Akkurate\LaravelCore\Http\Resources\Admin\User as UserResource;
 use Akkurate\LaravelCore\Http\Resources\Admin\UserCollection;
-use Akkurate\LaravelCore\Http\Requests\Admin\User\UpdateUserRequest;
-use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Models\User;
 use Illuminate\Http\JsonResponse;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -13,7 +13,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
-
     public function __construct()
     {
         $this->authorizeResource(User::class, 'user');
@@ -26,7 +25,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return new UserCollection(QueryBuilder::for(User::class)
+        return new UserCollection(
+            QueryBuilder::for(User::class)
             ->fromAdministrableAccount()
             ->allowedFilters([
                 'account_id',
@@ -36,7 +36,7 @@ class UserController extends Controller
                 'created_at',
                 'is_active',
                 AllowedFilter::scope('search'),
-                AllowedFilter::trashed()
+                AllowedFilter::trashed(),
             ])
             ->allowedSorts(['account_id', 'firstname', 'lastname', 'email', 'is_active', 'created_at'])
             ->allowedIncludes(['permissions','roles','account','phones','addresses','emails'])
@@ -66,6 +66,7 @@ class UserController extends Controller
     public function update($uuid, UpdateUserRequest $request, User $user)
     {
         $user->update($request->all());
+
         return new UserResource($user);
     }
 
@@ -80,11 +81,12 @@ class UserController extends Controller
     {
         $user = User::where('id', $userId)->firstOrFail();
 
-        if(auth()->user()->account->id != $user->account->id) {
+        if (auth()->user()->account->id != $user->account->id) {
             return response()->json(['message' => 'You are not authorized to delete this user'], 403);
         }
 
         $user->delete();
+
         return response()->json(['message' => "$user->fullname has been deleted"], 204);
     }
 }

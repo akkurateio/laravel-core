@@ -16,11 +16,12 @@ class AccountExists
     public function handle($request, Closure $next)
     {
         $account = \Akkurate\LaravelCore\Models\Account::where('slug', $request->uuid)->orWhere('uuid', $request->uuid)->first();
-        if(empty($account)) {
+        if (empty($account)) {
             return response()->json([
-                'error' => 'Invalid account'
+                'error' => 'Invalid account',
             ], 400);
         }
+
         return $next($request);
     }
 }

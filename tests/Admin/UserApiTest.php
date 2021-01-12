@@ -4,9 +4,9 @@ namespace Akkurate\LaravelCore\Tests\Admin;
 
 use Akkurate\LaravelCore\Models\User;
 use Akkurate\LaravelCore\Tests\TestCase;
-use Laravel\Passport\Passport;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Laravel\Passport\Passport;
 
 class UserApiTest extends TestCase
 {
@@ -20,7 +20,7 @@ class UserApiTest extends TestCase
         User::factory()->count(2)->make();
 
         $response = $this->get(route('api.admin.users.index', [
-            'uuid' => $this->user->account->uuid
+            'uuid' => $this->user->account->uuid,
         ]));
         $response->assertStatus(200);
     }
@@ -31,7 +31,7 @@ class UserApiTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('api.admin.users.show', [
             'uuid' => $this->user->account->uuid,
-            'user' => User::factory()->create()
+            'user' => User::factory()->create(),
         ]));
         $response->assertStatus(200);
     }
@@ -56,7 +56,7 @@ class UserApiTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->delete(route('api.admin.users.destroy', [
             'uuid' => $this->user->account->uuid,
-            'user' => User::factory()->create()
+            'user' => User::factory()->create(),
         ]));
         $response->assertStatus(403);
     }
@@ -69,12 +69,12 @@ class UserApiTest extends TestCase
         $user = User::factory()->create();
 
         $user->update([
-           'account_id' => $this->user->account->id
+           'account_id' => $this->user->account->id,
         ]);
 
         $response = $this->delete(route('api.admin.users.destroy', [
             'uuid' => $this->user->account->uuid,
-            'user' => $user
+            'user' => $user,
         ]));
         $response->assertStatus(204);
     }

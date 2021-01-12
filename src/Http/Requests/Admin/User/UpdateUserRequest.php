@@ -2,14 +2,13 @@
 
 namespace Akkurate\LaravelCore\Http\Requests\Admin\User;
 
+use Akkurate\LaravelContact\Rules\Mobile;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
-use Akkurate\LaravelContact\Rules\Mobile;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserRequest extends FormRequest
 {
-
     public function authorize()
     {
         return true;

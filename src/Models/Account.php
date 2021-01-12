@@ -2,9 +2,9 @@
 
 namespace Akkurate\LaravelCore\Models;
 
+use Akkurate\LaravelContact\Traits\Contactable;
 use Akkurate\LaravelCore\Database\Factories\Admin\AccountFactory;
 use Akkurate\LaravelCore\Traits\Admin\HasPreference;
-use Akkurate\LaravelContact\Traits\Contactable;
 use Akkurate\LaravelCore\Traits\HasUuid;
 use Akkurate\LaravelCore\Traits\IsActivable;
 use Akkurate\LaravelMedia\Traits\HasResources;
@@ -49,8 +49,8 @@ class Account extends Model implements Searchable
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 
@@ -140,5 +140,4 @@ class Account extends Model implements Searchable
     {
         return $this->hasMany(Order::class);
     }
-
 }

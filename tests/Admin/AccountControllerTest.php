@@ -17,7 +17,7 @@ class AccountControllerTest extends TestCase
     public function it_should_return_the_accounts_view()
     {
         $response = $this->get(route('brain.admin.accounts.index', [
-            'uuid' => $this->user->account->slug
+            'uuid' => $this->user->account->slug,
         ]));
         $response->assertStatus(200);
     }
@@ -28,7 +28,7 @@ class AccountControllerTest extends TestCase
         $account = Account::first();
         $response = $this->get(route('brain.admin.accounts.show', [
             'uuid' => $this->user->account->slug,
-            'account' => $account->id
+            'account' => $account->id,
         ]));
         $response->assertRedirect();
     }
@@ -39,7 +39,7 @@ class AccountControllerTest extends TestCase
         $account = Account::first();
         $response = $this->get(route('brain.admin.accounts.edit', [
             'uuid' => $this->user->account->slug,
-            'account' => $account->id
+            'account' => $account->id,
         ]));
         $response->assertStatus(200);
     }
@@ -66,7 +66,7 @@ class AccountControllerTest extends TestCase
         $response = ($this->put(route('brain.admin.accounts.update', [
             'uuid' => $this->user->account->slug,
             'account' => Account::first()->id,
-            'name' => 'Test Company'
+            'name' => 'Test Company',
         ])));
 
         $account = Account::where('name', 'Test Company')->first();
@@ -82,12 +82,11 @@ class AccountControllerTest extends TestCase
 
         $response = $this->delete(route('brain.admin.accounts.destroy', [
             'uuid' => $this->user->account->slug,
-            'account' => $account->id
+            'account' => $account->id,
         ]));
 
         $response->assertRedirect();
 
         $this->assertSoftDeleted('admin_accounts', ['id' => $account->id]);
     }
-
 }

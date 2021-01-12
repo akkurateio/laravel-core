@@ -5,8 +5,8 @@ namespace Akkurate\LaravelCore\Traits;
 /**
  * Trait IsActivable
  */
-trait IsActivable {
-
+trait IsActivable
+{
     public function scopeActive($query)
     {
         return $query
@@ -21,22 +21,21 @@ trait IsActivable {
     public function activate()
     {
         return $this->update([
-            'is_active' => true
+            'is_active' => true,
         ]);
     }
 
     public function deactivate()
     {
         return $this->update([
-            'is_active' => false
+            'is_active' => false,
         ]);
     }
 
     public function toggle()
     {
         return $this->update([
-            'is_active' => !$this->is_active
+            'is_active' => ! $this->is_active,
         ]);
     }
-
 }

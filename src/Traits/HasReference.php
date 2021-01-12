@@ -5,7 +5,8 @@ namespace Akkurate\LaravelCore\Traits;
 /**
  * Trait HasReference
  */
-trait HasReference {
+trait HasReference
+{
 
     /**
      * Used to generate Random and unique booking references
@@ -14,8 +15,8 @@ trait HasReference {
      * @param $suffix
      * @return string
      */
-    public static function generateReference($length = 8, $prefix = '', $suffix = '') {
-
+    public static function generateReference($length = 8, $prefix = '', $suffix = '')
+    {
         $characters = config('reference.characters');
         $string = '';
 
@@ -25,5 +26,4 @@ trait HasReference {
 
         return $prefix.$string.$suffix;
     }
-
 }

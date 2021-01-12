@@ -16,7 +16,7 @@ class PermissionApiTest extends TestCase
     public function it_should_return_all_permissions()
     {
         $response = $this->get(route('api.access.permissions.index', [
-            'uuid' => $this->user->account->uuid
+            'uuid' => $this->user->account->uuid,
         ]));
         $response->assertStatus(200);
     }
@@ -26,7 +26,7 @@ class PermissionApiTest extends TestCase
     {
         $response = $this->get(route('api.access.permissions.show', [
             'uuid' => $this->user->account->uuid,
-            'permission' => Permission::first()->id
+            'permission' => Permission::first()->id,
         ]));
         $response->assertStatus(200);
     }
@@ -63,5 +63,4 @@ class PermissionApiTest extends TestCase
         ]));
         $response->assertStatus(204);
     }
-
 }

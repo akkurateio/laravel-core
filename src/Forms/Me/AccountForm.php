@@ -10,22 +10,22 @@ class AccountForm extends Form
     {
         $this
             ->add('name', 'text', [
-                'label' => __('Nom de l’organisation')
+                'label' => __('Nom de l’organisation'),
             ])
             ->add('website', 'text', [
                 'label' => __('Adresse de votre site Internet'),
                 'attr' => [
-                    'placeholder' => 'https://...'
-                ]
+                    'placeholder' => 'https://...',
+                ],
             ])
             ->add('internal_reference', 'text', [
                 'label' => __('Référence interne d’identification'),
                 'attr' => [
-                    'placeholder' => 'Ex. : MON-ORGANISATION-1'
-                ]
+                    'placeholder' => 'Ex. : MON-ORGANISATION-1',
+                ],
             ])
             ->add('siren', 'text', [
-                'label' => __('SIREN')
+                'label' => __('SIREN'),
             ])
         ;
     }

@@ -3,15 +3,14 @@
 namespace Akkurate\LaravelCore\Forms\Admin\User;
 
 use Akkurate\LaravelCore\Models\Account;
-use Kris\LaravelFormBuilder\Form;
 use Illuminate\Support\Arr;
+use Kris\LaravelFormBuilder\Form;
 use Spatie\Permission\Models\Role;
 
 class UserSearchForm extends Form
 {
     public function buildForm()
     {
-
         $accounts = Account::administrable()->active()->orderBy('name')->get();
         $accountsSelect = Arr::prepend($accounts->pluck('name', 'id')->toArray(), 'Tous', 0);
 
@@ -27,48 +26,48 @@ class UserSearchForm extends Form
                 'value' => request('q'),
                 'label' => __('Rechercher parmi les utilisateurs'),
                 'label_attr' => [
-                    'class' => 'text-white'
-                ]
+                    'class' => 'text-white',
+                ],
             ])
             ->add('role', 'select', [
                 'attr' => [
-                    'class' => 'custom-select custom-select-sm border-none'
+                    'class' => 'custom-select custom-select-sm border-none',
                 ],
                 'selected' => request('role'),
                 'label' => __('Rôle'),
                 'label_attr' => [
-                    'class' => 'text-white'
+                    'class' => 'text-white',
                 ],
-                'choices' => $rolesSelect
+                'choices' => $rolesSelect,
             ])
             ->add('status', 'select', [
                 'attr' => [
-                    'class' => 'custom-select custom-select-sm border-none'
+                    'class' => 'custom-select custom-select-sm border-none',
                 ],
                 'selected' => request('status'),
                 'label' => __('Statut'),
                 'label_attr' => [
-                    'class' => 'text-white'
+                    'class' => 'text-white',
                 ],
                 'choices' => [
                     'all' => __('Tous'),
                     'is_active' => __('Actif'),
-                    'deactivated' => __('Désactivé')
-                ]
+                    'deactivated' => __('Désactivé'),
+                ],
             ])
             ->add('account', 'select', [
                 'wrapper' => [
-                    'class' => 'form-group mb-3'
+                    'class' => 'form-group mb-3',
                 ],
                 'attr' => [
-                    'class' => 'custom-select custom-select-sm border-none'
+                    'class' => 'custom-select custom-select-sm border-none',
                 ],
                 'selected' => request('account'),
                 'label' => __('Compte'),
                 'label_attr' => [
-                    'class' => 'text-white'
+                    'class' => 'text-white',
                 ],
-                'choices' => $accountsSelect
+                'choices' => $accountsSelect,
             ]);
     }
 }

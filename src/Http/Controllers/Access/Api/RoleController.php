@@ -3,17 +3,16 @@
 namespace Akkurate\LaravelCore\Http\Controllers\Access\Api;
 
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Spatie\Permission\Models\Role;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\Permission\Models\Permission;
 use Akkurate\LaravelCore\Http\Resources\Access\Role as RoleResource;
 use Akkurate\LaravelCore\Http\Resources\Access\RoleCollection;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class RoleController extends Controller
 {
-
     public function __construct()
     {
         $this->authorizeResource(Role::class, 'role');
@@ -26,7 +25,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return new RoleCollection(QueryBuilder::for(Role::class)
+        return new RoleCollection(
+            QueryBuilder::for(Role::class)
             ->allowedFilters(['name'])
             ->allowedSorts(['name'])
             ->allowedIncludes(['permissions'])
@@ -44,7 +44,7 @@ class RoleController extends Controller
     {
         $role = Role::create([
             'name' => $request->name,
-            'guard_name' => $request->guard_name
+            'guard_name' => $request->guard_name,
         ]);
 
         return new RoleResource($role);
@@ -74,7 +74,7 @@ class RoleController extends Controller
     {
         $role->update([
             'name' => $request->name,
-            'guard_name' => $request->guard_name
+            'guard_name' => $request->guard_name,
         ]);
 
         return new RoleResource($role);
@@ -90,6 +90,7 @@ class RoleController extends Controller
     public function destroy($uuid, Role  $role)
     {
         $role->delete();
+
         return response()->json(null, 204);
     }
 
@@ -102,12 +103,11 @@ class RoleController extends Controller
      */
     public function givePermission($uuid, Role $role, Permission $permission)
     {
-
         $role->givePermissionTo($permission);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Permission accordée avec succès'
+            'message' => 'Permission accordée avec succès',
         ], 200);
     }
 
@@ -124,7 +124,7 @@ class RoleController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Permission révoquée avec succès'
+            'message' => 'Permission révoquée avec succès',
         ], 200);
     }
 }

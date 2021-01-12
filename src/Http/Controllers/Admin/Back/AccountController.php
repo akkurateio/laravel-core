@@ -2,26 +2,25 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Back;
 
-use Akkurate\LaravelCore\Models\Language;
-use Akkurate\LaravelContact\Models\Type;
-use Illuminate\View\View;
-use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Kris\LaravelFormBuilder\FormBuilder;
+use Akkurate\LaravelContact\Models\Address;
 use Akkurate\LaravelContact\Models\Email;
 use Akkurate\LaravelContact\Models\Phone;
-use Akkurate\LaravelCore\Models\Account;
-use Akkurate\LaravelContact\Models\Address;
-use Akkurate\LaravelCore\Forms\Admin\Account\AccountUpdateForm;
-use Akkurate\LaravelCore\Forms\Admin\Account\AccountSearchForm;
-use Akkurate\LaravelCore\Repositories\Admin\AccountsRepository;
+use Akkurate\LaravelContact\Models\Type;
 use Akkurate\LaravelCore\Forms\Admin\Account\AccountCreateForm;
+use Akkurate\LaravelCore\Forms\Admin\Account\AccountSearchForm;
+use Akkurate\LaravelCore\Forms\Admin\Account\AccountUpdateForm;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\CreateAccountRequest;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\UpdateAccountRequest;
+use Akkurate\LaravelCore\Models\Account;
+use Akkurate\LaravelCore\Models\Language;
+use Akkurate\LaravelCore\Repositories\Admin\AccountsRepository;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 class AccountController extends Controller
 {
-
     public function __construct()
     {
         $this->authorizeResource(Account::class, 'account');
@@ -39,17 +38,18 @@ class AccountController extends Controller
         $form = $formBuilder->create(AccountSearchForm::class, [
             'method' => 'GET',
             'url' => route('brain.admin.accounts.index', ['uuid' => $uuid]),
-            'id' => 'accountSearchForm'
+            'id' => 'accountSearchForm',
         ]);
         $q = (string)request('q');
         $search = $q ;
         $searchResults = $repository->search($q);
-        $all = Account::administrable()->get()->mapToGroups(function($item, $key) {
+        $all = Account::administrable()->get()->mapToGroups(function ($item, $key) {
             return [strtoupper(substr($item['name'], 0, 1)) => $item];
         })->sortKeys();
 
         $lastUpdated = Account::administrable()->orderBy('updated_at', 'desc')->take(pagination())->get();
         $lastCreated = Account::administrable()->orderBy('created_at', 'desc')->take(pagination())->get();
+
         return view('admin::back.accounts.search', compact('form', 'q', 'search', 'searchResults', 'all', 'lastUpdated', 'lastCreated'));
     }
 
@@ -65,8 +65,9 @@ class AccountController extends Controller
         $form = $formBuilder->create(AccountCreateForm::class, [
             'method' => 'POST',
             'url' => route('brain.admin.accounts.store', ['uuid' => $uuid]),
-            'id' => 'accountForm'
+            'id' => 'accountForm',
         ]);
+
         return view('admin::back.accounts.create', compact('form'));
     }
 
@@ -87,14 +88,14 @@ class AccountController extends Controller
             'registry_intra' => $request['registry_intra'] ?? '',
             'capital' => $request['capital'] ?? '',
             'ape' => $request['ape'] ?? '',
-            'legal_form_id' => class_exists(\Akkurate\LaravelBusiness\Models\LegalForm::class) ? \Akkurate\LaravelBusiness\Models\LegalForm::where('id', $request['legal_form_id'])->first()->name ?? '' : ''
+            'legal_form_id' => class_exists(\Akkurate\LaravelBusiness\Models\LegalForm::class) ? \Akkurate\LaravelBusiness\Models\LegalForm::where('id', $request['legal_form_id'])->first()->name ?? '' : '',
         ]);
 
         $account->update([
-            'params' => $params
+            'params' => $params,
         ]);
 
-        if (!empty($request['street1']) && !empty($request['zip']) && !empty($request['city'])) {
+        if (! empty($request['street1']) && ! empty($request['zip']) && ! empty($request['city'])) {
             $address = Address::create([
                 'type_id' => Type::where('code', 'WORK')->first()->id,
                 'name' => $account->name,
@@ -104,43 +105,43 @@ class AccountController extends Controller
                 'zip' => $request['zip'],
                 'city' => $request['city'],
                 'addressable_type' => get_class($account),
-                'addressable_id' => $account->id
+                'addressable_id' => $account->id,
             ]);
             $account->update([
-                'address_id' => $address->id
+                'address_id' => $address->id,
             ]);
         }
 
-        if (!empty($request['number'])) {
+        if (! empty($request['number'])) {
             $phone = Phone::create([
                 'type_id' => Type::where('code', 'WORK')->first()->id,
                 'name' => $account->name,
                 'number' => $request['number'],
                 'phoneable_type' => get_class($account),
-                'phoneable_id' => $account->id
+                'phoneable_id' => $account->id,
             ]);
             $account->update([
-                'phone_id' => $phone->id
+                'phone_id' => $phone->id,
             ]);
         }
 
-        if (!empty($request['email'])) {
+        if (! empty($request['email'])) {
             $email = Email::create([
                 'type_id' => Type::where('code', 'WORK')->first()->id,
                 'name' => $account->name,
                 'email' => $request['email'],
                 'emailable_type' => get_class($account),
-                'emailable_id' => $account->id
+                'emailable_id' => $account->id,
             ]);
             $account->update([
-                'email_id' => $email->id
+                'email_id' => $email->id,
             ]);
         }
 
         $language = Language::where('locale', 'fr')->firstOrFail();
 
         $account->preference()->create([
-            'language_id' => $language->id
+            'language_id' => $language->id,
         ]);
 
         auth()->user()->accounts()->attach($account);
@@ -152,6 +153,7 @@ class AccountController extends Controller
     public function show($uuid, $accountId)
     {
         $account = Account::where('id', $accountId)->first();
+
         return redirect()->route('brain.admin.accounts.edit', ['account' => $account, 'uuid' => $uuid]);
     }
 
@@ -170,8 +172,9 @@ class AccountController extends Controller
             'method' => 'PUT',
             'url' => route('brain.admin.accounts.update', ['account' => $account, 'uuid' => $uuid]),
             'id' => 'accountForm',
-            'model' => $account
+            'model' => $account,
         ]);
+
         return view('admin::back.accounts.edit', compact('account', 'form'));
     }
 
@@ -195,7 +198,7 @@ class AccountController extends Controller
 
         $account->preference->update([
             'pagination' => $request->pagination,
-            'language_id' => $request->language
+            'language_id' => $request->language,
         ]);
 
         return redirect()
@@ -214,6 +217,7 @@ class AccountController extends Controller
     {
         $account = Account::where('id', $accountId)->first();
         $account->delete();
+
         return redirect()->route('brain.admin.accounts.index', ['uuid' => $uuid])
             ->withSuccess(trans('Compte') . ' ' . trans('supprimé avec succès'));
     }
@@ -221,8 +225,9 @@ class AccountController extends Controller
     public function toggle(Account $account)
     {
         $account->update([
-            'is_active' => !$account->is_active
+            'is_active' => ! $account->is_active,
         ]);
+
         return back();
     }
 
@@ -230,8 +235,8 @@ class AccountController extends Controller
      * @param $uuid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getTarget($uuid){
-        return response()->json(Account::where('uuid',$uuid)->firstOrFail()->target(), 200);
+    public function getTarget($uuid)
+    {
+        return response()->json(Account::where('uuid', $uuid)->firstOrFail()->target(), 200);
     }
-
 }

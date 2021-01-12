@@ -15,12 +15,12 @@ class UserControllerTest extends TestCase
     use WithFaker;
     use WithoutMiddleware;
 
-   /** @test **/
+    /** @test **/
     public function it_should_return_the_users_view()
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('brain.admin.users.index', [
-            'uuid' => $this->user->account->slug
+            'uuid' => $this->user->account->slug,
         ]));
         $response->assertStatus(200);
     }
@@ -32,12 +32,12 @@ class UserControllerTest extends TestCase
 
         $user = User::factory()->create();
         $user->preference()->create([
-            'language_id' => Language::first()->id
+            'language_id' => Language::first()->id,
         ]);
 
         $response = $this->get(route('brain.admin.users.show', [
             'uuid' => $this->user->account->slug,
-            'user' => $user->id
+            'user' => $user->id,
         ]));
         $response->assertStatus(200);
     }
@@ -49,12 +49,12 @@ class UserControllerTest extends TestCase
 
         $user = User::factory()->create();
         $user->preference()->create([
-            'language_id' => Language::first()->id
+            'language_id' => Language::first()->id,
         ]);
 
         $response = $this->get(route('brain.admin.users.edit', [
             'uuid' => $this->user->account->slug,
-            'user' => $user->id
+            'user' => $user->id,
         ]));
         $response->assertStatus(200);
     }
@@ -85,12 +85,11 @@ class UserControllerTest extends TestCase
 
         $response = $this->delete(route('brain.admin.users.destroy', [
             'uuid' => $this->user->account->slug,
-            'user' => $user
+            'user' => $user,
         ]));
 
         $response->assertRedirect();
 
         $this->assertSoftDeleted('users', ['id' => $user->id]);
     }
-
 }

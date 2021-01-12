@@ -19,7 +19,7 @@ class AccountObserver
         $language = Language::where('is_default', true)->first();
 
         $account->preference()->create([
-            'language_id' => $language->id
+            'language_id' => $language->id,
         ]);
     }
 }

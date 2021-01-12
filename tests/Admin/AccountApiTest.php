@@ -17,7 +17,7 @@ class AccountApiTest extends TestCase
     {
         Account::factory()->count(2)->make();
         $response = $this->get(route('api.admin.accounts.index', [
-            'uuid' => $this->user->account->uuid
+            'uuid' => $this->user->account->uuid,
         ]));
         $response->assertStatus(200);
     }
@@ -27,7 +27,7 @@ class AccountApiTest extends TestCase
     {
         $response = $this->get(route('api.admin.accounts.show', [
             'uuid' => $this->user->account->uuid,
-            'account' => Account::factory()->create()
+            'account' => Account::factory()->create(),
         ]));
         $response->assertStatus(200);
     }
@@ -61,7 +61,7 @@ class AccountApiTest extends TestCase
     {
         $response = $this->delete(route('api.admin.accounts.destroy', [
             'uuid' => $this->user->account->uuid,
-            'account' => Account::factory()->create()
+            'account' => Account::factory()->create(),
         ]));
         $response->assertStatus(204);
     }
@@ -71,7 +71,7 @@ class AccountApiTest extends TestCase
     {
         $response = $this->get(route('api.admin.find.users', [
             'uuid' => $this->user->account->uuid,
-            'account' => $this->user->account
+            'account' => $this->user->account,
         ]));
         $response->assertStatus(200);
     }

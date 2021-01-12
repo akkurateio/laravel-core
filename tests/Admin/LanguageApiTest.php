@@ -2,15 +2,14 @@
 
 namespace Akkurate\LaravelCore\Tests\Admin;
 
-use Akkurate\LaravelCore\Tests\TestCase;
-use Laravel\Passport\Passport;
 use Akkurate\LaravelCore\Models\Language;
+use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Laravel\Passport\Passport;
 
 class LanguageApiTest extends TestCase
 {
-
     use WithFaker;
     use WithoutMiddleware;
 
@@ -20,7 +19,7 @@ class LanguageApiTest extends TestCase
         Passport::actingAs($this->user);
         Language::factory()->count(3)->create();
         $response = $this->get(route('api.admin.languages.index', [
-            'uuid' => $this->user->account->uuid
+            'uuid' => $this->user->account->uuid,
         ]));
         $response->assertStatus(200);
     }
@@ -31,7 +30,7 @@ class LanguageApiTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('api.admin.languages.show', [
             'uuid' => $this->user->account->uuid,
-            'language' => Language::factory()->create()
+            'language' => Language::factory()->create(),
         ]));
         $response->assertStatus(200);
     }
@@ -44,7 +43,7 @@ class LanguageApiTest extends TestCase
             'uuid' => $this->user->account->uuid,
             'locale' => $this->faker->locale,
             'locale_php' => $this->faker->locale,
-            'priority' => $this->faker->numberBetween(1,100),
+            'priority' => $this->faker->numberBetween(1, 100),
         ]));
         $response->assertStatus(201);
     }
@@ -58,7 +57,7 @@ class LanguageApiTest extends TestCase
             'language' => Language::factory()->create(),
             'locale' => $this->faker->locale,
             'locale_php' => $this->faker->locale,
-            'priority' => $this->faker->numberBetween(1,100),
+            'priority' => $this->faker->numberBetween(1, 100),
         ]));
         $response->assertStatus(200);
     }
@@ -69,9 +68,8 @@ class LanguageApiTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->delete(route('api.admin.languages.destroy', [
             'uuid' => $this->user->account->uuid,
-            'language' => Language::factory()->create()
+            'language' => Language::factory()->create(),
         ]));
         $response->assertStatus(204);
     }
-
 }

@@ -19,7 +19,7 @@ class UserObserver
         $language = Language::where('is_default', true)->first();
 
         $user->preference()->create([
-            'language_id' => $language->id
+            'language_id' => $language->id,
         ]);
     }
 }
