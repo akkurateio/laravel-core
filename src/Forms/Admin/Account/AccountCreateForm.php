@@ -2,8 +2,8 @@
 
 namespace Akkurate\LaravelCore\Forms\Admin\Account;
 
-use Akkurate\LaravelCore\Models\Country;
 use Akkurate\LaravelBusiness\Models\LegalForm;
+use Akkurate\LaravelCore\Models\Country;
 use Kris\LaravelFormBuilder\Form;
 
 class AccountCreateForm extends Form

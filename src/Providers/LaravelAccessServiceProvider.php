@@ -2,8 +2,8 @@
 
 namespace Akkurate\LaravelCore\Providers;
 
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * LaravelAccess service provider
@@ -22,23 +22,23 @@ class LaravelAccessServiceProvider extends ServiceProvider
         \Spatie\Permission\Models\Permission::class => \Akkurate\LaravelAccess\Policies\PermissionPolicy::class
     ];
 
-	/**
-	 * Bootstrap services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
+    /**
+     * Bootstrap services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
         $this->registerPolicies();
 
         Gate::before(function ($user, $ability) {
             return $user->hasRole('superadmin') ? true : null;
         });
 
-		$this->loadRoutesFrom(__DIR__.'/../../routes/laravel-access/api.php');
-		$this->loadRoutesFrom(__DIR__.'/../../routes/laravel-access/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/laravel-access/api.php');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/laravel-access/web.php');
 
-		$this->loadViewsFrom(__DIR__ . '/../../resources/laravel-access/views', 'access');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/laravel-access/views', 'access');
         $this->loadMigrationsFrom(__DIR__ . '/../../database/laravel-access/migrations');
 
         $this->publishes([
@@ -46,15 +46,16 @@ class LaravelAccessServiceProvider extends ServiceProvider
         ], 'config');
     }
 
-	/**
-	 * Register services.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
+    /**
+     * Register services.
+     *
+     * @return void
+     */
+    public function register()
+    {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/laravel-access/laravel-access.php', 'laravel-access'
+            __DIR__.'/../../config/laravel-access/laravel-access.php',
+            'laravel-access'
         );
-	}
+    }
 }

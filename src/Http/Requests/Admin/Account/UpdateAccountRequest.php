@@ -7,7 +7,6 @@ use Illuminate\Validation\Rule;
 
 class UpdateAccountRequest extends FormRequest
 {
-
     public function authorize()
     {
         return true;

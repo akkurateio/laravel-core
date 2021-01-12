@@ -13,7 +13,7 @@ class LanguageControllerTest extends TestCase
     use WithFaker;
     use WithoutMiddleware;
 
-   /** @test **/
+    /** @test **/
     public function it_should_return_the_languages_view()
     {
         Passport::actingAs($this->user);
@@ -58,7 +58,7 @@ class LanguageControllerTest extends TestCase
             'uuid' => $this->user->account->slug,
             'locale' => $this->faker->locale,
             'locale_php' => $this->faker->locale,
-            'priority' => $this->faker->numberBetween(1,100),
+            'priority' => $this->faker->numberBetween(1, 100),
         ]));
 
         $response->assertStatus(302);
@@ -77,7 +77,7 @@ class LanguageControllerTest extends TestCase
             'language' => $language,
             'locale' => $this->faker->locale,
             'locale_php' => $this->faker->locale,
-            'priority' => $this->faker->numberBetween(1,100),
+            'priority' => $this->faker->numberBetween(1, 100),
         ]));
 
         $response->assertStatus(302);
@@ -99,5 +99,4 @@ class LanguageControllerTest extends TestCase
 
         $this->assertDeleted('admin_languages', ['id' => $language->id]);
     }
-
 }

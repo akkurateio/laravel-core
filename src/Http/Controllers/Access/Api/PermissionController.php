@@ -2,19 +2,18 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Access\Api;
 
-use Akkurate\LaravelCore\Models\User;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\Permission\Models\Permission;
-use Akkurate\LaravelCore\Models\Account;
 use Akkurate\LaravelCore\Http\Resources\Access\Permission as PermissionResource;
 use Akkurate\LaravelCore\Http\Resources\Access\PermissionCollection;
+use Akkurate\LaravelCore\Models\Account;
+use Akkurate\LaravelCore\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class PermissionController extends Controller
 {
-
     public function __construct()
     {
         $this->authorizeResource(Permission::class, 'permission');
@@ -27,7 +26,8 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        return new PermissionCollection(QueryBuilder::for(Permission::class)
+        return new PermissionCollection(
+            QueryBuilder::for(Permission::class)
             ->allowedFilters(['name'])
             ->allowedSorts(['name'])
             ->allowedIncludes([])
@@ -91,6 +91,7 @@ class PermissionController extends Controller
     public function destroy($uuid, Permission  $permission)
     {
         $permission->delete();
+
         return response()->json(null, 204);
     }
 
@@ -104,12 +105,11 @@ class PermissionController extends Controller
      */
     public function givePermission($uuid, Permission $permission, $modelUuid)
     {
-
         $model = User::where('uuid', $modelUuid)->first();
-        if (!$model) {
+        if (! $model) {
             $model = Account::where('uuid', $modelUuid)->first();
         }
-        if (!$model) {
+        if (! $model) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Aucun model trouvé'
@@ -134,12 +134,11 @@ class PermissionController extends Controller
      */
     public function revokePermission($uuid, Permission $permission, $modelUuid)
     {
-
         $model = User::where('uuid', $modelUuid)->first();
-        if (!$model) {
+        if (! $model) {
             $model = Account::where('uuid', $modelUuid)->first();
         }
-        if (!$model) {
+        if (! $model) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Aucun model trouvé'
@@ -151,5 +150,6 @@ class PermissionController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Permission révoquée avec succès'
-        ], 200);    }
+        ], 200);
+    }
 }

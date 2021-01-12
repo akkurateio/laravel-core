@@ -2,8 +2,8 @@
 
 namespace Akkurate\LaravelCore\Models\Policies\Admin;
 
-use Akkurate\LaravelCore\Models\User;
 use Akkurate\LaravelCore\Models\Account;
+use Akkurate\LaravelCore\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AccountPolicy

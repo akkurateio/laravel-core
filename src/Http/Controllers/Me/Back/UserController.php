@@ -4,11 +4,11 @@ namespace Akkurate\LaravelCore\Http\Controllers\Me\Back;
 
 use Akkurate\LaravelCore\Forms\Me\User\CreateForm;
 use Akkurate\LaravelCore\Forms\Me\User\UpdateForm;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Models\User;
 use Akkurate\LaravelCore\Notifications\InvitationNotification;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
-use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\RedirectResponse;
@@ -53,8 +53,8 @@ class UserController extends Controller
             'url' => route('brain.me.users.store', uuid()),
             'id' => 'invitUserForm'
         ]);
-        return view('me::back.users.create', compact('form'));
 
+        return view('me::back.users.create', compact('form'));
     }
 
     /**
@@ -66,7 +66,6 @@ class UserController extends Controller
      */
     public function store($uuid, Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'firstname' => ['required', 'string', 'max:255', new Firstname],
             'lastname' => ['required', 'string', 'max:255', new Lastname],
@@ -183,6 +182,7 @@ class UserController extends Controller
         $user->update([
             'deleted_at' => Carbon::now()->format('Y:m:d H:i:s')
         ]);
+
         return redirect()->route('brain.me.users.index', ['uuid' => $uuid])->withSuccess(__('Utilisateur révoqué'));
     }
 
@@ -212,7 +212,7 @@ class UserController extends Controller
         $user = User::where('uuid', $userUuid)->first();
 
         $user->update([
-            'is_active' => !$user->is_active
+            'is_active' => ! $user->is_active
         ]);
 
         return back();

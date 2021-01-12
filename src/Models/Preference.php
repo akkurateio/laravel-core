@@ -10,7 +10,7 @@ class Preference extends Model
 {
     use HasFactory;
 
-	protected $table = 'admin_preferences';
+    protected $table = 'admin_preferences';
     protected $fillable = ['target', 'pagination', 'language_id'];
 
     /**
@@ -23,13 +23,13 @@ class Preference extends Model
         return PreferenceFactory::new();
     }
 
-	public function preferenceable()
-	{
-		return $this->morphTo();
-	}
+    public function preferenceable()
+    {
+        return $this->morphTo();
+    }
 
-	public function language()
-	{
-		return $this->belongsTo(Language::class);
-	}
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
+    }
 }

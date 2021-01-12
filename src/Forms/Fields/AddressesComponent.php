@@ -18,5 +18,4 @@ class AddressesComponent extends FormField
 //        $options['options'] = [];
         return parent::render($options, $showLabel, $showField, $showError);
     }
-
 }

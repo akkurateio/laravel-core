@@ -7,11 +7,10 @@ use Akkurate\LaravelCore\Models\Preference;
 /**
  * Trait HasPreference
  */
-trait HasPreference {
-
+trait HasPreference
+{
     public function preference()
     {
         return $this->morphOne(Preference::class, 'preferenceable');
     }
-
 }

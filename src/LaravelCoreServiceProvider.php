@@ -13,13 +13,13 @@ use Illuminate\Support\ServiceProvider;
  */
 class LaravelCoreServiceProvider extends ServiceProvider
 {
-	/**
-	 * Bootstrap services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
+    /**
+     * Bootstrap services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
         $router = $this->app->make(Router::class);
         $router->pushMiddlewareToGroup('web', CoreKernel::class);
         $router->pushMiddlewareToGroup('akk-back', CoreKernel::class);
@@ -52,28 +52,31 @@ class LaravelCoreServiceProvider extends ServiceProvider
         }
     }
 
-	/**
-	 * Register services.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-
+    /**
+     * Register services.
+     *
+     * @return void
+     */
+    public function register()
+    {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/general.php', 'general'
+            __DIR__.'/../config/general.php',
+            'general'
         );
 
         $this->mergeConfigFrom(
-            __DIR__.'/../config/laravel-core.php', 'laravel-core'
+            __DIR__.'/../config/laravel-core.php',
+            'laravel-core'
         );
 
         $this->mergeConfigFrom(
-            __DIR__.'/../config/laravel-form-builder.php', 'laravel-form-builder'
+            __DIR__.'/../config/laravel-form-builder.php',
+            'laravel-form-builder'
         );
 
         $this->mergeConfigFrom(
-            __DIR__.'/../config/reference.php', 'reference'
+            __DIR__.'/../config/reference.php',
+            'reference'
         );
-	}
+    }
 }

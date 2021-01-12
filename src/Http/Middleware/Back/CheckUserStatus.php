@@ -16,12 +16,12 @@ class CheckUserStatus
      */
     public function handle($request, Closure $next)
     {
-
         if (auth()->user()->is_active != 1) {
             Auth::logout();
+
             return redirect('/login');
         }
-        return $next($request);
 
+        return $next($request);
     }
 }
