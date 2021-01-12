@@ -2,6 +2,7 @@
 
 namespace Akkurate\LaravelCore\Http\Requests\Admin\Language;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateLanguageRequest extends FormRequest
@@ -18,7 +19,7 @@ class UpdateLanguageRequest extends FormRequest
             'locale_php' => 'string|required',
             'label' => 'string|nullable',
             'priority' => 'integer',
-            'is_active' => 'boolean',
+            'is_active' => 'boolean'
         ];
     }
 }

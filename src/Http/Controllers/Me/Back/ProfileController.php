@@ -27,9 +27,8 @@ class ProfileController extends Controller
             'method' => 'PUT',
             'url' => route('brain.me.profile.update', ['uuid' => $uuid]),
             'id' => 'profileForm',
-            'model' => auth()->user(),
+            'model' => auth()->user()
         ]);
-
         return view('me::back.profile', compact('form'));
     }
 

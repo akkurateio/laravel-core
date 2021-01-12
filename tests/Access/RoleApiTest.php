@@ -16,7 +16,7 @@ class RoleApiTest extends TestCase
     public function it_should_return_all_roles()
     {
         $response = $this->get(route('api.access.roles.index', [
-            'uuid' => $this->user->account->uuid,
+            'uuid' => $this->user->account->uuid
         ]));
         $response->assertStatus(200);
     }
@@ -26,7 +26,7 @@ class RoleApiTest extends TestCase
     {
         $response = $this->get(route('api.access.roles.show', [
             'uuid' => $this->user->account->uuid,
-            'role' => Role::first()->id,
+            'role' => Role::first()->id
         ]));
         $response->assertStatus(200);
     }
@@ -63,4 +63,5 @@ class RoleApiTest extends TestCase
         ]));
         $response->assertStatus(204);
     }
+
 }

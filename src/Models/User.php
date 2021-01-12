@@ -8,13 +8,13 @@ use Akkurate\LaravelCore\Database\Factories\Admin\UserFactory;
 use Akkurate\LaravelCore\Traits\Access\HasAccess;
 use Akkurate\LaravelCore\Traits\Admin\HasAccount;
 use Akkurate\LaravelCore\Traits\Admin\HasPreference;
+use Akkurate\LaravelMedia\Traits\HasResources;
 use Akkurate\LaravelCore\Traits\HasUuid;
 use Akkurate\LaravelCore\Traits\IsActivable;
-use Akkurate\LaravelMedia\Traits\HasResources;
 use Akkurate\LaravelSearch\Traits\ElasticSearchable;
 use Akkurate\LaravelSearch\Traits\EloquentSearchable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -45,7 +45,7 @@ class User extends Authenticatable implements Searchable
      * @var array
      */
     protected $guarded = [
-        'id', 'uuid',
+        'id', 'uuid'
     ];
 
     /**
@@ -127,12 +127,12 @@ class User extends Authenticatable implements Searchable
         if (auth()->user()->superadmin()) {
             $url = route('brain.admin.users.show', [
                 'uuid' => auth()->user()->account->slug,
-                'user' => $this->id,
+                'user' => $this->id
             ]);
         } elseif (auth()->user()->admin()) {
             $url = route('brain.me.users.edit', [
                 'uuid' => auth()->user()->account->slug,
-                'userUuid' => $this->uuid,
+                'userUuid' => $this->uuid
             ]);
         } else {
             $url = route('brain.me.profile.edit', uuid());
@@ -164,7 +164,8 @@ class User extends Authenticatable implements Searchable
     {
         return [
             $this->fullname,
-            $this->email,
+            $this->email
         ];
     }
+
 }

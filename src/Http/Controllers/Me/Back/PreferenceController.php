@@ -31,23 +31,23 @@ class PreferenceController extends Controller
                 'method' => 'PUT',
                 'url' => route('brain.me.preferences.update', ['uuid' => $uuid]),
                 'id' => 'preferencesForm',
-                'model' => auth()->user()->preference,
-            ]),
+                'model' => auth()->user()->preference
+            ])
         ];
 
-        if (! empty(config('laravel-me.extends.preferences'))) {
+        if (!empty(config('laravel-me.extends.preferences'))) {
             foreach (config('laravel-me.extends.preferences') as $formConfig) {
-                if (isset($formConfig['guard']) && ! auth()->user()->can($formConfig['guard'])) {
+                if(isset($formConfig['guard']) && !auth()->user()->can($formConfig['guard'])) {
                     continue;
                 }
 //                if (Route::has($formConfig['routeSubmit'])) {
-                $forms[] = (object)[
+                    $forms[] = (object)[
                         'title' => $formConfig['title'],
                         'fields' => $formBuilder->create($formConfig['formClass'], [
                             'method' => 'PUT',
                             'url' => route($formConfig['routeSubmit'], ['uuid' => $uuid]),
-                            'id' => $formConfig['formId'],
-                        ]),
+                            'id' => $formConfig['formId']
+                        ])
                     ];
 //                }
             }

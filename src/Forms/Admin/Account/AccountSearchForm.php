@@ -11,7 +11,7 @@ class AccountSearchForm extends Form
         $this
             ->add('q', 'text', [
                 'wrapper' => [
-                    'class' => 'form-group mb-3',
+                    'class' => 'form-group mb-3'
                 ],
                 'attr' => [
                     'class' => 'form-control border-none',
@@ -21,8 +21,8 @@ class AccountSearchForm extends Form
                 'label' => __('Rechercher parmi les comptes'),
                 'label_attr' => [
                     'class' => 'text-white',
-                    'rules' => 'required',
-                ],
+                    'rules' => 'required'
+                ]
             ]);
     }
 }

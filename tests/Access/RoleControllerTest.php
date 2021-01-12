@@ -12,6 +12,7 @@ use Spatie\Permission\Models\Role;
 
 class RoleControllerTest extends TestCase
 {
+
     use WithFaker;
     use WithoutMiddleware;
 
@@ -19,7 +20,7 @@ class RoleControllerTest extends TestCase
     public function it_should_return_the_roles_index()
     {
         $response = $this->get(route('brain.access.roles.index', [
-            'uuid' => $this->user->account->slug,
+            'uuid' => $this->user->account->slug
         ]));
         $response->assertStatus(200);
     }
@@ -31,7 +32,7 @@ class RoleControllerTest extends TestCase
 
         $response = $this->get(route('brain.access.roles.show', [
             'uuid' => $this->user->account->slug,
-            'role' => $role->id,
+            'role' => $role->id
         ]));
         $response->assertRedirect('brain/'. $this->user->account->slug .'/access/roles/'. $role->id . '/edit');
     }
@@ -40,7 +41,7 @@ class RoleControllerTest extends TestCase
     public function it_should_return_an_create_role_view()
     {
         $response = $this->get(route('brain.access.roles.create', [
-            'uuid' => $this->user->account->slug,
+            'uuid' => $this->user->account->slug
         ]));
         $response->assertStatus(200);
     }
@@ -65,7 +66,7 @@ class RoleControllerTest extends TestCase
         $role = Role::first();
         $response = $this->get(route('brain.access.roles.edit', [
             'uuid' => $this->user->account->slug,
-            'role' => $role->id,
+            'role' => $role->id
         ]));
         $response->assertStatus(200);
     }
@@ -76,7 +77,7 @@ class RoleControllerTest extends TestCase
         $response = $this->put(route('brain.access.roles.update', [
             'uuid' => $this->user->account->slug,
             'role' => Role::first()->id,
-            'name' => 'test',
+            'name' => 'test'
         ]));
         $response->assertRedirect('brain/' . $this->user->account->slug . '/access/roles/');
 

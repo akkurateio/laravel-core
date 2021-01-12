@@ -2,15 +2,15 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Back;
 
+use Illuminate\View\View;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Kris\LaravelFormBuilder\FormBuilder;
+use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Forms\Admin\Language\LanguageCreateForm;
 use Akkurate\LaravelCore\Forms\Admin\Language\LanguageUpdateForm;
-use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Http\Requests\Admin\Language\CreateLanguageRequest;
 use Akkurate\LaravelCore\Http\Requests\Admin\Language\UpdateLanguageRequest;
-use Akkurate\LaravelCore\Models\Language;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
-use Kris\LaravelFormBuilder\FormBuilder;
 
 class LanguageController extends Controller
 {
@@ -31,7 +31,6 @@ class LanguageController extends Controller
         } else {
             $columns = [];
         }
-
         return view('admin::back.languages.index', compact('languages', 'columns'));
     }
 
@@ -47,9 +46,8 @@ class LanguageController extends Controller
         $form = $formBuilder->create(LanguageCreateForm::class, [
             'method' => 'POST',
             'url' => route('brain.admin.languages.store', ['uuid' => $uuid]),
-            'id' => 'languageForm',
+            'id' => 'languageForm'
         ]);
-
         return view('admin::back.languages.create', compact('form'));
     }
 
@@ -63,7 +61,6 @@ class LanguageController extends Controller
     public function store($uuid, CreateLanguageRequest $request)
     {
         Language::create($request->validated());
-
         return redirect()->route('brain.admin.languages.index', ['uuid' => $uuid])
             ->withSuccess(trans('Langue').' '.trans('créée avec succès'));
     }
@@ -71,7 +68,6 @@ class LanguageController extends Controller
     public function show($uuid, $languageId)
     {
         $language = Language::where('id', $languageId)->first();
-
         return redirect()->route('brain.admin.languages.edit', ['language' => $language, 'uuid' => $uuid]);
     }
 
@@ -90,9 +86,8 @@ class LanguageController extends Controller
             'method' => 'PUT',
             'url' => route('brain.admin.languages.update', ['language' => $language, 'uuid' => $uuid]),
             'id' => 'languageForm',
-            'model' => $language,
+            'model' => $language
         ]);
-
         return view('admin::back.languages.edit', compact('language', 'form'));
     }
 
@@ -107,7 +102,6 @@ class LanguageController extends Controller
     public function update($uuid, UpdateLanguageRequest $request, Language $language)
     {
         $language->update(array_merge($request->validated(), ['is_active' => $request->filled('is_active')]));
-
         return redirect()->route('brain.admin.languages.index', ['uuid' => $uuid])
             ->withSuccess(trans('Langue').' '.trans('mise à jour avec succès'));
     }
@@ -123,7 +117,6 @@ class LanguageController extends Controller
     {
         $language = Language::where('id', $languageId)->first();
         $language->delete();
-
         return redirect()->route('brain.admin.languages.index', ['uuid' => $uuid])
             ->withSuccess(trans('Langue').' '.trans('supprimée avec succès'));
     }
@@ -131,9 +124,8 @@ class LanguageController extends Controller
     public function toggle($uuid, Language $language)
     {
         $language->update([
-            'is_active' => ! $language->is_active,
+            'is_active' => !$language->is_active
         ]);
-
         return back();
     }
 }

@@ -13,12 +13,12 @@ class LanguageControllerTest extends TestCase
     use WithFaker;
     use WithoutMiddleware;
 
-    /** @test **/
+   /** @test **/
     public function it_should_return_the_languages_view()
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('brain.admin.languages.index', [
-            'uuid' => $this->user->account->slug,
+            'uuid' => $this->user->account->slug
         ]));
         $response->assertStatus(200);
     }
@@ -32,7 +32,7 @@ class LanguageControllerTest extends TestCase
 
         $response = $this->get(route('brain.admin.languages.show', [
             'uuid' => $this->user->account->slug,
-            'language' => $language->id,
+            'language' => $language->id
         ]));
         $response->assertRedirect();
     }
@@ -46,7 +46,7 @@ class LanguageControllerTest extends TestCase
 
         $response = $this->get(route('brain.admin.languages.edit', [
             'uuid' => $this->user->account->slug,
-            'language' => $language->id,
+            'language' => $language->id
         ]));
         $response->assertStatus(200);
     }
@@ -58,7 +58,7 @@ class LanguageControllerTest extends TestCase
             'uuid' => $this->user->account->slug,
             'locale' => $this->faker->locale,
             'locale_php' => $this->faker->locale,
-            'priority' => $this->faker->numberBetween(1, 100),
+            'priority' => $this->faker->numberBetween(1,100),
         ]));
 
         $response->assertStatus(302);
@@ -77,7 +77,7 @@ class LanguageControllerTest extends TestCase
             'language' => $language,
             'locale' => $this->faker->locale,
             'locale_php' => $this->faker->locale,
-            'priority' => $this->faker->numberBetween(1, 100),
+            'priority' => $this->faker->numberBetween(1,100),
         ]));
 
         $response->assertStatus(302);
@@ -92,11 +92,12 @@ class LanguageControllerTest extends TestCase
 
         $response = $this->delete(route('brain.admin.languages.destroy', [
             'uuid' => $this->user->account->slug,
-            'language' => $language->id,
+            'language' => $language->id
         ]));
 
         $response->assertRedirect();
 
         $this->assertDeleted('admin_languages', ['id' => $language->id]);
     }
+
 }

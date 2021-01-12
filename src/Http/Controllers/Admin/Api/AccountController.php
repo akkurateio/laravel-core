@@ -2,25 +2,26 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Api;
 
-use Akkurate\LaravelContact\Models\Address;
-use Akkurate\LaravelContact\Models\Email;
-use Akkurate\LaravelContact\Models\Phone;
-use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\CreateAccountRequest;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\UpdateAccountRequest;
-use Akkurate\LaravelCore\Http\Resources\Admin\Account as AccountResource;
 use Akkurate\LaravelCore\Http\Resources\Admin\AccountCollection;
+use Akkurate\LaravelCore\Http\Resources\Admin\Account as AccountResource;
 use Akkurate\LaravelCore\Models\Account;
 use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Models\User;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Http\JsonResponse;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use Akkurate\LaravelContact\Models\Phone;
+use Akkurate\LaravelContact\Models\Email;
+use Akkurate\LaravelContact\Models\Address;
 
 class AccountController extends Controller
 {
+
     public function __construct()
     {
         $this->authorizeResource(Account::class, 'account');
@@ -33,8 +34,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return new AccountCollection(
-            QueryBuilder::for(Account::class)
+        return new AccountCollection(QueryBuilder::for(Account::class)
             ->administrable()
             ->allowedFilters([
                 'uuid',
@@ -43,7 +43,7 @@ class AccountController extends Controller
                 'is_active',
                 AllowedFilter::exact('id'),
                 AllowedFilter::scope('search'),
-                AllowedFilter::scope('firstLevel'),
+                AllowedFilter::scope('firstLevel')
             ])
             ->allowedSorts(['name'])
             ->allowedIncludes(['users', 'country', 'phones', 'addresses', 'emails', 'permissions','children'])
@@ -69,14 +69,14 @@ class AccountController extends Controller
             'registry_intra' => $request['registry_intra'] ?? '',
             'capital' => $request['capital'] ?? '',
             'ape' => $request['ape'] ?? '',
-            'legal_form_id' => class_exists(\Akkurate\LaravelBusiness\Models\LegalForm::class) ? \Akkurate\LaravelBusiness\Models\LegalForm::where('id', $request['legal_form_id'])->first()->name ?? '' : '',
+            'legal_form_id' => class_exists(\Akkurate\LaravelBusiness\Models\LegalForm::class) ? \Akkurate\LaravelBusiness\Models\LegalForm::where('id', $request['legal_form_id'])->first()->name ?? '' : ''
         ]);
 
         $account->update([
-            'params' => $params,
+            'params' => $params
         ]);
 
-        if (! empty($request['street1']) && ! empty($request['zip']) && ! empty($request['city'])) {
+        if (!empty($request['street1']) && !empty($request['zip']) && !empty($request['city'])) {
             $address = Address::create([
                 'type' => 'WORK',
                 'name' => $account->name,
@@ -86,33 +86,33 @@ class AccountController extends Controller
                 'zip' => $request['zip'],
                 'city' => $request['city'],
                 'addressable_type' => get_class($account),
-                'addressable_id' => $account->id,
+                'addressable_id' => $account->id
             ]);
             $account->update([
                 'address_id' => $address->id,
             ]);
         }
 
-        if (! empty($request['number'])) {
+        if (!empty($request['number'])) {
             $phone = Phone::create([
                 'type' => 'WORK',
                 'name' => $account->name,
                 'number' => $request['number'],
                 'phoneable_type' => get_class($account),
-                'phoneable_id' => $account->id,
+                'phoneable_id' => $account->id
             ]);
             $account->update([
-                'phone_id' => $phone->id,
+                'phone_id' => $phone->id
             ]);
         }
 
-        if (! empty($request['email'])) {
+        if (!empty($request['email'])) {
             $email = Email::create([
                 'type' => 'WORK',
                 'name' => $account->name,
                 'email' => $request['email'],
                 'emailable_type' => get_class($account),
-                'emailable_id' => $account->id,
+                'emailable_id' => $account->id
             ]);
             $account->update([
                 'email_id' => $email->id,
@@ -122,7 +122,7 @@ class AccountController extends Controller
         $language = Language::where('locale', 'fr')->firstOrFail();
 
         $account->preference()->create([
-            'language_id' => $language->id,
+            'language_id' => $language->id
         ]);
 
         auth()->user()->accounts()->attach($account);
@@ -141,7 +141,6 @@ class AccountController extends Controller
     public function update($uuid, Account $account, UpdateAccountRequest $request)
     {
         $account->update($request->validated());
-
         return new AccountResource($account);
     }
 
@@ -167,14 +166,14 @@ class AccountController extends Controller
      */
     public function destroy($uuid, Account $account)
     {
+
         if ($account->id === auth()->user()->account->id) {
             return response()->json([
-                'message' => 'Vous ne pouvez pas supprimer votre propre compte.',
+                'message' => 'Vous ne pouvez pas supprimer votre propre compte.'
             ]);
         }
 
         $account->delete();
-
         return response()->json(null, 204);
     }
 
@@ -197,7 +196,6 @@ class AccountController extends Controller
     public function attachUser($uuid, Account $account, Request $request)
     {
         $account->users()->attach(User::whereIn('id', $request->get('users'))->get());
-
         return response()->json($account, 200);
     }
 
@@ -210,7 +208,6 @@ class AccountController extends Controller
     public function detachUser($uuid, Account $account, Request $request)
     {
         $account->users()->detach(User::whereIn('id', $request->get('users'))->get());
-
         return response()->json($account, 200);
     }
 
@@ -223,3 +220,4 @@ class AccountController extends Controller
         return response()->json(Account::where('uuid', $uuid)->firstOrFail()->target(), 200);
     }
 }
+

@@ -22,7 +22,7 @@ class PreferenceControllerTest extends TestCase
             'uuid' => $this->user->account->slug,
             'preference' => $preference,
             'pagination' => $this->faker->numberBetween(1, 500),
-            'langage_id' => Language::factory()->create(),
+            'langage_id' => Language::factory()->create()
         ]));
 
         $this->assertEquals(auth()->user()->preference->language->locale, session('locale'));

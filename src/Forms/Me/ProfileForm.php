@@ -10,16 +10,16 @@ class ProfileForm extends Form
     {
         $this
             ->add('lastname', 'text', [
-                'label' => __('Nom'),
+                'label' => __('Nom')
             ])
             ->add('firstname', 'text', [
-                'label' => __('Prénom'),
+                'label' => __('Prénom')
             ])
             ->add('email', 'email', [
-                'label' => __('Email'),
+                'label' => __('Email')
             ])
             ->add('birth_date', 'date', [
-                'label' => __('Date de naissance'),
+                'label' => __('Date de naissance')
             ])
             ->add('gender', 'select', [
                 'label' => __('Civilité'),
@@ -29,8 +29,8 @@ class ProfileForm extends Form
                     'F' => 'Madame',
                 ],
                 'attr' => [
-                    'class' => 'custom-select',
-                ],
+                    'class' => 'custom-select'
+                ]
             ])
         ;
     }

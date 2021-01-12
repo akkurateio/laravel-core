@@ -28,7 +28,7 @@ class PasswordController extends Controller
             'method' => 'PUT',
             'url' => route('brain.me.password.update', ['uuid' => $uuid]),
             'id' => 'passwordForm',
-            'model' => auth()->user()->preference,
+            'model' => auth()->user()->preference
         ]);
 
         return view('me::back.password', compact('form'));
@@ -49,7 +49,7 @@ class PasswordController extends Controller
         ]);
 
         $validator->after(function ($validator) {
-            if (! Hash::check($validator->validated()['password_actual'], auth()->user()->password)) {
+            if (!Hash::check($validator->validated()['password_actual'], auth()->user()->password)) {
                 $validator->errors()->add('password_actual', 'Votre mot de passe actuel n\'est pas valide !');
             }
         });
@@ -62,7 +62,7 @@ class PasswordController extends Controller
         }
 
         auth()->user()->update([
-            'password' => Hash::make($validator->validated()['password']),
+            'password' => Hash::make($validator->validated()['password'])
         ]);
 
         return redirect()->route('brain.me.password.edit', ['uuid' => $uuid])

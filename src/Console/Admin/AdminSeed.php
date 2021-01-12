@@ -12,7 +12,7 @@ class AdminSeed extends Command
     public function handle()
     {
         $this->call('db:seed', [
-            '--class' => 'Akkurate\\LaravelCore\\Database\\Seeders\\Admin\\DatabaseSeeder',
+            '--class' => 'Akkurate\\LaravelCore\\Database\\Seeders\\Admin\\DatabaseSeeder'
         ]);
     }
 }

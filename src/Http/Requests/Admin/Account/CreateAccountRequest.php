@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CreateAccountRequest extends FormRequest
 {
+
     public function authorize()
     {
         return true;

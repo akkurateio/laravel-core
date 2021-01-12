@@ -2,15 +2,15 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Api;
 
-use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelCore\Http\Requests\Admin\Language\CreateLanguageRequest;
-use Akkurate\LaravelCore\Http\Requests\Admin\Language\UpdateLanguageRequest;
-use Akkurate\LaravelCore\Http\Resources\Admin\Language as LanguageResource;
-use Akkurate\LaravelCore\Http\Resources\Admin\LanguageCollection;
 use Akkurate\LaravelCore\Models\Language;
 use Exception;
 use Illuminate\Http\Response;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
+use Akkurate\LaravelCore\Http\Resources\Admin\Language as LanguageResource;
+use Akkurate\LaravelCore\Http\Resources\Admin\LanguageCollection;
+use Akkurate\LaravelCore\Http\Requests\Admin\Language\CreateLanguageRequest;
+use Akkurate\LaravelCore\Http\Requests\Admin\Language\UpdateLanguageRequest;
 
 class LanguageController extends Controller
 {
@@ -21,8 +21,7 @@ class LanguageController extends Controller
      */
     public function index($uuid)
     {
-        return new LanguageCollection(
-            QueryBuilder::for(Language::class)
+        return new LanguageCollection(QueryBuilder::for(Language::class)
             ->allowedFilters(['locale', 'locale_php'])
             ->allowedSorts(['locale', 'locale_php'])
             ->allowedIncludes(['users'])
@@ -39,7 +38,6 @@ class LanguageController extends Controller
     public function store(CreateLanguageRequest $request)
     {
         $Language = Language::create($request->validated());
-
         return response()->json($Language, 201);
     }
 
@@ -78,7 +76,6 @@ class LanguageController extends Controller
     public function destroy($uuid, Language $language)
     {
         $language->delete();
-
         return response()->json(null, 204);
     }
 }

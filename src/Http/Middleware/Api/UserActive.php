@@ -15,12 +15,13 @@ class UserActive
      */
     public function handle($request, Closure $next)
     {
+
         if (auth()->user()->is_active != 1) {
             return response()->json([
-                'error' => 'Invalid user',
+                'error' => 'Invalid user'
             ], 400);
         }
-
         return $next($request);
+
     }
 }

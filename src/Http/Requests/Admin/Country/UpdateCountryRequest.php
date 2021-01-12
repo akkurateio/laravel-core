@@ -2,6 +2,7 @@
 
 namespace Akkurate\LaravelCore\Http\Requests\Admin\Country;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCountryRequest extends FormRequest
@@ -17,7 +18,7 @@ class UpdateCountryRequest extends FormRequest
             'name' => 'string|required',
             'code' => 'string|required',
             'priority' => 'integer',
-            'is_active' => 'boolean',
+            'is_active' => 'boolean'
         ];
     }
 }

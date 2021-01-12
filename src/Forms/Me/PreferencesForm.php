@@ -26,15 +26,15 @@ class PreferencesForm extends Form
                     '250' => __(':value entrées par page', ['value' => 250]),
                 ],
                 'attr' => [
-                    'class' => 'custom-select',
-                ],
+                    'class' => 'custom-select'
+                ]
             ])
             ->add('language_id', 'select', [
                 'label' => __('Langue de l’application'),
                 'choices' => $languagesChoices,
                 'attr' => [
-                    'class' => 'custom-select',
-                ],
+                    'class' => 'custom-select'
+                ]
             ])
         ;
     }

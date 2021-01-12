@@ -3,18 +3,19 @@
 namespace Akkurate\LaravelCore\Http\Controllers\Access\Back;
 
 use Akkurate\LaravelCore\Forms\Access\Permission\PermissionAbstractForm;
-use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Models\Account;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Models\User;
 use Exception;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\View\View;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
+
     public function __construct()
     {
         $this->authorizeResource(Permission::class, 'permission');
@@ -29,7 +30,6 @@ class PermissionController extends Controller
     {
         $permissions = Permission::orderBy('name')
             ->paginate(pagination());
-
         return view('access::permissions.index', compact('permissions'));
     }
 
@@ -44,7 +44,7 @@ class PermissionController extends Controller
         $form = $formBuilder->create(PermissionAbstractForm::class, [
             'method' => 'POST',
             'url' => route('brain.access.permissions.store', ['uuid' => $uuid]),
-            'id' => 'permissionForm',
+            'id' => 'permissionForm'
         ]);
 
         return view('access::permissions.create', compact('form'));
@@ -61,7 +61,6 @@ class PermissionController extends Controller
         Permission::create([
             'name' => $request['name'],
         ]);
-
         return redirect()->route('brain.access.permissions.index', ['uuid' => $uuid])
             ->withSuccess(trans('Permission') . ' ' . trans('créée avec succès'));
     }
@@ -103,7 +102,7 @@ class PermissionController extends Controller
             'method' => 'PUT',
             'url' => route('brain.access.permissions.update', ['permission' => $permission, 'uuid' => $uuid]),
             'model' => $permission,
-            'id' => 'permissionForm',
+            'id' => 'permissionForm'
         ]);
 
         return view('access::permissions.edit', compact('permission', 'form'));
@@ -150,7 +149,6 @@ class PermissionController extends Controller
         }
 
         $permission->delete();
-
         return back()->withSuccess(trans('Permission') . ' ' . trans('supprimée avec succès'));
     }
 
@@ -173,7 +171,7 @@ class PermissionController extends Controller
         }
 
         $permission = $request->validate([
-            'permission' => 'required',
+            'permission' => 'required'
         ]);
 
         $model->permissions()->sync($permission);
@@ -192,19 +190,20 @@ class PermissionController extends Controller
     public function revokePermission($uuid, $modelUuid, Request $request)
     {
         $model = User::where('uuid', $modelUuid)->first();
-        if (! $model) {
+        if (!$model) {
             $model = Account::where('uuid', $modelUuid)->first();
         }
-        if (! $model) {
+        if (!$model) {
             return back()->withError(trans('Aucun model trouvé'));
         }
 
         $permission = $request->validate([
-            'permission' => 'required',
+            'permission' => 'required'
         ]);
 
         $model->revokePermissionTo($permission);
 
         return back()->withSuccess(trans('Permission révoquée avec succès'));
     }
+
 }

@@ -3,8 +3,8 @@
 namespace Akkurate\LaravelCore\Models\Policies\Access;
 
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 use Spatie\Permission\Models\Role;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RolePolicy
 {

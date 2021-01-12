@@ -9,11 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
+
     public function __construct()
     {
         $this->authorizeResource(Role::class, 'role');
@@ -28,7 +29,6 @@ class RoleController extends Controller
     {
         $roles = Role::orderBy('name')
             ->paginate(pagination());
-
         return view('access::roles.index', compact('roles'));
     }
 
@@ -43,7 +43,7 @@ class RoleController extends Controller
         $form = $formBuilder->create(RoleAbstractForm::class, [
             'method' => 'POST',
             'url' => route('brain.access.roles.store', ['uuid' => $uuid]),
-            'id' => 'roleForm',
+            'id' => 'roleForm'
         ]);
 
         return view('access::roles.create', compact('form'));
@@ -103,10 +103,9 @@ class RoleController extends Controller
             'method' => 'PUT',
             'url' => route('brain.access.roles.update', ['role' => $role, 'uuid' => $uuid]),
             'model' => $role,
-            'id' => 'roleForm',
+            'id' => 'roleForm'
         ]);
         $permissions = Permission::all();
-
         return view('access::roles.edit', compact('role', 'permissions', 'form'));
     }
 
@@ -151,7 +150,6 @@ class RoleController extends Controller
         }
         
         $role->delete();
-
         return back()->withSuccess(trans('Role') . ' ' . trans('supprimé(e) avec succès'));
     }
 
@@ -170,7 +168,7 @@ class RoleController extends Controller
             return back()->withError('Aucun rôle trouvé');
         }
         $permission = $request->validate([
-            'permission' => 'required',
+            'permission' => 'required'
         ]);
 
         $role->givePermissionTo($permission);

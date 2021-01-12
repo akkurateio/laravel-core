@@ -5,8 +5,8 @@ namespace Akkurate\LaravelCore\Traits\Access;
 /**
  * Trait HasAccess
  */
-trait HasAccess
-{
+trait HasAccess {
+
     public function agent()
     {
         return $this->can('manage tickets');
@@ -36,4 +36,5 @@ trait HasAccess
     {
         return $this->hasRole('admin');
     }
+
 }

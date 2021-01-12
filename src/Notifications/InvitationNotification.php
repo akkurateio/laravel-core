@@ -62,7 +62,8 @@ class InvitationNotification extends Notification
                 'token' => $this->token,
                 'user' => $this->user,
                 'from' => $this->from,
-                'now' => $this->now,
+                'now' => $this->now
             ]);
     }
+
 }

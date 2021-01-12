@@ -16,7 +16,7 @@ class PermissionControllerTest extends TestCase
     public function it_should_return_the_permissions_index()
     {
         $response = $this->get(route('brain.access.permissions.index', [
-            'uuid' => $this->user->account->slug,
+            'uuid' => $this->user->account->slug
         ]));
         $response->assertStatus(200);
     }
@@ -28,7 +28,7 @@ class PermissionControllerTest extends TestCase
 
         $response = $this->get(route('brain.access.permissions.show', [
             'uuid' => $this->user->account->slug,
-            'permission' => $permission->id,
+            'permission' => $permission->id
         ]));
         $response->assertRedirect('brain/'. $this->user->account->slug .'/access/permissions/'. $permission->id . '/edit');
     }
@@ -37,7 +37,7 @@ class PermissionControllerTest extends TestCase
     public function it_should_return_an_create_permission_view()
     {
         $response = $this->get(route('brain.access.permissions.create', [
-            'uuid' => $this->user->account->slug,
+            'uuid' => $this->user->account->slug
         ]));
         $response->assertStatus(200);
     }
@@ -62,7 +62,7 @@ class PermissionControllerTest extends TestCase
         $permission = Permission::first();
         $response = $this->get(route('brain.access.permissions.edit', [
             'uuid' => $this->user->account->slug,
-            'permission' => $permission->id,
+            'permission' => $permission->id
         ]));
         $response->assertStatus(200);
     }
@@ -73,7 +73,7 @@ class PermissionControllerTest extends TestCase
         $response = $this->put(route('brain.access.permissions.update', [
             'uuid' => $this->user->account->slug,
             'permission' => Permission::first()->id,
-            'name' => 'test',
+            'name' => 'test'
         ]));
         $response->assertRedirect('brain/' . $this->user->account->slug . '/access/permissions/');
 

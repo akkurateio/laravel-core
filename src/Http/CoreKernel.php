@@ -25,7 +25,7 @@ class CoreKernel extends HttpKernel
             \Akkurate\LaravelCore\Http\Middleware\Api\UserActive::class,
             \Akkurate\LaravelCore\Http\Middleware\Api\AccountExists::class,
             \Akkurate\LaravelCore\Http\Middleware\Api\AccountAdministrator::class,
-            \Akkurate\LaravelCore\Http\Middleware\Api\JsonMiddleware::class,
+            \Akkurate\LaravelCore\Http\Middleware\Api\JsonMiddleware::class
         ],
     ];
 

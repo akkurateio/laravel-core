@@ -13,13 +13,13 @@ use Illuminate\Support\ServiceProvider;
  */
 class LaravelCoreServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
+	/**
+	 * Bootstrap services.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
         $router = $this->app->make(Router::class);
         $router->pushMiddlewareToGroup('web', CoreKernel::class);
         $router->pushMiddlewareToGroup('akk-back', CoreKernel::class);
@@ -34,49 +34,46 @@ class LaravelCoreServiceProvider extends ServiceProvider
         ], 'dashboard');
 
         $this->publishes([
-            __DIR__.'/../config/reference.php' => config_path('reference.php'),
+            __DIR__.'/../config/reference.php' => config_path('reference.php')
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/../config/laravel-core.php' => config_path('laravel-core.php'),
+            __DIR__.'/../config/laravel-core.php' => config_path('laravel-core.php')
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/../config/general.php' => config_path('general.php'),
+            __DIR__.'/../config/general.php' => config_path('general.php')
         ], 'config');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                InstallCore::class,
+                InstallCore::class
             ]);
         }
     }
 
-    /**
-     * Register services.
-     *
-     * @return void
-     */
-    public function register()
-    {
+	/**
+	 * Register services.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+
         $this->mergeConfigFrom(
-            __DIR__.'/../config/general.php',
-            'general'
+            __DIR__.'/../config/general.php', 'general'
         );
 
         $this->mergeConfigFrom(
-            __DIR__.'/../config/laravel-core.php',
-            'laravel-core'
+            __DIR__.'/../config/laravel-core.php', 'laravel-core'
         );
 
         $this->mergeConfigFrom(
-            __DIR__.'/../config/laravel-form-builder.php',
-            'laravel-form-builder'
+            __DIR__.'/../config/laravel-form-builder.php', 'laravel-form-builder'
         );
 
         $this->mergeConfigFrom(
-            __DIR__.'/../config/reference.php',
-            'reference'
+            __DIR__.'/../config/reference.php', 'reference'
         );
-    }
+	}
 }

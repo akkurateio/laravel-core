@@ -4,10 +4,11 @@ namespace Akkurate\LaravelCore\Forms;
 
 use Kris\LaravelFormBuilder\Form;
 
-class AbstractForm extends Form
-{
+class AbstractForm extends Form {
+
     public function addSelect($field, $selection, $label, $attr = [])
     {
+
         if (count($selection) == 0) {
             $attr['fields'] = null;
             $this->add($field, 'select', ['label' => $label, 'choices' => $this->getInstanceName($selection), 'empty_value' => __('Vous devez ajouter une entrée'), 'attr' => $attr]);
@@ -22,10 +23,12 @@ class AbstractForm extends Form
             $attr['fields'] = null;
             $this->add($field, 'select', ['label' => $label, 'choices' => $this->getInstanceName($selection), 'empty_value' => 'Votre choix', 'attr' => $attr]);
         }
+
     }
 
     public function getInstanceName($items)
     {
+
         if (count($items)) {
             if (array_key_exists('fullname', $items->first()->toArray())) {
                 $instanceName = $items->pluck('fullname', 'id')->toArray();
