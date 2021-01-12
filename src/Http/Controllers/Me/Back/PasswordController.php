@@ -49,7 +49,7 @@ class PasswordController extends Controller
         ]);
 
         $validator->after(function ($validator) {
-            if (! Hash::check($validator->validated()['password_actual'], auth()->user()->password)) {
+            if (!Hash::check($validator->validated()['password_actual'], auth()->user()->password)) {
                 $validator->errors()->add('password_actual', 'Votre mot de passe actuel n\'est pas valide !');
             }
         });

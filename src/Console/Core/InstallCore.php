@@ -37,7 +37,7 @@ class InstallCore extends Command
             $this->info('Default auth api driver set');
         }
 
-        if ($this->option('refresh')) {
+        if ($this->option('refresh')){
             $this->call('migrate:fresh');
         } else {
             $this->call('migrate');
@@ -55,13 +55,12 @@ class InstallCore extends Command
 
     protected function overwriteConfigKey($file, $key, $value): bool
     {
-        if (file_put_contents($this->laravel->configPath($file), str_replace(
+        if(file_put_contents($this->laravel->configPath($file), str_replace(
             config($key),
             $value,
             file_get_contents($this->laravel->configPath($file))
         ))) {
             config()->set($key, $value);
-
             return true;
         }
     }

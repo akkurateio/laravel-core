@@ -37,7 +37,6 @@ class UserPolicy
     public function view(User $user, User $target)
     {
         $children = auth()->user()->account->children->pluck('id');
-
         return $user->can('read user')
             && $user->account_id === $target->account_id || $children->contains($target->account_id);
     }
@@ -63,7 +62,6 @@ class UserPolicy
     public function update(User $user, User $target)
     {
         $children = auth()->user()->account->children->pluck('id');
-
         return $user->can('update user')
             && $user->account_id === $target->account_id || $children->contains($target->account_id);
     }
@@ -78,7 +76,6 @@ class UserPolicy
     public function delete(User $user, User $target)
     {
         $children = auth()->user()->account->children->pluck('id');
-
         return $user->can('delete user')
             && $user->account_id === $target->account_id || $children->contains($target->account_id);
     }

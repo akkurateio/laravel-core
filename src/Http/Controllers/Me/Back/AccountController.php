@@ -2,16 +2,16 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Me\Back;
 
-use Akkurate\LaravelBusiness\Models\LegalForm;
-use Akkurate\LaravelContact\Models\Address;
-use Akkurate\LaravelContact\Models\Email;
-use Akkurate\LaravelContact\Models\Phone;
-use Akkurate\LaravelContact\Models\Type;
 use Akkurate\LaravelCore\Forms\Me\AccountForm;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\CreateAccountRequest;
 use Akkurate\LaravelCore\Models\Account;
 use Akkurate\LaravelCore\Models\Language;
+use Akkurate\LaravelBusiness\Models\LegalForm;
+use Akkurate\LaravelContact\Models\Address;
+use Akkurate\LaravelContact\Models\Email;
+use Akkurate\LaravelContact\Models\Phone;
+use Akkurate\LaravelContact\Models\Type;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -35,7 +35,6 @@ class AccountController extends Controller
             'url' => route('brain.me.account.store', ['uuid' => $uuid]),
             'id' => 'accountForm'
         ]);
-
         return view('admin::back.accounts.create', compact('form'));
     }
 
@@ -63,7 +62,7 @@ class AccountController extends Controller
             'params' => $params
         ]);
 
-        if (! empty($request['street1']) && ! empty($request['zip']) && ! empty($request['city'])) {
+        if (!empty($request['street1']) && !empty($request['zip']) && !empty($request['city'])) {
             $address = Address::create([
                 'type_id' => Type::where('code', 'WORK')->first()->id,
                 'name' => $account->name,
@@ -80,7 +79,7 @@ class AccountController extends Controller
             ]);
         }
 
-        if (! empty($request['number'])) {
+        if (!empty($request['number'])) {
             $phone = Phone::create([
                 'type_id' => Type::where('code', 'WORK')->first()->id,
                 'name' => $account->name,
@@ -93,7 +92,7 @@ class AccountController extends Controller
             ]);
         }
 
-        if (! empty($request['email'])) {
+        if (!empty($request['email'])) {
             $email = Email::create([
                 'type_id' => Type::where('code', 'WORK')->first()->id,
                 'name' => $account->name,
@@ -134,7 +133,6 @@ class AccountController extends Controller
             'id' => 'accountForm',
             'model' => auth()->user()->account
         ]);
-
         return view('me::back.account', compact('form'));
     }
 

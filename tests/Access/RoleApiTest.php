@@ -63,4 +63,5 @@ class RoleApiTest extends TestCase
         ]));
         $response->assertStatus(204);
     }
+
 }

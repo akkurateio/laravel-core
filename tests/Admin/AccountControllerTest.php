@@ -89,4 +89,5 @@ class AccountControllerTest extends TestCase
 
         $this->assertSoftDeleted('admin_accounts', ['id' => $account->id]);
     }
+
 }

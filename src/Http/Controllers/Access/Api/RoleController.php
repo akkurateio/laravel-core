@@ -3,16 +3,17 @@
 namespace Akkurate\LaravelCore\Http\Controllers\Access\Api;
 
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelCore\Http\Resources\Access\Role as RoleResource;
-use Akkurate\LaravelCore\Http\Resources\Access\RoleCollection;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Http\JsonResponse;
 use Spatie\Permission\Models\Role;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\Permission\Models\Permission;
+use Akkurate\LaravelCore\Http\Resources\Access\Role as RoleResource;
+use Akkurate\LaravelCore\Http\Resources\Access\RoleCollection;
 
 class RoleController extends Controller
 {
+
     public function __construct()
     {
         $this->authorizeResource(Role::class, 'role');
@@ -25,8 +26,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return new RoleCollection(
-            QueryBuilder::for(Role::class)
+        return new RoleCollection(QueryBuilder::for(Role::class)
             ->allowedFilters(['name'])
             ->allowedSorts(['name'])
             ->allowedIncludes(['permissions'])
@@ -90,7 +90,6 @@ class RoleController extends Controller
     public function destroy($uuid, Role  $role)
     {
         $role->delete();
-
         return response()->json(null, 204);
     }
 
@@ -103,6 +102,7 @@ class RoleController extends Controller
      */
     public function givePermission($uuid, Role $role, Permission $permission)
     {
+
         $role->givePermissionTo($permission);
 
         return response()->json([

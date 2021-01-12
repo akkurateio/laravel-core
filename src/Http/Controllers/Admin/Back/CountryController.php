@@ -2,16 +2,16 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Back;
 
+use Exception;
+use Illuminate\View\View;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Kris\LaravelFormBuilder\FormBuilder;
+use Akkurate\LaravelCore\Models\Country;
 use Akkurate\LaravelCore\Forms\Admin\Country\CountryCreateForm;
 use Akkurate\LaravelCore\Forms\Admin\Country\CountryUpdateForm;
-use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Http\Requests\Admin\Country\CreateCountryRequest;
 use Akkurate\LaravelCore\Http\Requests\Admin\Country\UpdateCountryRequest;
-use Akkurate\LaravelCore\Models\Country;
-use Exception;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
-use Kris\LaravelFormBuilder\FormBuilder;
 
 class CountryController extends Controller
 {
@@ -31,7 +31,6 @@ class CountryController extends Controller
         } else {
             $columns = [];
         }
-
         return view('admin::back.countries.index', compact('countries', 'columns'));
     }
 
@@ -49,7 +48,6 @@ class CountryController extends Controller
             'url' => route('brain.admin.countries.store', ['uuid', $uuid]),
             'id' => 'countryForm'
         ]);
-
         return view('admin::back.countries.create', compact('form'));
     }
 
@@ -63,7 +61,6 @@ class CountryController extends Controller
     public function store($uuid, CreateCountryRequest $request)
     {
         Country::create($request->validated());
-
         return redirect()->route('brain.admin.countries.index', ['uuid' => $uuid])
             ->withSuccess(trans('Pays').' '.trans('créé avec succès'));
     }
@@ -72,7 +69,6 @@ class CountryController extends Controller
     public function show($uuid, $countryId)
     {
         $country = Country::where('id', $countryId)->first();
-
         return redirect()->route('brain.admin.countries.edit', ['country' => $country, 'uuid' => $uuid]);
     }
 
@@ -93,7 +89,6 @@ class CountryController extends Controller
             'id' => 'countryForm',
             'model' => $country
         ]);
-
         return view('admin::back.countries.edit', compact('country', 'form'));
     }
 
@@ -108,7 +103,6 @@ class CountryController extends Controller
     public function update($uuid, UpdateCountryRequest $request, Country $country)
     {
         $country->update(array_merge($request->validated(), ['is_active' => $request->filled('is_active')]));
-
         return redirect()->route('brain.admin.countries.index', ['uuid' => $uuid])
             ->withSuccess(trans('Pays').' '.trans('mis à jour avec succès'));
     }
@@ -125,7 +119,6 @@ class CountryController extends Controller
     {
         $country = Country::where('id', $countryId)->first();
         $country->delete();
-
         return redirect()->route('brain.admin.countries.index', ['uuid' => $uuid])
             ->withSuccess(trans('Pays').' '.trans('supprimé avec succès'));
     }
@@ -133,9 +126,9 @@ class CountryController extends Controller
     public function toggle($uuid, Country $country)
     {
         $country->update([
-            'is_active' => ! $country->is_active
+            'is_active' => !$country->is_active
         ]);
-
         return back();
     }
+
 }

@@ -2,25 +2,26 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Back;
 
-use Akkurate\LaravelContact\Models\Address;
+use Akkurate\LaravelCore\Models\Language;
+use Akkurate\LaravelContact\Models\Type;
+use Illuminate\View\View;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Kris\LaravelFormBuilder\FormBuilder;
 use Akkurate\LaravelContact\Models\Email;
 use Akkurate\LaravelContact\Models\Phone;
-use Akkurate\LaravelContact\Models\Type;
-use Akkurate\LaravelCore\Forms\Admin\Account\AccountCreateForm;
-use Akkurate\LaravelCore\Forms\Admin\Account\AccountSearchForm;
+use Akkurate\LaravelCore\Models\Account;
+use Akkurate\LaravelContact\Models\Address;
 use Akkurate\LaravelCore\Forms\Admin\Account\AccountUpdateForm;
-use Akkurate\LaravelCore\Http\Controllers\Controller;
+use Akkurate\LaravelCore\Forms\Admin\Account\AccountSearchForm;
+use Akkurate\LaravelCore\Repositories\Admin\AccountsRepository;
+use Akkurate\LaravelCore\Forms\Admin\Account\AccountCreateForm;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\CreateAccountRequest;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\UpdateAccountRequest;
-use Akkurate\LaravelCore\Models\Account;
-use Akkurate\LaravelCore\Models\Language;
-use Akkurate\LaravelCore\Repositories\Admin\AccountsRepository;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
-use Kris\LaravelFormBuilder\FormBuilder;
 
 class AccountController extends Controller
 {
+
     public function __construct()
     {
         $this->authorizeResource(Account::class, 'account');
@@ -43,13 +44,12 @@ class AccountController extends Controller
         $q = (string)request('q');
         $search = $q ;
         $searchResults = $repository->search($q);
-        $all = Account::administrable()->get()->mapToGroups(function ($item, $key) {
+        $all = Account::administrable()->get()->mapToGroups(function($item, $key) {
             return [strtoupper(substr($item['name'], 0, 1)) => $item];
         })->sortKeys();
 
         $lastUpdated = Account::administrable()->orderBy('updated_at', 'desc')->take(pagination())->get();
         $lastCreated = Account::administrable()->orderBy('created_at', 'desc')->take(pagination())->get();
-
         return view('admin::back.accounts.search', compact('form', 'q', 'search', 'searchResults', 'all', 'lastUpdated', 'lastCreated'));
     }
 
@@ -67,7 +67,6 @@ class AccountController extends Controller
             'url' => route('brain.admin.accounts.store', ['uuid' => $uuid]),
             'id' => 'accountForm'
         ]);
-
         return view('admin::back.accounts.create', compact('form'));
     }
 
@@ -95,7 +94,7 @@ class AccountController extends Controller
             'params' => $params
         ]);
 
-        if (! empty($request['street1']) && ! empty($request['zip']) && ! empty($request['city'])) {
+        if (!empty($request['street1']) && !empty($request['zip']) && !empty($request['city'])) {
             $address = Address::create([
                 'type_id' => Type::where('code', 'WORK')->first()->id,
                 'name' => $account->name,
@@ -112,7 +111,7 @@ class AccountController extends Controller
             ]);
         }
 
-        if (! empty($request['number'])) {
+        if (!empty($request['number'])) {
             $phone = Phone::create([
                 'type_id' => Type::where('code', 'WORK')->first()->id,
                 'name' => $account->name,
@@ -125,7 +124,7 @@ class AccountController extends Controller
             ]);
         }
 
-        if (! empty($request['email'])) {
+        if (!empty($request['email'])) {
             $email = Email::create([
                 'type_id' => Type::where('code', 'WORK')->first()->id,
                 'name' => $account->name,
@@ -153,7 +152,6 @@ class AccountController extends Controller
     public function show($uuid, $accountId)
     {
         $account = Account::where('id', $accountId)->first();
-
         return redirect()->route('brain.admin.accounts.edit', ['account' => $account, 'uuid' => $uuid]);
     }
 
@@ -174,7 +172,6 @@ class AccountController extends Controller
             'id' => 'accountForm',
             'model' => $account
         ]);
-
         return view('admin::back.accounts.edit', compact('account', 'form'));
     }
 
@@ -217,7 +214,6 @@ class AccountController extends Controller
     {
         $account = Account::where('id', $accountId)->first();
         $account->delete();
-
         return redirect()->route('brain.admin.accounts.index', ['uuid' => $uuid])
             ->withSuccess(trans('Compte') . ' ' . trans('supprimé avec succès'));
     }
@@ -225,9 +221,8 @@ class AccountController extends Controller
     public function toggle(Account $account)
     {
         $account->update([
-            'is_active' => ! $account->is_active
+            'is_active' => !$account->is_active
         ]);
-
         return back();
     }
 
@@ -235,8 +230,8 @@ class AccountController extends Controller
      * @param $uuid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getTarget($uuid)
-    {
-        return response()->json(Account::where('uuid', $uuid)->firstOrFail()->target(), 200);
+    public function getTarget($uuid){
+        return response()->json(Account::where('uuid',$uuid)->firstOrFail()->target(), 200);
     }
+
 }

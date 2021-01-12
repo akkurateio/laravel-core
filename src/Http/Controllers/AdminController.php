@@ -2,10 +2,10 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class AdminController extends Controller
 {
@@ -26,7 +26,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        if (! Auth::user()) {
+        if (!Auth::user()) {
             return redirect()->route('login');
         }
         if (Auth::user()->account) {

@@ -12,6 +12,7 @@ use Spatie\Permission\Models\Role;
 
 class RoleControllerTest extends TestCase
 {
+
     use WithFaker;
     use WithoutMiddleware;
 

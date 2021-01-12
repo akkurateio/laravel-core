@@ -24,11 +24,12 @@ class SelectVue extends FormField
         $options['with'] = $this->getOptions()['with'] ?? null;
 //        $options['include'] = implode(',', $options['with']);
 
-        if (! empty($options['model'])) {
+        if (!empty($options['model'])) {
             $model = str_singular($options['model']);
             $options['entry'] = $options['parent']->$model ?? null;
         }
 
         return parent::render($options, $showLabel, $showField, $showError);
     }
+
 }

@@ -17,14 +17,13 @@ class AccountAdministrator
     public function handle($request, Closure $next)
     {
         $account = \Akkurate\LaravelCore\Models\Account::where('slug', $request->uuid)->first();
-        if (! Auth::user()->hasRole('superadmin')) {
-            if ($account->id !== Auth::user()->account->id && ! Auth::user()->accounts->contains($account->id)) {
+        if (!Auth::user()->hasRole('superadmin')) {
+            if($account->id !== Auth::user()->account->id && !Auth::user()->accounts->contains($account->id)) {
                 return response()->json([
                     'error' => 'Unauthorized'
                 ], 403);
             }
         }
-
         return $next($request);
     }
 }

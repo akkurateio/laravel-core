@@ -63,4 +63,5 @@ class PermissionApiTest extends TestCase
         ]));
         $response->assertStatus(204);
     }
+
 }

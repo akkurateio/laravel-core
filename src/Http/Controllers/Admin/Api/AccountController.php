@@ -2,25 +2,26 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Api;
 
-use Akkurate\LaravelContact\Models\Address;
-use Akkurate\LaravelContact\Models\Email;
-use Akkurate\LaravelContact\Models\Phone;
-use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\CreateAccountRequest;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\UpdateAccountRequest;
-use Akkurate\LaravelCore\Http\Resources\Admin\Account as AccountResource;
 use Akkurate\LaravelCore\Http\Resources\Admin\AccountCollection;
+use Akkurate\LaravelCore\Http\Resources\Admin\Account as AccountResource;
 use Akkurate\LaravelCore\Models\Account;
 use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Models\User;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Http\JsonResponse;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use Akkurate\LaravelContact\Models\Phone;
+use Akkurate\LaravelContact\Models\Email;
+use Akkurate\LaravelContact\Models\Address;
 
 class AccountController extends Controller
 {
+
     public function __construct()
     {
         $this->authorizeResource(Account::class, 'account');
@@ -33,8 +34,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return new AccountCollection(
-            QueryBuilder::for(Account::class)
+        return new AccountCollection(QueryBuilder::for(Account::class)
             ->administrable()
             ->allowedFilters([
                 'uuid',
@@ -76,7 +76,7 @@ class AccountController extends Controller
             'params' => $params
         ]);
 
-        if (! empty($request['street1']) && ! empty($request['zip']) && ! empty($request['city'])) {
+        if (!empty($request['street1']) && !empty($request['zip']) && !empty($request['city'])) {
             $address = Address::create([
                 'type' => 'WORK',
                 'name' => $account->name,
@@ -93,7 +93,7 @@ class AccountController extends Controller
             ]);
         }
 
-        if (! empty($request['number'])) {
+        if (!empty($request['number'])) {
             $phone = Phone::create([
                 'type' => 'WORK',
                 'name' => $account->name,
@@ -106,7 +106,7 @@ class AccountController extends Controller
             ]);
         }
 
-        if (! empty($request['email'])) {
+        if (!empty($request['email'])) {
             $email = Email::create([
                 'type' => 'WORK',
                 'name' => $account->name,
@@ -141,7 +141,6 @@ class AccountController extends Controller
     public function update($uuid, Account $account, UpdateAccountRequest $request)
     {
         $account->update($request->validated());
-
         return new AccountResource($account);
     }
 
@@ -167,6 +166,7 @@ class AccountController extends Controller
      */
     public function destroy($uuid, Account $account)
     {
+
         if ($account->id === auth()->user()->account->id) {
             return response()->json([
                 'message' => 'Vous ne pouvez pas supprimer votre propre compte.'
@@ -174,7 +174,6 @@ class AccountController extends Controller
         }
 
         $account->delete();
-
         return response()->json(null, 204);
     }
 
@@ -197,7 +196,6 @@ class AccountController extends Controller
     public function attachUser($uuid, Account $account, Request $request)
     {
         $account->users()->attach(User::whereIn('id', $request->get('users'))->get());
-
         return response()->json($account, 200);
     }
 
@@ -210,7 +208,6 @@ class AccountController extends Controller
     public function detachUser($uuid, Account $account, Request $request)
     {
         $account->users()->detach(User::whereIn('id', $request->get('users'))->get());
-
         return response()->json($account, 200);
     }
 
@@ -223,3 +220,4 @@ class AccountController extends Controller
         return response()->json(Account::where('uuid', $uuid)->firstOrFail()->target(), 200);
     }
 }
+

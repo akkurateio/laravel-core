@@ -9,11 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
+
     public function __construct()
     {
         $this->authorizeResource(Role::class, 'role');
@@ -28,7 +29,6 @@ class RoleController extends Controller
     {
         $roles = Role::orderBy('name')
             ->paginate(pagination());
-
         return view('access::roles.index', compact('roles'));
     }
 
@@ -106,7 +106,6 @@ class RoleController extends Controller
             'id' => 'roleForm'
         ]);
         $permissions = Permission::all();
-
         return view('access::roles.edit', compact('role', 'permissions', 'form'));
     }
 
@@ -151,7 +150,6 @@ class RoleController extends Controller
         }
         
         $role->delete();
-
         return back()->withSuccess(trans('Role') . ' ' . trans('supprimé(e) avec succès'));
     }
 

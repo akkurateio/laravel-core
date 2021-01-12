@@ -65,4 +65,5 @@ class InvitationNotification extends Notification
                 'now' => $this->now
             ]);
     }
+
 }
