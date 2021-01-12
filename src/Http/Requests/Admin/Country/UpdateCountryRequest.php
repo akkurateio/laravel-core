@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Http\Requests\Admin\Country;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCountryRequest extends FormRequest

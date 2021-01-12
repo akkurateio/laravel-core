@@ -2,15 +2,14 @@
 
 namespace Akkurate\LaravelCore\Tests\Admin;
 
-use Akkurate\LaravelCore\Tests\TestCase;
-use Laravel\Passport\Passport;
 use Akkurate\LaravelCore\Models\Country;
+use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Laravel\Passport\Passport;
 
 class CountryApiTest extends TestCase
 {
-
     use WithFaker;
     use WithoutMiddleware;
 
@@ -44,7 +43,7 @@ class CountryApiTest extends TestCase
             'uuid' => $this->user->account->uuid,
             'name' => $this->faker->country,
             'code' => $this->faker->countryCode,
-            'priority' => $this->faker->numberBetween(1,100),
+            'priority' => $this->faker->numberBetween(1, 100),
         ]));
         $response->assertStatus(201);
     }
@@ -58,7 +57,7 @@ class CountryApiTest extends TestCase
             'country' => Country::factory()->create(),
             'name' => $this->faker->country,
             'code' => $this->faker->unique()->countryCode,
-            'priority' => $this->faker->numberBetween(1,100),
+            'priority' => $this->faker->numberBetween(1, 100),
         ]));
         $response->assertStatus(200);
     }
@@ -73,5 +72,4 @@ class CountryApiTest extends TestCase
         ]));
         $response->assertStatus(204);
     }
-
 }

@@ -15,7 +15,7 @@ class UserControllerTest extends TestCase
     use WithFaker;
     use WithoutMiddleware;
 
-   /** @test **/
+    /** @test **/
     public function it_should_return_the_users_view()
     {
         Passport::actingAs($this->user);
@@ -92,5 +92,4 @@ class UserControllerTest extends TestCase
 
         $this->assertSoftDeleted('users', ['id' => $user->id]);
     }
-
 }

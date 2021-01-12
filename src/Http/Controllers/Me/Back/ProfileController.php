@@ -29,6 +29,7 @@ class ProfileController extends Controller
             'id' => 'profileForm',
             'model' => auth()->user()
         ]);
+
         return view('me::back.profile', compact('form'));
     }
 

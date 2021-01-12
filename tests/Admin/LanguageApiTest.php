@@ -2,15 +2,14 @@
 
 namespace Akkurate\LaravelCore\Tests\Admin;
 
-use Akkurate\LaravelCore\Tests\TestCase;
-use Laravel\Passport\Passport;
 use Akkurate\LaravelCore\Models\Language;
+use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Laravel\Passport\Passport;
 
 class LanguageApiTest extends TestCase
 {
-
     use WithFaker;
     use WithoutMiddleware;
 
@@ -44,7 +43,7 @@ class LanguageApiTest extends TestCase
             'uuid' => $this->user->account->uuid,
             'locale' => $this->faker->locale,
             'locale_php' => $this->faker->locale,
-            'priority' => $this->faker->numberBetween(1,100),
+            'priority' => $this->faker->numberBetween(1, 100),
         ]));
         $response->assertStatus(201);
     }
@@ -58,7 +57,7 @@ class LanguageApiTest extends TestCase
             'language' => Language::factory()->create(),
             'locale' => $this->faker->locale,
             'locale_php' => $this->faker->locale,
-            'priority' => $this->faker->numberBetween(1,100),
+            'priority' => $this->faker->numberBetween(1, 100),
         ]));
         $response->assertStatus(200);
     }
@@ -73,5 +72,4 @@ class LanguageApiTest extends TestCase
         ]));
         $response->assertStatus(204);
     }
-
 }

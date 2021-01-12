@@ -2,9 +2,8 @@
 
 namespace Akkurate\LaravelCore\Forms\Admin\User;
 
-use Kris\LaravelFormBuilder\Form;
 use Akkurate\LaravelCore\Models\Account;
-use Akkurate\LaravelCore\Models\Country;
+use Kris\LaravelFormBuilder\Form;
 
 class UserUpdateForm extends Form
 {

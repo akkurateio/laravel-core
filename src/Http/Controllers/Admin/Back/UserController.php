@@ -4,11 +4,11 @@ namespace Akkurate\LaravelCore\Http\Controllers\Admin\Back;
 
 use Akkurate\LaravelCore\Forms\Admin\User\UserSearchForm;
 use Akkurate\LaravelCore\Forms\Admin\User\UserUpdateForm;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Models\User;
 use Akkurate\LaravelCore\Repositories\Admin\UsersRepository;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
-use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -17,7 +17,6 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-
     public function __construct()
     {
         $this->authorizeResource(User::class, 'user');
@@ -51,6 +50,7 @@ class UserController extends Controller
 
         $lastUpdated = User::fromAdministrableAccount()->orderBy('updated_at', 'desc')->take(pagination())->get();
         $lastCreated = User::fromAdministrableAccount()->orderBy('created_at', 'desc')->take(pagination())->get();
+
         return view('admin::back.users.search', compact('form', 'q', 'search', 'searchResults', 'all', 'lastUpdated', 'lastCreated'));
     }
 
@@ -81,6 +81,7 @@ class UserController extends Controller
         ]);
 
         $roles = Role::all();
+
         return view('admin::back.users.edit', compact('user', 'form', 'roles'));
     }
 
@@ -132,8 +133,9 @@ class UserController extends Controller
     public function toggle(User $user)
     {
         $user->update([
-            'is_active' => !$user->is_active
+            'is_active' => ! $user->is_active
         ]);
+
         return back();
     }
 
@@ -159,5 +161,4 @@ class UserController extends Controller
 
         return redirect()->route('brain.admin.users.index', ['uuid' => $uuid])->withSuccess(__('Utilisateur révoqué'));
     }
-
 }

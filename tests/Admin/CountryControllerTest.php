@@ -13,7 +13,7 @@ class CountryControllerTest extends TestCase
     use WithFaker;
     use WithoutMiddleware;
 
-   /** @test **/
+    /** @test **/
     public function it_should_return_the_countries_view()
     {
         Passport::actingAs($this->user);
@@ -60,7 +60,7 @@ class CountryControllerTest extends TestCase
             'uuid' => $this->user->account->slug,
             'name' => $this->faker->country,
             'code' => $this->faker->countryCode,
-            'priority' => $this->faker->numberBetween(1,100),
+            'priority' => $this->faker->numberBetween(1, 100),
         ]));
 
         $response->assertStatus(302);
@@ -79,7 +79,7 @@ class CountryControllerTest extends TestCase
             'country' => $country,
             'name' => $this->faker->country,
             'code' => $this->faker->countryCode,
-            'priority' => $this->faker->numberBetween(1,100),
+            'priority' => $this->faker->numberBetween(1, 100),
         ]));
 
         $response->assertStatus(302);
@@ -101,5 +101,4 @@ class CountryControllerTest extends TestCase
 
         $this->assertDeleted('admin_countries', ['id' => $country->id]);
     }
-
 }

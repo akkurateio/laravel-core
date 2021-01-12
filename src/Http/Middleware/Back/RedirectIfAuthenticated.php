@@ -20,6 +20,7 @@ class RedirectIfAuthenticated
         if (Auth::guard($guard)->check()) {
             return redirect()->intended(config('laravel-core.admin.route') . '/' . Auth::user()->account->slug);
         }
+
         return $next($request);
     }
 }
