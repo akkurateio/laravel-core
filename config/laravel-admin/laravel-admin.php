@@ -208,7 +208,7 @@ return [
             'lastname' => 'Superadmin',
             'email' => [
                 'type' => 'WORK',
-                'address' => 'username.superadmin@test.com'
+                'address' => 'superadmin@test.com'
             ],
             'gender' => 'M'
         ],
@@ -219,7 +219,7 @@ return [
             'lastname' => 'Admin',
             'email' => [
                 'type' => 'WORK',
-                'address' => 'username.admin@test.com'
+                'address' => 'admin@test.com'
             ],
             'gender' => 'M',
             'phone' =>
@@ -235,7 +235,7 @@ return [
             'lastname' => 'User',
             'email' => [
                 'type' => 'WORK',
-                'address' => 'username.user@test.com'
+                'address' => 'user@test.com'
             ],
             'gender' => 'M'
         ],
