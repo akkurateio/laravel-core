@@ -70,24 +70,3 @@ if (!function_exists('getDomain')) {
     }
 }
 
-if (!function_exists('currentAccount')) {
-    function currentAccount()
-    {
-
-        if (!class_exists(\Akkurate\LaravelCore\Models\Account::class)) {
-            return null;
-        }
-
-        $account = \Akkurate\LaravelCore\Models\Account::where('slug', request('uuid'))
-            ->with(['preference'])
-            ->first();
-
-        if(empty($account)) {
-            $account = \Akkurate\LaravelCore\Models\Account::where('slug', request('uuid') ?? auth()->user()->account->slug)
-                ->with(['preference'])
-                ->first();
-        }
-
-        return $account;
-    }
-}
