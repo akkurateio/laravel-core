@@ -16,7 +16,6 @@ class UserApiTest extends TestCase
     /** @test **/
     public function it_should_return_all_users()
     {
-        Passport::actingAs($this->user);
         User::factory()->count(2)->make();
 
         $response = $this->get(route('api.admin.users.index', [
@@ -28,7 +27,6 @@ class UserApiTest extends TestCase
     /** @test **/
     public function it_should_read_a_user()
     {
-        Passport::actingAs($this->user);
         $response = $this->get(route('api.admin.users.show', [
             'uuid' => $this->user->account->uuid,
             'user' => User::factory()->create()
@@ -39,7 +37,6 @@ class UserApiTest extends TestCase
     /** @test **/
     public function it_should_update_an_user()
     {
-        Passport::actingAs($this->user);
         $response = $this->put(route('api.admin.users.update', [
             'uuid' => $this->user->account->uuid,
             'user' => User::factory()->create(),
@@ -53,7 +50,6 @@ class UserApiTest extends TestCase
     /** @test **/
     public function it_should_return_an_403()
     {
-        Passport::actingAs($this->user);
         $response = $this->delete(route('api.admin.users.destroy', [
             'uuid' => $this->user->account->uuid,
             'user' => User::factory()->create()
@@ -64,7 +60,6 @@ class UserApiTest extends TestCase
     /** @test **/
     public function it_should_delete_an_user()
     {
-        Passport::actingAs($this->user);
 
         $user = User::factory()->create();
 

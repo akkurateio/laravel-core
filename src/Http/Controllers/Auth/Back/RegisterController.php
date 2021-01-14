@@ -126,11 +126,13 @@ class RegisterController extends Controller
             $user->assignRole($role);
         }
 
-        if (config('laravel-admin') && \Schema::hasTable('admin_preferences')) {
+        if (config('laravel-i18n')) {
             $language = Language::where('is_default', true)->first();
             $user->preference()->create([
                 'language_id' => $language->id
             ]);
+        } else {
+            $user->preference()->create();
         }
 
         return $user;

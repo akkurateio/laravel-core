@@ -95,54 +95,52 @@ class AccountController extends Controller
             'params' => $params
         ]);
 
-        if (! empty($request['street1']) && ! empty($request['zip']) && ! empty($request['city'])) {
-            $address = Address::create([
-                'type_id' => Type::where('code', 'WORK')->first()->id,
-                'name' => $account->name,
-                'street1' => $request['street1'],
-                'street2' => $request['street2'],
-                'street3' => $request['street3'],
-                'zip' => $request['zip'],
-                'city' => $request['city'],
-                'addressable_type' => get_class($account),
-                'addressable_id' => $account->id
-            ]);
-            $account->update([
-                'address_id' => $address->id
-            ]);
+        if (config('laravel-contact')) {
+            if (! empty($request['street1']) && ! empty($request['zip']) && ! empty($request['city'])) {
+                $address = Address::create([
+                    'type_id' => Type::where('code', 'WORK')->first()->id,
+                    'name' => $account->name,
+                    'street1' => $request['street1'],
+                    'street2' => $request['street2'],
+                    'street3' => $request['street3'],
+                    'zip' => $request['zip'],
+                    'city' => $request['city'],
+                    'addressable_type' => get_class($account),
+                    'addressable_id' => $account->id
+                ]);
+                $account->update([
+                    'address_id' => $address->id
+                ]);
+            }
+
+            if (! empty($request['number'])) {
+                $phone = Phone::create([
+                    'type_id' => Type::where('code', 'WORK')->first()->id,
+                    'name' => $account->name,
+                    'number' => $request['number'],
+                    'phoneable_type' => get_class($account),
+                    'phoneable_id' => $account->id
+                ]);
+                $account->update([
+                    'phone_id' => $phone->id
+                ]);
+            }
+
+            if (! empty($request['email'])) {
+                $email = Email::create([
+                    'type_id' => Type::where('code', 'WORK')->first()->id,
+                    'name' => $account->name,
+                    'email' => $request['email'],
+                    'emailable_type' => get_class($account),
+                    'emailable_id' => $account->id
+                ]);
+                $account->update([
+                    'email_id' => $email->id
+                ]);
+            }
         }
 
-        if (! empty($request['number'])) {
-            $phone = Phone::create([
-                'type_id' => Type::where('code', 'WORK')->first()->id,
-                'name' => $account->name,
-                'number' => $request['number'],
-                'phoneable_type' => get_class($account),
-                'phoneable_id' => $account->id
-            ]);
-            $account->update([
-                'phone_id' => $phone->id
-            ]);
-        }
-
-        if (! empty($request['email'])) {
-            $email = Email::create([
-                'type_id' => Type::where('code', 'WORK')->first()->id,
-                'name' => $account->name,
-                'email' => $request['email'],
-                'emailable_type' => get_class($account),
-                'emailable_id' => $account->id
-            ]);
-            $account->update([
-                'email_id' => $email->id
-            ]);
-        }
-
-        $language = Language::where('locale', 'fr')->firstOrFail();
-
-        $account->preference()->create([
-            'language_id' => $language->id
-        ]);
+        $account->preference()->create();
 
         auth()->user()->accounts()->attach($account);
 
@@ -194,12 +192,19 @@ class AccountController extends Controller
             ['is_active' => $request->filled('is_active')]
         ));
 
-        $account->syncResources($request);
+        if (config('laravel-media')) {
+            $account->syncResources($request);
+        }
 
         $account->preference->update([
             'pagination' => $request->pagination,
-            'language_id' => $request->language
         ]);
+
+        if (config('laravel-i18n')) {
+            $account->preference->update([
+                'language_id' => $request->language
+            ]);
+        }
 
         return redirect()
             ->back()

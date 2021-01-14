@@ -18,7 +18,6 @@ class UserControllerTest extends TestCase
     /** @test **/
     public function it_should_return_the_users_view()
     {
-        Passport::actingAs($this->user);
         $response = $this->get(route('brain.admin.users.index', [
             'uuid' => $this->user->account->slug
         ]));
@@ -28,13 +27,8 @@ class UserControllerTest extends TestCase
     /** @test **/
     public function it_should_return_a_user_show_view()
     {
-        Passport::actingAs($this->user);
-
         $user = User::factory()->create();
-        $user->preference()->create([
-            'language_id' => Language::first()->id
-        ]);
-
+        $user->preference()->create();
         $response = $this->get(route('brain.admin.users.show', [
             'uuid' => $this->user->account->slug,
             'user' => $user->id
@@ -45,13 +39,9 @@ class UserControllerTest extends TestCase
     /** @test **/
     public function it_should_return_to_a_user_edit_view()
     {
-        Passport::actingAs($this->user);
 
         $user = User::factory()->create();
-        $user->preference()->create([
-            'language_id' => Language::first()->id
-        ]);
-
+        $user->preference()->create();
         $response = $this->get(route('brain.admin.users.edit', [
             'uuid' => $this->user->account->slug,
             'user' => $user->id

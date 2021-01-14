@@ -2,7 +2,7 @@
 
 namespace Akkurate\LaravelCore\Models;
 
-use Akkurate\LaravelCore\Database\Factories\Admin\LanguageFactory;
+use Akkurate\LaravelCore\Database\Factories\LanguageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;

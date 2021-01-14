@@ -35,14 +35,13 @@ class LaravelAccessServiceProvider extends ServiceProvider
             return $user->hasRole('superadmin') ? true : null;
         });
 
-        $this->loadRoutesFrom(__DIR__.'/../../routes/laravel-access/api.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/laravel-access/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/access/api.php');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/access/web.php');
 
-        $this->loadViewsFrom(__DIR__ . '/../../resources/laravel-access/views', 'access');
-        $this->loadMigrationsFrom(__DIR__ . '/../../database/laravel-access/migrations');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/access/views', 'access');
 
         $this->publishes([
-            __DIR__.'/../../config/laravel-access/laravel-access.php' => config_path('laravel-access.php')
+            __DIR__.'/../../config/access/laravel-access.php' => config_path('laravel-access.php')
         ], 'config');
     }
 
@@ -54,7 +53,7 @@ class LaravelAccessServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/laravel-access/laravel-access.php',
+            __DIR__.'/../../config/access/laravel-access.php',
             'laravel-access'
         );
     }

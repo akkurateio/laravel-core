@@ -2,14 +2,12 @@
 
 namespace Akkurate\LaravelCore\Models;
 
-use Akkurate\LaravelContact\Traits\Contactable;
-use Akkurate\LaravelCore\Database\Factories\Admin\UserFactory;
 use Akkurate\LaravelCore\Notifications\Auth\ResetPasswordNotification;
+use Akkurate\LaravelCore\Database\Factories\UserFactory;
 use Akkurate\LaravelCore\Traits\Access\HasAccess;
 use Akkurate\LaravelCore\Traits\Admin\HasAccount;
 use Akkurate\LaravelCore\Traits\Admin\HasPreference;
 use Akkurate\LaravelCore\Traits\IsActivable;
-use Akkurate\LaravelMedia\Traits\HasResources;
 use Akkurate\LaravelSearch\Traits\ElasticSearchable;
 use Akkurate\LaravelSearch\Traits\EloquentSearchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,15 +22,13 @@ use Webpatser\Uuid\Uuid;
 
 class User extends Authenticatable implements Searchable
 {
-    use Contactable,
-        ElasticSearchable,
+    use ElasticSearchable,
         EloquentSearchable,
         HasAccess,
         HasAccount,
         HasApiTokens,
         HasFactory,
         HasPreference,
-        HasResources,
         HasRoles,
         IsActivable,
         Notifiable,

@@ -56,7 +56,11 @@ class UserController extends Controller
 
     public function show($uuid, $userId)
     {
-        $user = User::where('id', $userId)->with(['preference.language'])->first();
+        if(config('laravel-i18n')) {
+            $user = User::where('id', $userId)->with(['preference.language'])->first();
+        } else {
+            $user = User::where('id', $userId)->first();
+        }
 
         if (empty($user)) {
             return back()->withError('Utilisateur introuvable');
@@ -67,8 +71,11 @@ class UserController extends Controller
 
     public function edit($uuid, FormBuilder $formBuilder, $userId)
     {
-        $user = User::where('id', $userId)->with(['preference.language'])->first();
-
+        if(config('laravel-i18n')) {
+            $user = User::where('id', $userId)->with(['preference.language'])->first();
+        } else {
+            $user = User::where('id', $userId)->first();
+        }
         if (empty($user)) {
             return back()->withError('Utilisateur introuvable');
         }
@@ -111,7 +118,7 @@ class UserController extends Controller
 
         $user->preference->update([
             'pagination' => $request->pagination,
-            'language_id' => $request->language
+            'language_id' => $request->language ?? null
         ]);
 
         return redirect()->route('brain.admin.users.show', ['user' => $user, 'uuid' => $uuid])

@@ -2,11 +2,9 @@
 
 namespace Akkurate\LaravelCore\Models;
 
-use Akkurate\LaravelContact\Traits\Contactable;
-use Akkurate\LaravelCore\Database\Factories\Admin\AccountFactory;
+use Akkurate\LaravelCore\Database\Factories\AccountFactory;
 use Akkurate\LaravelCore\Traits\Admin\HasPreference;
 use Akkurate\LaravelCore\Traits\IsActivable;
-use Akkurate\LaravelMedia\Traits\HasResources;
 use Akkurate\LaravelSearch\Traits\ElasticSearchable;
 use Akkurate\LaravelSearch\Traits\EloquentSearchable;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -21,11 +19,9 @@ use Webpatser\Uuid\Uuid;
 
 class Account extends Model implements Searchable
 {
-    use Contactable,
-        ElasticSearchable,
+    use ElasticSearchable,
         EloquentSearchable,
         HasPreference,
-        HasResources,
         HasRoles,
         HasFactory,
         IsActivable,

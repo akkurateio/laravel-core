@@ -17,10 +17,12 @@ class PreferenceController extends Controller
     {
         $preference->update([
             'pagination' => $request->input('pagination'),
-            'language_id' => $request->input('language_id')
+            'language_id' => $request->input('language_id') ?? null
         ]);
 
-        session()->put('locale', auth()->user()->preference->language->locale);
+        if (config('laravel-i18n')) {
+            session()->put('locale', auth()->user()->preference->language->locale);
+        }
 
         return redirect('admin')
             ->withSuccess(trans('Preference').' '.trans('successfully updated!'));

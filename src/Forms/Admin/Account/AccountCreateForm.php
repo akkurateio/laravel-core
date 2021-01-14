@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Forms\Admin\Account;
 
-use Akkurate\LaravelBusiness\Models\LegalForm;
 use Akkurate\LaravelCore\Models\Country;
 use Kris\LaravelFormBuilder\Form;
 
@@ -10,20 +9,27 @@ class AccountCreateForm extends Form
 {
     public function buildForm()
     {
-        $countries = Country::where('is_active', 1)->get();
-        $countriesSelect = $countries->pluck('name', 'id')->toArray();
 
         $this
             ->add('name', 'text', ['label' => __('Nom') . ' *', 'rules' => 'required|min:2|max:255'])
-            ->add('email', 'text', ['label' => __('E-mail'), 'attr' => ['class' => 'form-control form-control-sm']])
-            ->add('website', 'text', ['label' => __('Site web'), 'attr' => ['class' => 'form-control form-control-sm']])
-            ->add('street1', 'text', ['label' => __('Rue 1') . ' *', 'rules' => 'required', 'attr' => ['class' => 'form-control form-control-sm']])
-            ->add('street2', 'text', ['label' => __('Rue 2'), 'attr' => ['class' => 'form-control form-control-sm']])
-            ->add('street3', 'text', ['label' => __('Rue 3'), 'attr' => ['class' => 'form-control form-control-sm']])
-            ->add('zip', 'text', ['label' => __('Code postal') . ' *', 'rules' => 'required', 'attr' => ['class' => 'form-control form-control-sm']])
-            ->add('city', 'text', ['label' => __('Ville') . ' *', 'rules' => 'required', 'attr' => ['class' => 'form-control form-control-sm']])
-            ->add('number', 'text', ['label' => __('Numéro de téléphone') . ' *', 'rules' => 'required', 'attr' => ['class' => 'form-control form-control-sm']])
-            ->add('country_id', 'select', ['label' => __('Pays'), 'rules' => 'integer', 'choices' => $countriesSelect, 'attr' => ['class' => 'form-control form-control-sm']]);
+            ->add('website', 'text', ['label' => __('Site web'), 'attr' => ['class' => 'form-control form-control-sm']]);
+
+        if (config('laravel-contact')) {
+            $this->add('email', 'text', ['label' => __('E-mail'), 'attr' => ['class' => 'form-control form-control-sm']])
+                ->add('street1', 'text', ['label' => __('Rue 1') . ' *', 'rules' => 'required', 'attr' => ['class' => 'form-control form-control-sm']])
+                ->add('street2', 'text', ['label' => __('Rue 2'), 'attr' => ['class' => 'form-control form-control-sm']])
+                ->add('street3', 'text', ['label' => __('Rue 3'), 'attr' => ['class' => 'form-control form-control-sm']])
+                ->add('zip', 'text', ['label' => __('Code postal') . ' *', 'rules' => 'required', 'attr' => ['class' => 'form-control form-control-sm']])
+                ->add('city', 'text', ['label' => __('Ville') . ' *', 'rules' => 'required', 'attr' => ['class' => 'form-control form-control-sm']])
+                ->add('number', 'text', ['label' => __('Numéro de téléphone') . ' *', 'rules' => 'required', 'attr' => ['class' => 'form-control form-control-sm']]);
+        }
+
+        if (config('laravel-i18n')) {
+            $countries = Country::where('is_active', 1)->get();
+            $countriesSelect = $countries->pluck('name', 'id')->toArray();
+            $this->add('country_id', 'select', ['label' => __('Pays'), 'rules' => 'integer', 'choices' => $countriesSelect, 'attr' => ['class' => 'form-control form-control-sm']]);
+
+        }
 
         if (config('laravel-admin.account_internal_reference')) {
             $this->add('internal_reference', 'text', ['label' => 'Référence interne', 'attr' => ['class' => 'form-control form-control-sm']]);
@@ -38,7 +44,7 @@ class AccountCreateForm extends Form
         }
 
         if (config('laravel-business')) {
-            $legal_formsSelect = LegalForm::all()->pluck('name', 'id')->toArray();
+            $legal_formsSelect = Akkurate\LaravelBusiness\Models\LegalForm::all()->pluck('name', 'id')->toArray();
             if (count($legal_formsSelect) == 0) {
                 $this->add('legal_form_id', 'select', ['label' => __('Forme juridique'), 'choices' => $legal_formsSelect, 'attr' => ['class' => 'form-control form-control-sm'], 'empty_value' => 'Vous devez ajoutez des formes juridiques']);
             } elseif (count($legal_formsSelect) == 1) {

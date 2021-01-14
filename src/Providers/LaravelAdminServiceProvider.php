@@ -21,26 +21,24 @@ class LaravelAdminServiceProvider extends ServiceProvider
     public function boot()
     {
         if (config('laravel-admin.routes.back.enabled')) {
-            $this->loadRoutesFrom(__DIR__.'/../../routes/laravel-admin/web.php');
+            $this->loadRoutesFrom(__DIR__.'/../../routes/admin/web.php');
         }
         if (config('laravel-admin.routes.api.enabled')) {
-            $this->loadRoutesFrom(__DIR__.'/../../routes/laravel-admin/api.php');
+            $this->loadRoutesFrom(__DIR__.'/../../routes/admin/api.php');
         }
 
-        $this->loadViewsFrom(__DIR__ . '/../../resources/laravel-admin/views', 'admin');
-
-        $this->loadMigrationsFrom(__DIR__ . '/../../database/laravel-admin/migrations');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/admin/views', 'admin');
 
         $this->publishes([
-            __DIR__.'/../../resources/laravel-admin/js' => resource_path('js/vendor/admin')
+            __DIR__.'/../../resources/admin/js' => resource_path('js/vendor/admin')
         ], 'js');
 
         $this->publishes([
-            __DIR__.'/../../config/laravel-admin/laravel-admin.php' => config_path('laravel-admin.php')
+            __DIR__.'/../../config/admin/laravel-admin.php' => config_path('laravel-admin.php')
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/../../resources/laravel-admin/views' => resource_path('views/vendor/admin'),
+            __DIR__.'/../../resources/admin/views' => resource_path('views/vendor/admin'),
         ], 'views');
 
         if ($this->app->runningInConsole()) {
@@ -48,9 +46,6 @@ class LaravelAdminServiceProvider extends ServiceProvider
                 AdminSeed::class
             ]);
         }
-
-        //Observers
-        Account::observe(AccountObserver::class);
     }
 
     /**
@@ -61,7 +56,7 @@ class LaravelAdminServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/laravel-admin/laravel-admin.php',
+            __DIR__.'/../../config/admin/laravel-admin.php',
             'laravel-admin'
         );
     }

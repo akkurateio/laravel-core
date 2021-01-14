@@ -15,14 +15,14 @@ class UsersRepository implements UsersRepositoryInterface
             ->orWhere('firstname', 'like', "%{$query}%")
             ->orWhere('lastname', 'like', "%{$query}%")
             ->orWhere('email', 'like', "%{$query}%")
-            ->orWhereHas('addresses', function ($q) {
+/*            ->orWhereHas('addresses', function ($q) {
                 $query = request('q');
                 $q->where('city', 'like', "%{$query}%");
             })
             ->orWhereHas('phones', function ($q) {
                 $query = request('q');
                 $q->where('number', 'like', "%{$query}%");
-            })
+            })*/
             ->fromAdministrableAccount()
             ->get();
 

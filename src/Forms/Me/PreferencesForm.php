@@ -9,11 +9,6 @@ class PreferencesForm extends Form
 {
     public function buildForm()
     {
-        $languages = Language::orderBy('locale_php', 'asc')->get();
-        $languagesChoices = [];
-        foreach ($languages as $language) {
-            $languagesChoices[$language->id] = $language->locale_php;
-        }
 
         $this
             ->add('pagination', 'select', [
@@ -28,14 +23,22 @@ class PreferencesForm extends Form
                 'attr' => [
                     'class' => 'custom-select'
                 ]
-            ])
-            ->add('language_id', 'select', [
+            ]);
+
+        if (config('laravel-i18n')) {
+            $languages = Language::orderBy('locale_php', 'asc')->get();
+            $languagesChoices = [];
+            foreach ($languages as $language) {
+                $languagesChoices[$language->id] = $language->locale_php;
+            }
+            $this->add('language_id', 'select', [
                 'label' => __('Langue de l’application'),
                 'choices' => $languagesChoices,
                 'attr' => [
                     'class' => 'custom-select'
                 ]
-            ])
-        ;
+            ]);
+        }
+
     }
 }

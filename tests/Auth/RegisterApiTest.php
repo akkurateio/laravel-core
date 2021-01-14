@@ -14,6 +14,9 @@ class RegisterApiTest extends TestCase
     /** @test **/
     public function it_should_register_a_user_with_password()
     {
+
+        $this->withoutNotifications();
+
         Config::set('laravel-auth.allow_register', true);
 
         $password = $this->faker->password(8, 20);
@@ -36,6 +39,9 @@ class RegisterApiTest extends TestCase
     /** @test **/
     public function it_should_register_a_user_without_password()
     {
+
+        $this->withoutNotifications();
+
         $email = $this->faker->safeEmail;
 
         $response = $this->post(route('api.auth.register', [

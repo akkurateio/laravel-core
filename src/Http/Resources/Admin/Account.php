@@ -21,10 +21,8 @@ class Account extends JsonResource
             'parent_id' => $this->parent_id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'internal_reference' => $this->internal_reference,
             'website' => $this->website,
             'is_active' => $this->is_active,
-            'country_id' => $this->country_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

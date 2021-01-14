@@ -24,9 +24,6 @@ class User extends JsonResource
             'is_active' => $this->is_active,
             'account' => $this->account,
             'roles' => $this->roles,
-            'addresses' => $this->addresses,
-            'phones' => $this->phones,
-            'emails' => $this->emails,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
