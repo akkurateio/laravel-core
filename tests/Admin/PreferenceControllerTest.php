@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Tests\Admin;
 
-use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Models\Preference;
 use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;

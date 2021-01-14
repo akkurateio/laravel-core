@@ -50,6 +50,6 @@ class TestCase extends OrchestraTestCase
 
     protected function setUpDatabase()
     {
-         $this->artisan('core:install');
+        $this->artisan('core:install');
     }
 }

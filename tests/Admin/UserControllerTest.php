@@ -3,12 +3,10 @@
 namespace Akkurate\LaravelCore\Tests\Admin;
 
 use Akkurate\LaravelCore\Models\Account;
-use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Models\User;
 use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Laravel\Passport\Passport;
 
 class UserControllerTest extends TestCase
 {
@@ -39,7 +37,6 @@ class UserControllerTest extends TestCase
     /** @test **/
     public function it_should_return_to_a_user_edit_view()
     {
-
         $user = User::factory()->create();
         $user->preference()->create();
         $response = $this->get(route('brain.admin.users.edit', [

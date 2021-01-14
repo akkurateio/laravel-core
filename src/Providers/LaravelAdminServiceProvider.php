@@ -3,8 +3,6 @@
 namespace Akkurate\LaravelCore\Providers;
 
 use Akkurate\LaravelCore\Console\Admin\AdminSeed;
-use Akkurate\LaravelCore\Models\Account;
-use Akkurate\LaravelCore\Observers\Admin\AccountObserver;
 use Illuminate\Support\ServiceProvider;
 
 /**

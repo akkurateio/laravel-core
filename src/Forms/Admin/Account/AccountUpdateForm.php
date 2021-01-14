@@ -9,7 +9,6 @@ class AccountUpdateForm extends Form
 {
     public function buildForm()
     {
-
         $this
             ->add('name', 'text', ['label' => __('Name') . ' *', 'rules' => 'required|min:2|max:255', 'attr' => ['class' => 'form-control form-control-sm']])
             ->add('email', 'text', ['label' => __('Email'), 'rules' => 'email', 'attr' => ['class' => 'form-control form-control-sm']])

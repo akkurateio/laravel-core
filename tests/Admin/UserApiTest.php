@@ -6,7 +6,6 @@ use Akkurate\LaravelCore\Models\User;
 use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Laravel\Passport\Passport;
 
 class UserApiTest extends TestCase
 {
@@ -60,7 +59,6 @@ class UserApiTest extends TestCase
     /** @test **/
     public function it_should_delete_an_user()
     {
-
         $user = User::factory()->create();
 
         $user->update([

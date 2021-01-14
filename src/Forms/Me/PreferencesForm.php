@@ -9,7 +9,6 @@ class PreferencesForm extends Form
 {
     public function buildForm()
     {
-
         $this
             ->add('pagination', 'select', [
                 'label' => __('Nombre d’entrées par page'),
@@ -39,6 +38,5 @@ class PreferencesForm extends Form
                 ]
             ]);
         }
-
     }
 }

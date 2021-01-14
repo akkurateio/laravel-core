@@ -9,7 +9,6 @@ class AccountCreateForm extends Form
 {
     public function buildForm()
     {
-
         $this
             ->add('name', 'text', ['label' => __('Nom') . ' *', 'rules' => 'required|min:2|max:255'])
             ->add('website', 'text', ['label' => __('Site web'), 'attr' => ['class' => 'form-control form-control-sm']]);
@@ -28,7 +27,6 @@ class AccountCreateForm extends Form
             $countries = Country::where('is_active', 1)->get();
             $countriesSelect = $countries->pluck('name', 'id')->toArray();
             $this->add('country_id', 'select', ['label' => __('Pays'), 'rules' => 'integer', 'choices' => $countriesSelect, 'attr' => ['class' => 'form-control form-control-sm']]);
-
         }
 
         if (config('laravel-admin.account_internal_reference')) {

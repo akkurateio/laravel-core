@@ -2,8 +2,8 @@
 
 namespace Akkurate\LaravelCore\Models;
 
-use Akkurate\LaravelCore\Notifications\Auth\ResetPasswordNotification;
 use Akkurate\LaravelCore\Database\Factories\UserFactory;
+use Akkurate\LaravelCore\Notifications\Auth\ResetPasswordNotification;
 use Akkurate\LaravelCore\Traits\Access\HasAccess;
 use Akkurate\LaravelCore\Traits\Admin\HasAccount;
 use Akkurate\LaravelCore\Traits\Admin\HasPreference;

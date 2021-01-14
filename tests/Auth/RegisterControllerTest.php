@@ -14,7 +14,6 @@ class RegisterControllerTest extends TestCase
     /** @test **/
     public function it_should_register_a_user_with_password()
     {
-
         $this->withoutNotifications();
 
         Config::set('laravel-auth.allow_register', true);
@@ -39,7 +38,6 @@ class RegisterControllerTest extends TestCase
     /** @test **/
     public function it_should_register_a_user_without_password()
     {
-
         $this->withoutNotifications();
 
         $email = $this->faker->safeEmail;
@@ -59,7 +57,6 @@ class RegisterControllerTest extends TestCase
     /** @test **/
     public function it_should_register_a_user_without_password_and_account_id()
     {
-
         $this->withoutNotifications();
 
         $email = $this->faker->safeEmail;

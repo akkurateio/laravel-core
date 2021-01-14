@@ -56,7 +56,7 @@ class UserController extends Controller
 
     public function show($uuid, $userId)
     {
-        if(config('laravel-i18n')) {
+        if (config('laravel-i18n')) {
             $user = User::where('id', $userId)->with(['preference.language'])->first();
         } else {
             $user = User::where('id', $userId)->first();
@@ -71,7 +71,7 @@ class UserController extends Controller
 
     public function edit($uuid, FormBuilder $formBuilder, $userId)
     {
-        if(config('laravel-i18n')) {
+        if (config('laravel-i18n')) {
             $user = User::where('id', $userId)->with(['preference.language'])->first();
         } else {
             $user = User::where('id', $userId)->first();

@@ -11,7 +11,6 @@ use Akkurate\LaravelCore\Http\Requests\Admin\Account\UpdateAccountRequest;
 use Akkurate\LaravelCore\Http\Resources\Admin\Account as AccountResource;
 use Akkurate\LaravelCore\Http\Resources\Admin\AccountCollection;
 use Akkurate\LaravelCore\Models\Account;
-use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
