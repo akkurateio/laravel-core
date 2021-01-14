@@ -5,7 +5,6 @@ namespace Akkurate\LaravelCore\Models;
 use Akkurate\LaravelContact\Traits\Contactable;
 use Akkurate\LaravelCore\Database\Factories\Admin\AccountFactory;
 use Akkurate\LaravelCore\Traits\Admin\HasPreference;
-use Akkurate\LaravelCore\Traits\HasUuid;
 use Akkurate\LaravelCore\Traits\IsActivable;
 use Akkurate\LaravelMedia\Traits\HasResources;
 use Akkurate\LaravelSearch\Traits\ElasticSearchable;
@@ -18,13 +17,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
+use Webpatser\Uuid\Uuid;
 
 class Account extends Model implements Searchable
 {
     use Contactable,
         ElasticSearchable,
         EloquentSearchable,
-        HasUuid,
         HasPreference,
         HasResources,
         HasRoles,
@@ -37,8 +36,18 @@ class Account extends Model implements Searchable
 
     protected $table = 'admin_accounts';
 
-    protected $fillable = ['name', 'slug', 'email', 'params', 'internal_reference' ,'website', 'parent_id', 'country_id', 'address_id', 'phone_id', 'email_id', 'is_active'];
+    protected $fillable = ['name', 'slug', 'email', 'params', 'internal_reference', 'website', 'parent_id', 'country_id', 'address_id', 'phone_id', 'email_id', 'is_active'];
 
+    /**
+     *  Setup model event hooks
+     */
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = (string)Uuid::generate(4);
+        });
+    }
 
     /**
      * Return the sluggable configuration array for this model.
@@ -93,12 +102,12 @@ class Account extends Model implements Searchable
     /**
      * Scope a query to only include user’s administrable account(s).
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeAdministrable($query)
     {
-        if (! auth()->user()->hasRole('superadmin')) {
+        if (!auth()->user()->hasRole('superadmin')) {
             return $query
                 ->where('id', auth()->user()->account_id)
                 ->orWhereIn('id', auth()->user()->accounts->pluck('id'));

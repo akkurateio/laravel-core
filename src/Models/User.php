@@ -2,13 +2,12 @@
 
 namespace Akkurate\LaravelCore\Models;
 
-use Akkurate\LaravelAuth\Notifications\ResetPasswordNotification;
+use Akkurate\LaravelCore\Notifications\Auth\ResetPasswordNotification;
 use Akkurate\LaravelContact\Traits\Contactable;
 use Akkurate\LaravelCore\Database\Factories\Admin\UserFactory;
 use Akkurate\LaravelCore\Traits\Access\HasAccess;
 use Akkurate\LaravelCore\Traits\Admin\HasAccount;
 use Akkurate\LaravelCore\Traits\Admin\HasPreference;
-use Akkurate\LaravelCore\Traits\HasUuid;
 use Akkurate\LaravelCore\Traits\IsActivable;
 use Akkurate\LaravelMedia\Traits\HasResources;
 use Akkurate\LaravelSearch\Traits\ElasticSearchable;
@@ -21,6 +20,7 @@ use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
+use Webpatser\Uuid\Uuid;
 
 class User extends Authenticatable implements Searchable
 {
@@ -34,7 +34,6 @@ class User extends Authenticatable implements Searchable
         HasPreference,
         HasResources,
         HasRoles,
-        HasUuid,
         IsActivable,
         Notifiable,
         SoftDeletes;
@@ -65,6 +64,17 @@ class User extends Authenticatable implements Searchable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     *  Setup model event hooks
+     */
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = (string) Uuid::generate(4);
+        });
+    }
 
     /**
      * Create a new factory instance for the model.
