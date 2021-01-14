@@ -2,7 +2,7 @@
 
 namespace Akkurate\LaravelCore\Tests;
 
-use Akkurate\LaravelAuth\LaravelAuthServiceProvider;
+use Akkurate\LaravelCore\Providers\LaravelAuthServiceProvider;
 use Akkurate\LaravelBackComponents\LaravelBackComponentsServiceProvider;
 use Akkurate\LaravelContact\LaravelContactServiceProvider;
 use Akkurate\LaravelCore\LaravelCoreServiceProvider;
@@ -30,7 +30,7 @@ class TestCase extends OrchestraTestCase
 
         $this->setUpDatabase();
 
-        $this->user = User::where('email', 'username.user@test.com')->first();
+        $this->user = User::where('email', 'user@test.com')->first();
         auth()->login($this->user);
     }
 

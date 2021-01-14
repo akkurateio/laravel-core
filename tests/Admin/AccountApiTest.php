@@ -37,9 +37,7 @@ class AccountApiTest extends TestCase
     {
         $response = $this->post(route('api.admin.accounts.store', [
             'uuid' => $this->user->account->uuid,
-            'name' => 'Test Company',
-            'number' => $this->faker->phoneNumber,
-            'email' => $this->faker->companyEmail,
+            'name' => 'Test Company'
         ]));
         $response->assertStatus(201);
     }

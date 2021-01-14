@@ -31,6 +31,9 @@
     <testsuite name="Akkurate Admin Test Suite">
       <directory>tests/Admin</directory>
     </testsuite>
+    <testsuite name="Akkurate Auth Test Suite">
+      <directory>tests/Auth</directory>
+    </testsuite>
   </testsuites>
   <logging>
     <junit outputFile="build/report.junit.xml"/>

@@ -4,9 +4,9 @@ namespace Akkurate\LaravelCore\Http\Controllers\Me\Back;
 
 use Akkurate\LaravelCore\Forms\Me\User\CreateForm;
 use Akkurate\LaravelCore\Forms\Me\User\UpdateForm;
-use Akkurate\LaravelCore\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use Akkurate\LaravelCore\Models\User;
-use Akkurate\LaravelCore\Notifications\InvitationNotification;
+use Akkurate\LaravelCore\Notifications\Me\InvitationNotification;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
 use Carbon\Carbon;

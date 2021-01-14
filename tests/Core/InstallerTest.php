@@ -26,7 +26,7 @@ class InstallerTest extends TestCase
     {
         $this->artisan('core:install');
 
-        $user = User::where('email', 'username.superadmin@test.com')->first();
+        $user = User::where('email', 'superadmin@test.com')->first();
 
         $this->assertDatabaseHas('users', ['id' => $user->id]);
     }

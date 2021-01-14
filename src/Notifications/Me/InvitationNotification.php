@@ -1,6 +1,6 @@
 <?php
 
-namespace Akkurate\LaravelCore\Notifications;
+namespace Akkurate\LaravelCore\Notifications\Me;
 
 use Akkurate\LaravelCore\Models\User;
 use Carbon\Carbon;

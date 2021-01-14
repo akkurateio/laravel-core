@@ -49,15 +49,16 @@ class AccountControllerTest extends TestCase
     {
         $response = $this->post(route('brain.admin.accounts.store', [
             'uuid' => $this->user->account->slug,
-            'name' => 'Test Company',
-            'number' => $this->faker->phoneNumber,
-            'email' => $this->faker->companyEmail,
+            'name' => 'Test Company'
         ]));
 
-        $account = Account::where('slug', 'test-company')->first();
+        $account = Account::where('name', 'Test Company')->first();
 
-        $this->assertDatabaseHas('admin_accounts', ['id' => $account->id]);
-        $response->assertStatus(302);
+        $this->assertEquals('Test Company', $account->name);
+        $response->assertRedirect(route('brain.admin.accounts.edit', [
+            'uuid' => $this->user->account->slug,
+            'account' => $account
+        ]));
     }
 
     /** @test * */
