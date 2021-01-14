@@ -17,7 +17,7 @@ class PasswordApiTest extends TestCase
     {
         Passport::actingAs($this->user);
 
-        $newPassword = $this->faker->password(8,20);
+        $newPassword = $this->faker->password(8, 20);
 
         $response = $this->post(route('api.auth.password.update', [
             'user' => $this->user,
@@ -34,7 +34,7 @@ class PasswordApiTest extends TestCase
     {
         Passport::actingAs($this->user);
 
-        $newPassword = $this->faker->password(8,20);
+        $newPassword = $this->faker->password(8, 20);
 
         $response = $this->post(route('api.auth.password.update', [
             'user' => 56,
@@ -60,7 +60,7 @@ class PasswordApiTest extends TestCase
             'email_verified_at' => Carbon::now()
         ]);
 
-        $newPassword = $this->faker->password(8,20);
+        $newPassword = $this->faker->password(8, 20);
 
         $response = $this->post(route('api.auth.password.update', [
             'user' => $user,
@@ -77,7 +77,7 @@ class PasswordApiTest extends TestCase
     {
         Passport::actingAs($this->user);
 
-        $newPassword = $this->faker->password(8,20);
+        $newPassword = $this->faker->password(8, 20);
 
         $response = $this->post(route('api.auth.password.update', [
             'user' => $this->user,

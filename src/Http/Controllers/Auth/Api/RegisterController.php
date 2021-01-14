@@ -2,11 +2,11 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Auth\Api;
 
+use Akkurate\LaravelCore\Http\Controllers\Auth\Back\RegisterController as BackRegisterController;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Akkurate\LaravelCore\Http\Controllers\Auth\Back\RegisterController as BackRegisterController;
 
 class RegisterController extends Controller
 {
@@ -37,6 +37,7 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $request->headers->set('Accept', 'application/json');
+
         return (new BackRegisterController())->register($request);
     }
 }

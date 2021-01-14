@@ -16,7 +16,7 @@ class RegisterApiTest extends TestCase
     {
         Config::set('laravel-auth.allow_register', true);
 
-        $password = $this->faker->password(8,20);
+        $password = $this->faker->password(8, 20);
 
         $response = $this->post(route('api.auth.register', [
             'account_id' => $this->user->account->id,
@@ -46,5 +46,4 @@ class RegisterApiTest extends TestCase
         $user = User::where('email', 'email@test.fr')->first();
         $this->assertDatabaseHas('users', ['id' => $user->id]);
     }
-
 }

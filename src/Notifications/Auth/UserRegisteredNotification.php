@@ -4,9 +4,9 @@ namespace Akkurate\LaravelCore\Notifications\Auth;
 
 use Akkurate\LaravelCore\Models\User;
 use Carbon\Carbon;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Str;
 
@@ -25,7 +25,6 @@ class UserRegisteredNotification extends VerifyEmail implements ShouldQueue
      */
     public function __construct(User $user)
     {
-
         if (empty($user->activation_token)) {
             $user->update([
                 'activation_token' => Str::random(32)
@@ -35,8 +34,6 @@ class UserRegisteredNotification extends VerifyEmail implements ShouldQueue
         $this->now = Carbon::now();
         $this->user = $user;
         $this->subject = 'Bienvenue sur '. config('app.name') ?? app_name();
-
-
     }
 
     /**

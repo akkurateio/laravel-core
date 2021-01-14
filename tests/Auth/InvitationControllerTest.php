@@ -48,7 +48,7 @@ class InvitationControllerTest extends TestCase
 
         auth()->login($user);
 
-        $password = $this->faker->password(8,20);
+        $password = $this->faker->password(8, 20);
 
         $response = $this->patch(route('register.profile.update', [
             'password' => $password,
@@ -70,7 +70,7 @@ class InvitationControllerTest extends TestCase
 
         auth()->login($user);
 
-        $password = $this->faker->password(8,20);
+        $password = $this->faker->password(8, 20);
 
         $response = $this->patch(route('register.profile.update', [
             'firstname' => $this->faker->firstName,

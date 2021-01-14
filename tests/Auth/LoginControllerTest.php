@@ -18,5 +18,4 @@ class LoginControllerTest extends TestCase
 
         $response->assertRedirect(config('laravel-core.admin.route'));
     }
-
 }

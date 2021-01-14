@@ -2,9 +2,9 @@
 
 namespace Akkurate\LaravelCore\Notifications\Auth;
 
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Lang;
 
@@ -32,6 +32,7 @@ class VerifyEmailNotification extends VerifyEmail implements ShouldQueue
     public function toMail($notifiable)
     {
         $verificationUrl = $this->verificationUrl($notifiable);
+
         return (new MailMessage)
             ->subject(Lang::get('Vérification de votre adresse e-mail'))
             ->view('back::emails.verify', [

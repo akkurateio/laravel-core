@@ -2,10 +2,10 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Auth\Back;
 
-use Akkurate\LaravelCore\Models\Language;
-use Akkurate\LaravelCore\Notifications\Auth\UserRegisteredNotification;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
+use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Models\User;
+use Akkurate\LaravelCore\Notifications\Auth\UserRegisteredNotification;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
 use Carbon\Carbon;
@@ -89,7 +89,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data): User
     {
-        if (!\Schema::hasColumn('users', 'firstname') && !\Schema::hasColumn('users', 'lastname')) {
+        if (! \Schema::hasColumn('users', 'firstname') && ! \Schema::hasColumn('users', 'lastname')) {
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
@@ -106,7 +106,7 @@ class RegisterController extends Controller
 
         if (\Schema::hasTable('admin_accounts')) {
             $user->update([
-                'account_id' => !empty($data['account_id']) ? $data['account_id'] : auth()->user()->account->id
+                'account_id' => ! empty($data['account_id']) ? $data['account_id'] : auth()->user()->account->id
             ]);
         }
 
@@ -166,5 +166,4 @@ class RegisterController extends Controller
             : redirect(config('laravel-core.admin.route'))
                 ->withSuccess(config('laravel-auth.allow_register') ? 'Bienvenue !' : 'L’utilisateur a été créé et a reçu un mail de confirmation.');
     }
-
 }

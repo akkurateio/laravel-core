@@ -4,7 +4,6 @@ namespace Akkurate\LaravelCore\Http\Controllers\Me\Back;
 
 use Akkurate\LaravelCore\Forms\Me\User\CreateForm;
 use Akkurate\LaravelCore\Forms\Me\User\UpdateForm;
-use Illuminate\Routing\Controller;
 use Akkurate\LaravelCore\Models\User;
 use Akkurate\LaravelCore\Notifications\Me\InvitationNotification;
 use Akkurate\LaravelCore\Rules\Firstname;
@@ -13,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;

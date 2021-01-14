@@ -4,10 +4,10 @@ namespace Akkurate\LaravelCore\Events\Auth;
 
 use Akkurate\LaravelCore\Models\User;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class UserConfirmed implements ShouldBroadcast
 {
@@ -33,6 +33,6 @@ class UserConfirmed implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-		return new Channel('users');
-	}
+        return new Channel('users');
+    }
 }

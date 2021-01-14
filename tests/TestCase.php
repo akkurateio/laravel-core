@@ -2,13 +2,13 @@
 
 namespace Akkurate\LaravelCore\Tests;
 
-use Akkurate\LaravelCore\Providers\LaravelAuthServiceProvider;
 use Akkurate\LaravelBackComponents\LaravelBackComponentsServiceProvider;
 use Akkurate\LaravelContact\LaravelContactServiceProvider;
 use Akkurate\LaravelCore\LaravelCoreServiceProvider;
 use Akkurate\LaravelCore\Models\User;
 use Akkurate\LaravelCore\Providers\LaravelAccessServiceProvider;
 use Akkurate\LaravelCore\Providers\LaravelAdminServiceProvider;
+use Akkurate\LaravelCore\Providers\LaravelAuthServiceProvider;
 use Akkurate\LaravelMedia\LaravelMediaServiceProvider;
 use Akkurate\LaravelSearch\LaravelSearchServiceProvider;
 use Cviebrock\EloquentSluggable\ServiceProvider as EloquentSluggableServiceProvider;

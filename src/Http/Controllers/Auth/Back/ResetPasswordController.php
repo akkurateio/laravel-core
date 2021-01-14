@@ -65,7 +65,6 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetResponse(Request $request, $response)
     {
-
         auth()->user()->markEmailAsVerified();
 
         if ($request->wantsJson()) {
@@ -77,7 +76,5 @@ class ResetPasswordController extends Controller
         }
 
         return redirect($this->redirectTo)->with('status', trans($response));
-
     }
-
 }

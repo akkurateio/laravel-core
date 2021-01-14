@@ -32,7 +32,7 @@ class Password
 
             return response()->json(['message' => 'Password was successfully updated'], 200);
         }
-        return response()->json(['message' => 'Invalid password'], 404);
 
+        return response()->json(['message' => 'Invalid password'], 404);
     }
 }

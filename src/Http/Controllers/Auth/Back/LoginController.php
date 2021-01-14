@@ -3,10 +3,10 @@
 namespace Akkurate\LaravelCore\Http\Controllers\Auth\Back;
 
 use Akkurate\LaravelCore\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -50,11 +50,13 @@ class LoginController extends Controller
         Cookie::queue($rememberTokenCookieKey, Cookie::get($rememberTokenCookieKey), $customRememberMeTimeInMinutes);
         $request->session()->regenerate();
         $this->clearLoginAttempts($request);
+
         return $this->authenticated($request, $this->guard()->user())
             ?: redirect()->intended($this->redirectPath());
     }
 
-    public function authenticated($request , $user){
+    public function authenticated($request, $user)
+    {
         if ($redirect = config('laravel-access.redirect_user') && $user->hasRole('user')) {
             return redirect()->intended($redirect);
         }

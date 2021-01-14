@@ -10,14 +10,13 @@ use Illuminate\Support\ServiceProvider;
  */
 class LaravelAuthServiceProvider extends ServiceProvider
 {
-	/**
-	 * Bootstrap services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-
+    /**
+     * Bootstrap services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
         $this->loadRoutesFrom(__DIR__ . '/../../routes/laravel-auth/web/login.php');
 
         $this->loadRoutesFrom(__DIR__ . '/../../routes/laravel-auth/web/register.php');
@@ -43,18 +42,18 @@ class LaravelAuthServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../config/laravel-auth/laravel-auth.php' => config_path('laravel-auth.php'),
         ], 'config');
-
     }
 
-	/**
-	 * Register services.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
+    /**
+     * Register services.
+     *
+     * @return void
+     */
+    public function register()
+    {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/laravel-auth/laravel-auth.php', 'laravel-auth'
+            __DIR__.'/../../config/laravel-auth/laravel-auth.php',
+            'laravel-auth'
         );
-	}
+    }
 }

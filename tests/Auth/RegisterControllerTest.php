@@ -16,7 +16,7 @@ class RegisterControllerTest extends TestCase
     {
         Config::set('laravel-auth.allow_register', true);
 
-        $password = $this->faker->password(8,20);
+        $password = $this->faker->password(8, 20);
 
         $response = $this->post(route('register', [
             'account_id' => $this->user->account->id,
@@ -62,5 +62,4 @@ class RegisterControllerTest extends TestCase
         $user = User::where('email', $email)->first();
         $this->assertDatabaseHas('users', ['id' => $user->id]);
     }
-
 }

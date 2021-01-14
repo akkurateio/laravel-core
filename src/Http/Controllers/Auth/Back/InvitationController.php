@@ -2,9 +2,9 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Auth\Back;
 
-use Akkurate\LaravelCore\Models\User;
 use Akkurate\LaravelCore\Events\Auth\UserConfirmed;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
+use Akkurate\LaravelCore\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -67,7 +67,5 @@ class InvitationController extends Controller
         event(new UserConfirmed($user));
 
         return redirect(config('laravel-core.admin.route'));
-
     }
-
 }

@@ -3,8 +3,8 @@
 namespace Akkurate\LaravelCore\Notifications\Auth;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class ResetPasswordNotification extends Notification
 {
@@ -49,5 +49,4 @@ class ResetPasswordNotification extends Notification
             'token' => $this->token
         ]);
     }
-
 }
