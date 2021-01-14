@@ -107,7 +107,7 @@ class Account extends Model implements Searchable
      */
     public function scopeAdministrable($query)
     {
-        if (!auth()->user()->hasRole('superadmin')) {
+        if (! auth()->user()->hasRole('superadmin')) {
             return $query
                 ->where('id', auth()->user()->account_id)
                 ->orWhereIn('id', auth()->user()->accounts->pluck('id'));
