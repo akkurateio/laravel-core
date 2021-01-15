@@ -2,7 +2,7 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Auth\Api;
 
-use Akkurate\LaravelCore\Models\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 

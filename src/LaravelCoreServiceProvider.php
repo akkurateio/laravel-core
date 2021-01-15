@@ -25,31 +25,12 @@ class LaravelCoreServiceProvider extends ServiceProvider
         $router->pushMiddlewareToGroup('akk-back', CoreKernel::class);
         $router->pushMiddlewareToGroup('akk-api', CoreKernel::class);
 
-        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/laravel-core/views', 'core');
+        $this->loadViewsFrom(__DIR__ . '/../resources/core/views', 'core');
 
-        $this->publishes([
-            __DIR__.'/../resources/laravel-core/views' => resource_path('views/vendor/core'),
-        ], 'dashboard');
-
-        $this->publishes([
-            __DIR__.'/../config/reference.php' => config_path('reference.php')
-        ], 'config');
-
-        $this->publishes([
-            __DIR__.'/../config/laravel-core.php' => config_path('laravel-core.php')
-        ], 'config');
-
-        $this->publishes([
-            __DIR__.'/../config/general.php' => config_path('general.php')
-        ], 'config');
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                InstallCore::class
-            ]);
-        }
+        $this->configurePublishing();
+        $this->configureCommands();
     }
 
     /**
@@ -60,23 +41,65 @@ class LaravelCoreServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/general.php',
+            __DIR__ . '/../config/general.php',
             'general'
         );
 
         $this->mergeConfigFrom(
-            __DIR__.'/../config/laravel-core.php',
+            __DIR__ . '/../config/laravel-core.php',
             'laravel-core'
         );
 
         $this->mergeConfigFrom(
-            __DIR__.'/../config/laravel-form-builder.php',
+            __DIR__ . '/../config/laravel-form-builder.php',
             'laravel-form-builder'
         );
 
         $this->mergeConfigFrom(
-            __DIR__.'/../config/reference.php',
+            __DIR__ . '/../config/reference.php',
             'reference'
         );
+    }
+
+    /**
+     * Configure the commands offered by the application.
+     *
+     * @return void
+     */
+    protected function configureCommands()
+    {
+        if (!$this->app->runningInConsole()) {
+            return;
+        }
+
+        $this->commands([
+            InstallCore::class,
+        ]);
+    }
+
+    /**
+     * Configure publishing for the package.
+     *
+     * @return void
+     */
+    protected function configurePublishing()
+    {
+        if (!$this->app->runningInConsole()) {
+            return;
+        }
+
+        $this->publishes([
+            __DIR__ . '/../resources/core/views' => resource_path('views/vendor/core'),
+        ], 'dashboard');
+
+        $this->publishes([
+            __DIR__ . '/../config/reference.php' => config_path('reference.php'),
+            __DIR__ . '/../config/laravel-core.php' => config_path('laravel-core.php'),
+            __DIR__ . '/../config/general.php' => config_path('general.php')
+        ], 'config');
+
+        $this->publishes([
+            __DIR__ . '/../database/migrations' => database_path('migrations'),
+        ], 'core-migrations');
     }
 }

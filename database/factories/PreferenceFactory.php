@@ -1,11 +1,8 @@
 <?php
 
-namespace Akkurate\LaravelCore\Database\Factories;
+namespace Database\Factories;
 
-use Akkurate\LaravelCore\Models\Account;
-use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Models\Preference;
-use Akkurate\LaravelCore\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PreferenceFactory extends Factory

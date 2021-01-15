@@ -1,15 +1,12 @@
 <?php
 
-namespace Akkurate\LaravelCore\Models;
+namespace App\Models;
 
-use Akkurate\LaravelCore\Database\Factories\UserFactory;
 use Akkurate\LaravelCore\Notifications\Auth\ResetPasswordNotification;
 use Akkurate\LaravelCore\Traits\Access\HasAccess;
 use Akkurate\LaravelCore\Traits\Admin\HasAccount;
 use Akkurate\LaravelCore\Traits\Admin\HasPreference;
 use Akkurate\LaravelCore\Traits\IsActivable;
-use Akkurate\LaravelSearch\Traits\ElasticSearchable;
-use Akkurate\LaravelSearch\Traits\EloquentSearchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,16 +19,14 @@ use Webpatser\Uuid\Uuid;
 
 class User extends Authenticatable implements Searchable
 {
-    use ElasticSearchable,
-        EloquentSearchable,
+    use HasApiTokens,
         HasAccess,
         HasAccount,
-        HasApiTokens,
+        Notifiable,
         HasFactory,
         HasPreference,
-        HasRoles,
         IsActivable,
-        Notifiable,
+        HasRoles,
         SoftDeletes;
 
     /**
@@ -39,8 +34,33 @@ class User extends Authenticatable implements Searchable
      *
      * @var array
      */
+    protected $fillable = [
+        'firstname',
+        'lastname',
+        'username',
+        'initials',
+        'internal_reference',
+        'sign',
+        'gender',
+        'birth_date',
+        'is_active',
+        'activation_token',
+        'deleted_reason',
+        'activated_at',
+        'deleted_at',
+        'account_id',
+        'email',
+        'password',
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $guarded = [
-        'id', 'uuid'
+        'id',
+        'uuid'
     ];
 
     /**
@@ -49,7 +69,9 @@ class User extends Authenticatable implements Searchable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
+        'deleted_at',
     ];
 
     /**
@@ -59,6 +81,8 @@ class User extends Authenticatable implements Searchable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'activated_at' => 'datetime',
+        'birth_date' => 'datetime',
     ];
 
     /**
@@ -68,18 +92,31 @@ class User extends Authenticatable implements Searchable
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = (string) Uuid::generate(4);
+            $model->uuid = (string)Uuid::generate(4);
         });
     }
 
-    /**
-     * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    protected static function newFactory()
+    public function getSearchResult(): SearchResult
     {
-        return UserFactory::new();
+        if (auth()->user()->superadmin()) {
+            $url = route('brain.admin.users.show', [
+                'uuid' => auth()->user()->account->slug,
+                'user' => $this->id
+            ]);
+        } elseif (auth()->user()->admin()) {
+            $url = route('brain.me.users.edit', [
+                'uuid' => auth()->user()->account->slug,
+                'userUuid' => $this->uuid
+            ]);
+        } else {
+            $url = route('brain.me.profile.edit', uuid());
+        }
+
+        return new SearchResult(
+            $this,
+            $this->fullname ?? $this->username,
+            $url
+        );
     }
 
     /**
@@ -119,58 +156,5 @@ class User extends Authenticatable implements Searchable
     public function getNamefullAttribute()
     {
         return "{$this->lastname} {$this->firstname}";
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Spatie Searchable
-    |--------------------------------------------------------------------------
-    |
-    */
-
-    public function getSearchResult(): SearchResult
-    {
-        if (auth()->user()->superadmin()) {
-            $url = route('brain.admin.users.show', [
-                'uuid' => auth()->user()->account->slug,
-                'user' => $this->id
-            ]);
-        } elseif (auth()->user()->admin()) {
-            $url = route('brain.me.users.edit', [
-                'uuid' => auth()->user()->account->slug,
-                'userUuid' => $this->uuid
-            ]);
-        } else {
-            $url = route('brain.me.profile.edit', uuid());
-        }
-
-        return new SearchResult(
-            $this,
-            $this->fullname ?? $this->username,
-            $url
-        );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Laravel Search Methods
-    |--------------------------------------------------------------------------
-    |
-    */
-
-    public function getEntities()
-    {
-        return [
-            'uuid' => $this->account->searchable->uuid,
-            'name' => $this->account->name,
-        ];
-    }
-
-    public function getSearchContent()
-    {
-        return [
-            $this->fullname,
-            $this->email
-        ];
     }
 }

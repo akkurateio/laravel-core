@@ -4,8 +4,8 @@ namespace Akkurate\LaravelCore\Http\Controllers\Access\Back;
 
 use Akkurate\LaravelCore\Forms\Access\Permission\PermissionAbstractForm;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelCore\Models\Account;
-use Akkurate\LaravelCore\Models\User;
+use App\Models\Account;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

@@ -11,17 +11,6 @@ use Illuminate\Support\Facades\Gate;
  */
 class LaravelAccessServiceProvider extends ServiceProvider
 {
-
-    /**
-     * The policy mappings for the application.
-     *
-     * @var array
-     */
-    protected $policies = [
-        \Spatie\Permission\Models\Role::class => \Akkurate\LaravelAccess\Policies\RolePolicy::class,
-        \Spatie\Permission\Models\Permission::class => \Akkurate\LaravelAccess\Policies\PermissionPolicy::class
-    ];
-
     /**
      * Bootstrap services.
      *
@@ -29,8 +18,6 @@ class LaravelAccessServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
-
         Gate::before(function ($user, $ability) {
             return $user->hasRole('superadmin') ? true : null;
         });

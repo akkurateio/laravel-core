@@ -3,6 +3,7 @@
 namespace Akkurate\LaravelCore\Console\Core;
 
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 
 class InstallCore extends Command
 {
@@ -11,7 +12,7 @@ class InstallCore extends Command
      *
      * @var string
      */
-    protected $signature = 'core:install {--refresh}';
+    protected $signature = 'core:install';
 
     /**
      * The console command description.
@@ -27,42 +28,69 @@ class InstallCore extends Command
      */
     public function handle()
     {
-        //Change the auth default user
-        if ($this->overwriteConfigKey('auth.php', 'auth.providers.users.model', 'Akkurate\LaravelCore\Models\User')) {
-            $this->info('Default auth user set');
-        }
+        // Publish Migrations...
+        $this->callSilent('vendor:publish', ['--tag' => 'core-migrations', '--force' => true]);
 
         //Change the api guard driver
-        if ($this->overwriteConfigKey('auth.php', 'auth.guards.api.driver', 'passport')) {
-            $this->info('Default auth api driver set');
-        }
+        $this->replaceInFile("'driver' => 'token',", "'driver' => 'passport',", $this->laravel->configPath('auth.php'));
 
-        if ($this->option('refresh')) {
-            $this->call('migrate:fresh');
+        // "Home" Route...
+        $this->replaceInFile('/home', '/brain', app_path('Providers/RouteServiceProvider.php'));
+
+        // Run the install of the core package
+        $this->installCore();
+
+        $answer = $this->choice('You prefer to launch migrate fresh or simple migrate ?', ['simple', 'fresh'], 'simple');
+
+        if ($answer === 'simple') {
+            $this->call('migrate', ['--seed' => true]);
         } else {
-            $this->call('migrate');
+            $this->call('migrate:fresh', ['--seed' => true]);
         }
 
-        $this->call('db:seed', ['--class' => 'Akkurate\LaravelCore\Database\Seeders\Access\DatabaseSeeder']);
-        $this->call('db:seed', ['--class' => 'Akkurate\LaravelContact\Database\Seeders\DatabaseSeeder']);
-        $this->call('db:seed', ['--class' => 'Akkurate\LaravelCore\Database\Seeders\Admin\DatabaseSeeder']);
-        $this->call('db:seed', ['--class' => 'Akkurate\LaravelCore\Database\Seeders\Access\UserHasRolesTableSeeder']);
-
+        $this->line('');
         $this->call('passport:install');
+        $this->line('');
         $this->call('back-components:install');
-        $this->call('storage:link');
     }
 
-    protected function overwriteConfigKey($file, $key, $value): bool
+    /**
+     * Copy the files
+     */
+    protected function installCore()
     {
-        if (file_put_contents($this->laravel->configPath($file), str_replace(
-            config($key),
-            $value,
-            file_get_contents($this->laravel->configPath($file))
-        ))) {
-            config()->set($key, $value);
+        // Policies...
+        (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/app/Policies', app_path('Policies'));
 
-            return true;
-        }
+        // Factories...
+        copy(__DIR__.'/../../../database/factories/UserFactory.php', base_path('database/factories/UserFactory.php'));
+        copy(__DIR__.'/../../../database/factories/AccountFactory.php', base_path('database/factories/AccountFactory.php'));
+
+        // Service Providers...
+        copy(__DIR__.'/../../../stubs/app/Providers/AuthServiceProvider.php', app_path('Providers/AuthServiceProvider.php'));
+
+        // Seeders...
+        (new Filesystem)->copyDirectory(__DIR__.'/../../../database/seeders', base_path('database/seeders'));
+
+        // Models...
+        copy(__DIR__.'/../../../stubs/app/Models/User.php', app_path('Models/User.php'));
+        copy(__DIR__.'/../../../stubs/app/Models/Account.php', app_path('Models/Account.php'));
+
+        $this->line('');
+        $this->comment('Core package installed, just a last question before you go');
+        $this->line('');
+    }
+
+    /**
+     * Replace a given string within a given file.
+     *
+     * @param string $search
+     * @param string $replace
+     * @param string $path
+     * @return void
+     */
+    protected function replaceInFile(string $search, string $replace, string $path)
+    {
+        file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
     }
 }

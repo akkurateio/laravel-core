@@ -1,8 +1,8 @@
 <?php
 
-namespace Akkurate\LaravelCore\Models\Policies\Admin;
+namespace App\Policies;
 
-use Akkurate\LaravelCore\Models\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy

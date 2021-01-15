@@ -2,7 +2,7 @@
 
 namespace Akkurate\LaravelCore\Notifications\Auth;
 
-use Akkurate\LaravelCore\Models\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Bus\Queueable;

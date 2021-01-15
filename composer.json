@@ -26,7 +26,7 @@
         "spatie/laravel-json-api-paginate": "^1.7",
         "spatie/laravel-query-builder": "^2.8",
         "spatie/laravel-permission": "^3.0",
-        "webpatser/laravel-uuid": "^3.0",
+        "webpatser/laravel-uuid": "^4.0",
         "laravel/passport": "^10.0",
         "laravel/ui": "^2.0|^3.0"
     },
@@ -38,8 +38,8 @@
     "autoload" : {
         "psr-4": {
             "Akkurate\\LaravelCore\\": "src/",
-            "Akkurate\\LaravelCore\\Database\\Seeders\\": "database/seeders/",
-            "Akkurate\\LaravelCore\\Database\\Factories\\": "database/factories/"
+            "Database\\Seeders\\": "database/seeders",
+            "Database\\Factories\\": "database/factories"
         },
         "files": [
             "helpers.php"
@@ -47,7 +47,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Akkurate\\LaravelCore\\Tests\\": "tests/"
+            "Akkurate\\LaravelCore\\Tests\\": "tests/",
+            "App\\": "stubs/app/"
         }
     },
     "extra": {

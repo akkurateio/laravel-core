@@ -2,7 +2,7 @@
 
 namespace Akkurate\LaravelCore\Repositories\Admin;
 
-use Akkurate\LaravelCore\Models\User;
+use App\Models\User;
 
 class UsersRepository implements UsersRepositoryInterface
 {

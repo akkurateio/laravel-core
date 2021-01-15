@@ -1,12 +1,9 @@
 <?php
 
-namespace Akkurate\LaravelCore\Models;
+namespace App\Models;
 
-use Akkurate\LaravelCore\Database\Factories\AccountFactory;
 use Akkurate\LaravelCore\Traits\Admin\HasPreference;
 use Akkurate\LaravelCore\Traits\IsActivable;
-use Akkurate\LaravelSearch\Traits\ElasticSearchable;
-use Akkurate\LaravelSearch\Traits\EloquentSearchable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,10 +16,8 @@ use Webpatser\Uuid\Uuid;
 
 class Account extends Model implements Searchable
 {
-    use ElasticSearchable,
-        EloquentSearchable,
+    use HasRoles,
         HasPreference,
-        HasRoles,
         HasFactory,
         IsActivable,
         Sluggable,
@@ -32,7 +27,20 @@ class Account extends Model implements Searchable
 
     protected $table = 'admin_accounts';
 
-    protected $fillable = ['name', 'slug', 'email', 'params', 'internal_reference', 'website', 'parent_id', 'country_id', 'address_id', 'phone_id', 'email_id', 'is_active'];
+    protected $fillable = [
+        'name',
+        'slug',
+        'email',
+        'params',
+        'internal_reference',
+        'website',
+        'parent_id',
+        'country_id',
+        'address_id',
+        'phone_id',
+        'email_id',
+        'is_active',
+    ];
 
     /**
      *  Setup model event hooks
@@ -59,31 +67,6 @@ class Account extends Model implements Searchable
         ];
     }
 
-    /**
-     * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    protected static function newFactory()
-    {
-        return AccountFactory::new();
-    }
-
-    public function users()
-    {
-        return $this->hasMany(User::class);
-    }
-
-    public function country()
-    {
-        return $this->belongsTo(Country::class);
-    }
-
-    public function target()
-    {
-        return $this->preference->target;
-    }
-
     public function getSearchResult(): SearchResult
     {
         $url = route('brain.admin.accounts.show', ['uuid' => auth()->user()->account->slug, 'account' => $this->id]);
@@ -103,7 +86,7 @@ class Account extends Model implements Searchable
      */
     public function scopeAdministrable($query)
     {
-        if (! auth()->user()->hasRole('superadmin')) {
+        if (!auth()->user()->hasRole('superadmin')) {
             return $query
                 ->where('id', auth()->user()->account_id)
                 ->orWhereIn('id', auth()->user()->accounts->pluck('id'));
@@ -116,6 +99,11 @@ class Account extends Model implements Searchable
             ->where('name', 'like', '%' . $search . '%');
     }
 
+    public function scopeFirstLevel(Builder $query)
+    {
+        return $query->where('parent_id', null);
+    }
+
     public function children()
     {
         return $this->hasMany($this, 'parent_id');
@@ -126,23 +114,13 @@ class Account extends Model implements Searchable
         return $this->belongsTo($this, 'parent_id');
     }
 
-    public function scopeFirstLevel(Builder $query)
+    public function target()
     {
-        return $query->where('parent_id', null);
+        return $this->preference->target;
     }
 
-    public function events()
+    public function users()
     {
-        return $this->morphMany(Event::class, 'eventable');
-    }
-
-    public function leads()
-    {
-        return $this->hasMany(Lead::class);
-    }
-
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(User::class);
     }
 }

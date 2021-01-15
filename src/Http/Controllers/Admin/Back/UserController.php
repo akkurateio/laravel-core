@@ -5,7 +5,8 @@ namespace Akkurate\LaravelCore\Http\Controllers\Admin\Back;
 use Akkurate\LaravelCore\Forms\Admin\User\UserSearchForm;
 use Akkurate\LaravelCore\Forms\Admin\User\UserUpdateForm;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelCore\Models\User;
+use Akkurate\LaravelCore\Models\Language;
+use App\Models\User;
 use Akkurate\LaravelCore\Repositories\Admin\UsersRepository;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
@@ -110,16 +111,26 @@ class UserController extends Controller
 
         $user->update(array_merge($validated, ['is_active' => $request->filled('is_active')]));
 
-        $user->syncResources($request);
+        if (config('laravel-media')) {
+            $user->syncResources($request);
+        }
 
         if ($request['roles']) {
             $this->assignRole($uuid, $request, $user->id);
         }
 
-        $user->preference->update([
-            'pagination' => $request->pagination,
-            'language_id' => $request->language ?? null
-        ]);
+        if (config('laravel-i18n')) {
+            $language = Language::where('id', $request->language)->first();
+            if (!empty($language)) {
+                $user->preference()->update([
+                    'language_id' => $language->id
+                ]);
+            }
+        } else {
+            $user->preference()->update([
+                'pagination' => $request->pagination,
+            ]);
+        }
 
         return redirect()->route('brain.admin.users.show', ['user' => $user, 'uuid' => $uuid])
             ->withSuccess(trans('Utilisateur') . ' ' . trans('mis à jour avec succès'));

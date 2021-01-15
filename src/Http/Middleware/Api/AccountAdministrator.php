@@ -16,7 +16,7 @@ class AccountAdministrator
      */
     public function handle($request, Closure $next)
     {
-        $account = \Akkurate\LaravelCore\Models\Account::where('slug', $request->uuid)->first();
+        $account = \App\Models\Account::where('slug', $request->uuid)->first();
         if (! Auth::user()->hasRole('superadmin')) {
             if ($account->id !== Auth::user()->account->id && ! Auth::user()->accounts->contains($account->id)) {
                 return response()->json([

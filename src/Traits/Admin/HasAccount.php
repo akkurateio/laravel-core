@@ -2,7 +2,7 @@
 
 namespace Akkurate\LaravelCore\Traits\Admin;
 
-use Akkurate\LaravelCore\Models\Account;
+use App\Models\Account;
 use Illuminate\Database\Eloquent\Builder;
 
 /**

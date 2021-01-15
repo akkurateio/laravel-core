@@ -2,7 +2,7 @@
 
 namespace Akkurate\LaravelCore\Models;
 
-use Akkurate\LaravelCore\Database\Factories\PreferenceFactory;
+use Database\Factories\PreferenceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

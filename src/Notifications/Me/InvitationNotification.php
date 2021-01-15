@@ -2,7 +2,7 @@
 
 namespace Akkurate\LaravelCore\Notifications\Me;
 
-use Akkurate\LaravelCore\Models\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,8 +14,8 @@ class InvitationNotification extends Notification
 
     public $token;
 
-    public User $user;
-    public User $from;
+    public $user;
+    public $from;
 
     /**
      * @var Carbon

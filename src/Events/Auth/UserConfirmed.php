@@ -2,7 +2,7 @@
 
 namespace Akkurate\LaravelCore\Events\Auth;
 
-use Akkurate\LaravelCore\Models\User;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;

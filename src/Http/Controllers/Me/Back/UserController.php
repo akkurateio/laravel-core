@@ -4,7 +4,8 @@ namespace Akkurate\LaravelCore\Http\Controllers\Me\Back;
 
 use Akkurate\LaravelCore\Forms\Me\User\CreateForm;
 use Akkurate\LaravelCore\Forms\Me\User\UpdateForm;
-use Akkurate\LaravelCore\Models\User;
+use Akkurate\LaravelCore\Models\Language;
+use App\Models\User;
 use Akkurate\LaravelCore\Notifications\Me\InvitationNotification;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
@@ -69,7 +70,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'firstname' => ['required', 'string', 'max:255', new Firstname],
             'lastname' => ['required', 'string', 'max:255', new Lastname],
-            'email' => 'required|email:dns|max:255|unique:users',
+            'email' => 'required|email:dns|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -79,25 +80,46 @@ class UserController extends Controller
                 ->withInput();
         }
 
-        $user = User::create([
-            'firstname' => ucfirst($validator->validated()['firstname']),
-            'lastname' => ucfirst($validator->validated()['lastname']),
-            'email' => $validator->validated()['email'],
-            'password' => Hash::make(config('app.default-password')),
-            'account_id' => auth()->user()->account->id,
-            'activation_token' => Str::random(60) . '_' . time(),
-            'is_active' => false,
-        ]);
+        $language = Language::where('is_default', true)->first();
+        $userEmailAlreadyExist = User::where('email', $validator->validated()['email'])->withTrashed()->first();
 
-        $user->assignRole(config('laravel-access.default_role'));
+        if (!empty($userEmailAlreadyExist) && $userEmailAlreadyExist->restore()) {
 
-        if (config('laravel-me.send_invitation')) {
-            $user->notify(new InvitationNotification($user->activation_token, $user, auth()->user()));
+            $user = User::where('email', $validator->validated()['email'])->first();
+
+            $user->preference()->updateOrCreate([
+                'language_id' => $language->id
+            ]);
+
+            return redirect()
+                ->route('brain.me.users.index', ['uuid' => $uuid])
+                ->withSuccess(__($validator->validated()['firstname'] . ' ' . $validator->validated()['lastname'] . ' a été réactivé avec succès'));
+
+        } else {
+            $user = User::create([
+                'firstname' => ucfirst($validator->validated()['firstname']),
+                'lastname' => ucfirst($validator->validated()['lastname']),
+                'email' => $validator->validated()['email'],
+                'password' => Hash::make(config('app.default-password')),
+                'account_id' => auth()->user()->account->id,
+                'activation_token' => Str::random(60) . '_' . time(),
+                'is_active' => false,
+            ]);
+
+            $user->assignRole(config('laravel-access.default_role'));
+
+            if (config('laravel-me.send_invitation')) {
+                $user->notify(new InvitationNotification($user->activation_token, $user, auth()->user()));
+            }
+
+            $user->preference()->updateOrCreate([
+                'language_id' => $language->id
+            ]);
+
+            return redirect()
+                ->route('brain.me.users.index', ['uuid' => $uuid])
+                ->withSuccess(__('L’invitation a bien été envoyée à ' . $validator->validated()['email']));
         }
-
-        return redirect()
-            ->route('brain.me.users.index', ['uuid' => $uuid])
-            ->withSuccess(__('L’invitation a bien été envoyée à ' . $validator->validated()['email']));
     }
 
     /**
@@ -212,7 +234,7 @@ class UserController extends Controller
         $user = User::where('uuid', $userUuid)->first();
 
         $user->update([
-            'is_active' => ! $user->is_active
+            'is_active' => !$user->is_active
         ]);
 
         return back();

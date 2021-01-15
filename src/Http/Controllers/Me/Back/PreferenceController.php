@@ -67,7 +67,7 @@ class PreferenceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'pagination' => 'required|integer',
-            'language_id' => 'required|integer',
+            'language_id' => 'nullable|integer',
         ]);
 
         if ($validator->fails()) {
@@ -79,7 +79,9 @@ class PreferenceController extends Controller
 
         auth()->user()->preference->update($validator->validated());
 
-        session()->put('locale', auth()->user()->preference->language->locale);
+        if (config('laravel-i18n')) {
+            session()->put('locale', auth()->user()->preference->language->locale);
+        }
 
         return redirect()->route('brain.me.preferences.edit', ['uuid' => $uuid])
             ->withSuccess(__('Vos préférences utilisateur ont été mises à jour avec succès'));

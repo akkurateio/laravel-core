@@ -1,11 +1,11 @@
 <?php
 
-namespace Akkurate\LaravelCore\Database\Seeders;
+namespace Database\Seeders;
 
-use Akkurate\LaravelCore\Models\User;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Akkurate\LaravelContact\Models\Type;
-use Akkurate\LaravelCore\Models\Account;
+use App\Models\Account;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;

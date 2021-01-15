@@ -2,7 +2,7 @@
 
 namespace Akkurate\LaravelCore\Tests\Core;
 
-use Akkurate\LaravelCore\Models\User;
+use App\Models\User;
 use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\Passport;

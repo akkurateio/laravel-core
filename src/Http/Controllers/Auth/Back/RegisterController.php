@@ -4,7 +4,7 @@ namespace Akkurate\LaravelCore\Http\Controllers\Auth\Back;
 
 use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Models\Language;
-use Akkurate\LaravelCore\Models\User;
+use App\Models\User;
 use Akkurate\LaravelCore\Notifications\Auth\UserRegisteredNotification;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;

@@ -2,8 +2,8 @@
 
 namespace Akkurate\LaravelCore\Tests\Admin;
 
-use Akkurate\LaravelCore\Models\Account;
-use Akkurate\LaravelCore\Models\User;
+use App\Models\Account;
+use App\Models\User;
 use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -72,7 +72,7 @@ class UserControllerTest extends TestCase
 
         $response = $this->delete(route('brain.admin.users.destroy', [
             'uuid' => $this->user->account->slug,
-            'user' => $user
+            'user' => $user->id
         ]));
 
         $response->assertRedirect();

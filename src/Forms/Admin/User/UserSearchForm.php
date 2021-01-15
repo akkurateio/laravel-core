@@ -2,7 +2,7 @@
 
 namespace Akkurate\LaravelCore\Forms\Admin\User;
 
-use Akkurate\LaravelCore\Models\Account;
+use App\Models\Account;
 use Illuminate\Support\Arr;
 use Kris\LaravelFormBuilder\Form;
 use Spatie\Permission\Models\Role;

@@ -10,7 +10,7 @@ use Akkurate\LaravelContact\Models\Type;
 use Akkurate\LaravelCore\Forms\Me\AccountForm;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\CreateAccountRequest;
-use Akkurate\LaravelCore\Models\Account;
+use App\Models\Account;
 use Akkurate\LaravelCore\Models\Language;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

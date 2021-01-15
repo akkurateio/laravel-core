@@ -4,7 +4,8 @@ namespace Akkurate\LaravelCore\Tests;
 
 use Akkurate\LaravelBackComponents\LaravelBackComponentsServiceProvider;
 use Akkurate\LaravelCore\LaravelCoreServiceProvider;
-use Akkurate\LaravelCore\Models\User;
+use App\Models\Account;
+use App\Models\User;
 use Akkurate\LaravelCore\Providers\LaravelAccessServiceProvider;
 use Akkurate\LaravelCore\Providers\LaravelAdminServiceProvider;
 use Akkurate\LaravelCore\Providers\LaravelAuthServiceProvider;
@@ -30,6 +31,12 @@ class TestCase extends OrchestraTestCase
         auth()->login($this->user);
     }
 
+    protected function getEnvironmentSetUp($app)
+    {
+        // Use test User model for users provider
+        $app['config']->set('auth.providers.users.model', User::class);
+    }
+
     protected function getPackageProviders($app): array
     {
         return [
@@ -50,6 +57,26 @@ class TestCase extends OrchestraTestCase
 
     protected function setUpDatabase()
     {
-        $this->artisan('core:install');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->seed(\Database\Seeders\DatabaseSeeder::class);
+    }
+
+    protected function createUser()
+    {
+        $account = Account::create([
+            'name' => 'Account',
+            'slug' => 'account',
+            'email' => 'account@test.com',
+        ]);
+
+        $user = User::forceCreate([
+            'firstname' => 'Username',
+            'lastname' => 'User',
+            'email' => 'user@test.com',
+            'password' => 'test',
+            'account_id' => $account->id,
+        ]);
+
+        $user->preference()->create();
     }
 }

@@ -34,9 +34,11 @@
                         @endif
 
                         <div class="row">
-                            <div class="col-12 col-md-4">
-                                {!! form_row($form->siren) !!}
-                            </div>
+                            @if(config('laravel-admin.legal_info'))
+                                <div class="col-12 col-md-4">
+                                    {!! form_row($form->siren) !!}
+                                </div>
+                            @endif
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-4">

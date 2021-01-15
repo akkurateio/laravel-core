@@ -1,6 +1,6 @@
 <?php
 
-namespace Akkurate\LaravelCore\Database\Seeders;
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
