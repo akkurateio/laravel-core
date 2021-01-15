@@ -12,6 +12,7 @@ class Preference extends Model
 
     protected $table = 'admin_preferences';
     protected $fillable = ['target', 'pagination', 'language_id'];
+    protected $hidden = ['preferenceable_id', 'preferenceable_type'];
 
     /**
      * Create a new factory instance for the model.

@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Tests\Admin;
 
-use Akkurate\LaravelCore\Models\Preference;
 use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -12,10 +11,10 @@ class PreferenceControllerTest extends TestCase
     use WithFaker;
     use WithoutMiddleware;
 
-    /** @test **/
+    /** @test * */
     public function it_should_update_a_preference_then_redirect()
     {
-        $preference = Preference::factory()->create();
+        $preference = $this->user->account->preference()->create();
 
         $response = $this->put(route('brain.admin.preferences.update', [
             'uuid' => $this->user->account->slug,
