@@ -4,10 +4,10 @@ namespace Akkurate\LaravelCore\Http\Controllers\Auth\Back;
 
 use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Models\Language;
-use App\Models\User;
 use Akkurate\LaravelCore\Notifications\Auth\UserRegisteredNotification;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;

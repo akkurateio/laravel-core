@@ -5,10 +5,10 @@ namespace Akkurate\LaravelCore\Http\Controllers\Me\Back;
 use Akkurate\LaravelCore\Forms\Me\User\CreateForm;
 use Akkurate\LaravelCore\Forms\Me\User\UpdateForm;
 use Akkurate\LaravelCore\Models\Language;
-use App\Models\User;
 use Akkurate\LaravelCore\Notifications\Me\InvitationNotification;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\RedirectResponse;
@@ -83,8 +83,7 @@ class UserController extends Controller
         $language = Language::where('is_default', true)->first();
         $userEmailAlreadyExist = User::where('email', $validator->validated()['email'])->withTrashed()->first();
 
-        if (!empty($userEmailAlreadyExist) && $userEmailAlreadyExist->restore()) {
-
+        if (! empty($userEmailAlreadyExist) && $userEmailAlreadyExist->restore()) {
             $user = User::where('email', $validator->validated()['email'])->first();
 
             $user->preference()->updateOrCreate([
@@ -94,7 +93,6 @@ class UserController extends Controller
             return redirect()
                 ->route('brain.me.users.index', ['uuid' => $uuid])
                 ->withSuccess(__($validator->validated()['firstname'] . ' ' . $validator->validated()['lastname'] . ' a été réactivé avec succès'));
-
         } else {
             $user = User::create([
                 'firstname' => ucfirst($validator->validated()['firstname']),
@@ -234,7 +232,7 @@ class UserController extends Controller
         $user = User::where('uuid', $userUuid)->first();
 
         $user->update([
-            'is_active' => !$user->is_active
+            'is_active' => ! $user->is_active
         ]);
 
         return back();

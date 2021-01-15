@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Notifications\Me;
 
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;

@@ -2,8 +2,8 @@
 
 namespace Akkurate\LaravelCore\Tests\Admin;
 
-use App\Models\Account;
 use Akkurate\LaravelCore\Tests\TestCase;
+use App\Models\Account;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 

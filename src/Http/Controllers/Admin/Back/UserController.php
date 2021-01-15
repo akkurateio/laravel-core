@@ -6,10 +6,10 @@ use Akkurate\LaravelCore\Forms\Admin\User\UserSearchForm;
 use Akkurate\LaravelCore\Forms\Admin\User\UserUpdateForm;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Models\Language;
-use App\Models\User;
 use Akkurate\LaravelCore\Repositories\Admin\UsersRepository;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -121,7 +121,7 @@ class UserController extends Controller
 
         if (config('laravel-i18n')) {
             $language = Language::where('id', $request->language)->first();
-            if (!empty($language)) {
+            if (! empty($language)) {
                 $user->preference()->update([
                     'language_id' => $language->id
                 ]);

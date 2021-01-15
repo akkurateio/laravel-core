@@ -68,7 +68,7 @@ class LaravelCoreServiceProvider extends ServiceProvider
      */
     protected function configureCommands()
     {
-        if (!$this->app->runningInConsole()) {
+        if (! $this->app->runningInConsole()) {
             return;
         }
 
@@ -84,7 +84,7 @@ class LaravelCoreServiceProvider extends ServiceProvider
      */
     protected function configurePublishing()
     {
-        if (!$this->app->runningInConsole()) {
+        if (! $this->app->runningInConsole()) {
             return;
         }
 
