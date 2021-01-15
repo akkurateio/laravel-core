@@ -31,6 +31,5 @@ class AccountForm extends Form
         if (config('laravel-admin.legal_info')) {
             $this->add('siren', 'text', ['label' => __('SIREN')]);
         }
-
     }
 }
