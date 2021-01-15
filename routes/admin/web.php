@@ -11,10 +11,4 @@ Route::group([
     Route::patch('accounts/{account}/toggle', 'AccountController@toggle')->name('accounts.toggle');
     Route::resource('accounts', 'AccountController');
     Route::resource('preferences', 'PreferenceController')->only('update');
-    if (config('laravel-i18n')) {
-        Route::patch('countries/{country}/toggle', 'CountryController@toggle')->name('countries.toggle');
-        Route::resource('countries', 'CountryController');
-        Route::patch('languages/{language}/toggle', 'LanguageController@toggle')->name('languages.toggle');
-        Route::resource('languages', 'LanguageController');
-    }
 });

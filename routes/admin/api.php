@@ -6,11 +6,6 @@ Route::group([
     'prefix' => config('laravel-admin.routes.api.prefix'),
     'as' => config('laravel-admin.routes.api.as')], function () {
 
-    if (config('laravel-i18n')) {
-        Route::apiResource('countries', 'CountryController');
-        Route::apiResource('languages', 'LanguageController');
-    }
-
     Route::apiResource('accounts', 'AccountController');
 
     /**
