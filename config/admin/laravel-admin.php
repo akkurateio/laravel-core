@@ -48,16 +48,6 @@ return [
             'label' => 'Utilisateurs',
             'route' => 'brain.admin.users.index',
         ],
-        'countries' => [
-            'menu' => false,
-            'label' => 'Pays',
-            'route' => 'brain.admin.countries.index',
-        ],
-        'languages' => [
-            'menu' => false,
-            'label' => 'Langues',
-            'route' => 'brain.admin.languages.index',
-        ],
         'roles' => [
             'menu' => true,
             'label' => 'Rôles',
@@ -67,30 +57,6 @@ return [
             'menu' => true,
             'label' => 'Permissions',
             'route' => 'brain.access.permissions.index',
-        ],
-    ],
-
-    /*
-     * Package CRUDs
-     */
-    'cruds' => [
-        'Country' => [
-            'views' => [
-                'index' => [
-                    'template' => 'table',
-                    'columns' => ['id', 'name',],
-                    'main' => 'name',
-                ],
-            ],
-        ],
-        'Language' => [
-            'views' => [
-                'index' => [
-                    'template' => 'table',
-                    'columns' => ['id', 'locale',],
-                    'main' => 'locale',
-                ],
-            ],
         ],
     ],
 
