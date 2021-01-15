@@ -17,16 +17,20 @@ class AccountForm extends Form
                 'attr' => [
                     'placeholder' => 'https://...'
                 ]
-            ])
-            ->add('internal_reference', 'text', [
+            ]);
+
+        if (config('laravel-admin.account_internal_reference')) {
+            $this->add('internal_reference', 'text', [
                 'label' => __('Référence interne d’identification'),
                 'attr' => [
                     'placeholder' => 'Ex. : MON-ORGANISATION-1'
                 ]
-            ])
-            ->add('siren', 'text', [
-                'label' => __('SIREN')
-            ])
-        ;
+            ]);
+        }
+
+        if (config('laravel-admin.legal_info')) {
+            $this->add('siren', 'text', ['label' => __('SIREN')]);
+        }
+
     }
 }
