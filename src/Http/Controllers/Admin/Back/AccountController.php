@@ -13,7 +13,7 @@ use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\CreateAccountRequest;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\UpdateAccountRequest;
 use Akkurate\LaravelCore\Repositories\Admin\AccountsRepository;
-use App\Models\Account;
+use Akkurate\LaravelAccountSubmodule\Models\Account;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Kris\LaravelFormBuilder\FormBuilder;

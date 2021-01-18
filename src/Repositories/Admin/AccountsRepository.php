@@ -2,7 +2,7 @@
 
 namespace Akkurate\LaravelCore\Repositories\Admin;
 
-use App\Models\Account;
+use Akkurate\LaravelAccountSubmodule\Models\Account;
 
 class AccountsRepository implements AccountsRepositoryInterface
 {

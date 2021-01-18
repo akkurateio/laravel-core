@@ -16,7 +16,7 @@ class Account
      */
     public function handle($request, Closure $next)
     {
-        $account = \App\Models\Account::where('slug', $request->uuid)->first();
+        $account = \Akkurate\LaravelAccountSubmodule\Models\Account::where('slug', $request->uuid)->first();
         if (! $account) {
             return redirect(config('laravel-core.admin.route') . '/' . Auth::user()->account->slug);
         }

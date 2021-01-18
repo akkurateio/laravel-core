@@ -4,7 +4,7 @@ namespace Akkurate\LaravelCore\Http\Controllers\Auth\Back;
 
 use Akkurate\LaravelCore\Events\Auth\UserConfirmed;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use App\Models\User;
+use Akkurate\LaravelAccountSubmodule\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;

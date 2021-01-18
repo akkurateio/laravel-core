@@ -9,7 +9,7 @@ use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Repositories\Admin\UsersRepository;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
-use App\Models\User;
+use Akkurate\LaravelAccountSubmodule\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;

@@ -8,7 +8,7 @@ use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Notifications\Me\InvitationNotification;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
-use App\Models\User;
+use Akkurate\LaravelAccountSubmodule\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\RedirectResponse;

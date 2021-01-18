@@ -6,7 +6,7 @@ use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Http\Requests\Admin\User\UpdateUserRequest;
 use Akkurate\LaravelCore\Http\Resources\Admin\User as UserResource;
 use Akkurate\LaravelCore\Http\Resources\Admin\UserCollection;
-use App\Models\User;
+use Akkurate\LaravelAccountSubmodule\Models\User;
 use Illuminate\Http\JsonResponse;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;

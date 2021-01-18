@@ -3,7 +3,7 @@
 namespace Akkurate\LaravelCore\Tests\Auth;
 
 use Akkurate\LaravelCore\Tests\TestCase;
-use App\Models\User;
+use Akkurate\LaravelAccountSubmodule\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;

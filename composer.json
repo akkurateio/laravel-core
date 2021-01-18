@@ -19,16 +19,12 @@
     "require": {
         "php": "^7.3",
         "ext-json": "*",
+        "akkurateio/laravel-account-submodule": "0.x-dev",
         "akkurateio/laravel-back-components": "0.x-dev",
         "akkurateio/laravel-search": "0.x-dev",
-        "cviebrock/eloquent-sluggable": "^8.0",
         "kris/laravel-form-builder": "^1.40",
         "spatie/laravel-json-api-paginate": "^1.7",
-        "spatie/laravel-query-builder": "^2.8",
-        "spatie/laravel-permission": "^3.0",
-        "webpatser/laravel-uuid": "^4.0",
-        "laravel/passport": "^10.0",
-        "laravel/ui": "^2.0|^3.0"
+        "spatie/laravel-query-builder": "^2.8"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0",
@@ -45,10 +41,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Akkurate\\LaravelCore\\Tests\\": "tests/",
-            "App\\": "stubs/app/",
-            "Database\\Seeders\\": "database/seeders",
-            "Database\\Factories\\": "database/factories"
+            "Akkurate\\LaravelCore\\Tests\\": "tests/"
         }
     },
     "extra": {
