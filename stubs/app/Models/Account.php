@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use Akkurate\LaravelCore\Traits\Admin\HasPreference;
-use Akkurate\LaravelCore\Traits\IsActivable;
+use App\Traits\IsActivable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +16,6 @@ use Webpatser\Uuid\Uuid;
 class Account extends Model implements Searchable
 {
     use HasRoles,
-        HasPreference,
         HasFactory,
         IsActivable,
         Sluggable,
@@ -122,5 +120,10 @@ class Account extends Model implements Searchable
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function preference()
+    {
+        return $this->morphOne(Preference::class, 'preferenceable');
     }
 }

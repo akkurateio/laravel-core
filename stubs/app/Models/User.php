@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use Akkurate\LaravelCore\Notifications\Auth\ResetPasswordNotification;
-use Akkurate\LaravelCore\Traits\Access\HasAccess;
-use Akkurate\LaravelCore\Traits\Admin\HasAccount;
-use Akkurate\LaravelCore\Traits\Admin\HasPreference;
-use Akkurate\LaravelCore\Traits\IsActivable;
+use App\Notifications\ResetPasswordNotification;
+use App\Traits\HasAccount;
+use App\Traits\IsActivable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,11 +18,9 @@ use Webpatser\Uuid\Uuid;
 class User extends Authenticatable implements Searchable
 {
     use HasApiTokens,
-        HasAccess,
         HasAccount,
         Notifiable,
         HasFactory,
-        HasPreference,
         IsActivable,
         HasRoles,
         SoftDeletes;
@@ -119,15 +115,16 @@ class User extends Authenticatable implements Searchable
         );
     }
 
-    /**
-     * Send the password reset notification.
-     *
-     * @param string $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token)
+    /*
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    public function preference()
     {
-        $this->notify(new ResetPasswordNotification($token));
+        return $this->morphOne(Preference::class, 'preferenceable');
     }
 
 
@@ -156,5 +153,59 @@ class User extends Authenticatable implements Searchable
     public function getNamefullAttribute()
     {
         return "{$this->lastname} {$this->firstname}";
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Functions
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param string $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        if (!empty(config('back-components'))) {
+            $this->notify(new ResetPasswordNotification($token));
+        }
+    }
+
+    /*
+     * Access Functions
+     */
+
+    public function agent()
+    {
+        return $this->can('manage tickets');
+    }
+
+    public function isAgent()
+    {
+        return $this->can('manage tickets');
+    }
+
+    public function superadmin()
+    {
+        return $this->hasRole('superadmin');
+    }
+
+    public function isSuperadmin()
+    {
+        return $this->hasRole('superadmin');
+    }
+
+    public function admin()
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
     }
 }

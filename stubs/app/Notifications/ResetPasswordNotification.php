@@ -1,6 +1,6 @@
 <?php
 
-namespace Akkurate\LaravelCore\Notifications\Auth;
+namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;

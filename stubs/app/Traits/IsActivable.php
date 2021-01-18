@@ -1,6 +1,6 @@
 <?php
 
-namespace Akkurate\LaravelCore\Traits;
+namespace App\Traits;
 
 /**
  * Trait IsActivable

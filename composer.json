@@ -37,9 +37,7 @@
     },
     "autoload" : {
         "psr-4": {
-            "Akkurate\\LaravelCore\\": "src/",
-            "Database\\Seeders\\": "database/seeders",
-            "Database\\Factories\\": "database/factories"
+            "Akkurate\\LaravelCore\\": "src/"
         },
         "files": [
             "helpers.php"
@@ -48,7 +46,9 @@
     "autoload-dev": {
         "psr-4": {
             "Akkurate\\LaravelCore\\Tests\\": "tests/",
-            "App\\": "stubs/app/"
+            "App\\": "stubs/app/",
+            "Database\\Seeders\\": "database/seeders",
+            "Database\\Factories\\": "database/factories"
         }
     },
     "extra": {
