@@ -2,6 +2,7 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Back;
 
+use Akkurate\LaravelAccountSubmodule\Models\Account;
 use Akkurate\LaravelContact\Models\Address;
 use Akkurate\LaravelContact\Models\Email;
 use Akkurate\LaravelContact\Models\Phone;
@@ -13,7 +14,6 @@ use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\CreateAccountRequest;
 use Akkurate\LaravelCore\Http\Requests\Admin\Account\UpdateAccountRequest;
 use Akkurate\LaravelCore\Repositories\Admin\AccountsRepository;
-use Akkurate\LaravelAccountSubmodule\Models\Account;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Kris\LaravelFormBuilder\FormBuilder;

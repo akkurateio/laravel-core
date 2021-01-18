@@ -4,14 +4,14 @@ namespace Akkurate\LaravelCore\Tests;
 
 use Akkurate\LaravelAccountSubmodule\Database\Seeders\DatabaseSeeder;
 use Akkurate\LaravelAccountSubmodule\LaravelAccountSubmoduleServiceProvider;
+use Akkurate\LaravelAccountSubmodule\Models\Account;
+use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelBackComponents\LaravelBackComponentsServiceProvider;
 use Akkurate\LaravelCore\LaravelCoreServiceProvider;
 use Akkurate\LaravelCore\Providers\LaravelAccessServiceProvider;
 use Akkurate\LaravelCore\Providers\LaravelAdminServiceProvider;
 use Akkurate\LaravelCore\Providers\LaravelAuthServiceProvider;
 use Akkurate\LaravelSearch\LaravelSearchServiceProvider;
-use Akkurate\LaravelAccountSubmodule\Models\Account;
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Cviebrock\EloquentSluggable\ServiceProvider as EloquentSluggableServiceProvider;
 use Kris\LaravelFormBuilder\FormBuilderServiceProvider;
 use Laravel\Passport\PassportServiceProvider;

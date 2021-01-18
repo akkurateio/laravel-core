@@ -2,6 +2,7 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Back;
 
+use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Forms\Admin\User\UserSearchForm;
 use Akkurate\LaravelCore\Forms\Admin\User\UserUpdateForm;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
@@ -9,7 +10,6 @@ use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Repositories\Admin\UsersRepository;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;

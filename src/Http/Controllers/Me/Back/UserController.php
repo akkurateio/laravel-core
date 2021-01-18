@@ -2,13 +2,13 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Me\Back;
 
+use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Forms\Me\User\CreateForm;
 use Akkurate\LaravelCore\Forms\Me\User\UpdateForm;
 use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Notifications\Me\InvitationNotification;
 use Akkurate\LaravelCore\Rules\Firstname;
 use Akkurate\LaravelCore\Rules\Lastname;
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\RedirectResponse;

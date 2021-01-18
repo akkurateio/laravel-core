@@ -2,9 +2,9 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Auth\Back;
 
+use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Events\Auth\UserConfirmed;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;

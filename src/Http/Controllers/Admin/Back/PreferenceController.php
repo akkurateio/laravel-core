@@ -2,8 +2,8 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Back;
 
-use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelAccountSubmodule\Models\Preference;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class PreferenceController extends Controller

@@ -2,11 +2,11 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Access\Api;
 
+use Akkurate\LaravelAccountSubmodule\Models\Account;
+use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Http\Resources\Access\Permission as PermissionResource;
 use Akkurate\LaravelCore\Http\Resources\Access\PermissionCollection;
-use Akkurate\LaravelAccountSubmodule\Models\Account;
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;

@@ -2,8 +2,8 @@
 
 namespace Akkurate\LaravelCore\Tests\Auth;
 
-use Akkurate\LaravelCore\Tests\TestCase;
 use Akkurate\LaravelAccountSubmodule\Models\User;
+use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 
