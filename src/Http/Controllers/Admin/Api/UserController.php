@@ -2,10 +2,10 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Api;
 
-use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelAccountSubmodule\Http\Requests\User\UpdateUserRequest;
 use Akkurate\LaravelAccountSubmodule\Http\Resources\User\User as UserResource;
 use Akkurate\LaravelAccountSubmodule\Http\Resources\User\UserCollection;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;

@@ -2,12 +2,12 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Me\Back;
 
+use Akkurate\LaravelAccountSubmodule\Rules\Firstname;
+use Akkurate\LaravelAccountSubmodule\Rules\Lastname;
 use Akkurate\LaravelCore\Forms\Me\User\CreateForm;
 use Akkurate\LaravelCore\Forms\Me\User\UpdateForm;
 use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Notifications\Me\InvitationNotification;
-use Akkurate\LaravelAccountSubmodule\Rules\Firstname;
-use Akkurate\LaravelAccountSubmodule\Rules\Lastname;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\RedirectResponse;
@@ -88,7 +88,7 @@ class UserController extends Controller
         if (! empty($userEmailAlreadyExist) && $userEmailAlreadyExist->restore()) {
             $user = user()->where('email', $validator->validated()['email'])->first();
 
-            if (!empty($language)) {
+            if (! empty($language)) {
                 $user->preference()->updateOrCreate([
                     'language_id' => $language->id
                 ]);
@@ -113,7 +113,7 @@ class UserController extends Controller
             if (config('laravel-me.send_invitation')) {
                 $user->notify(new InvitationNotification($user->activation_token, $user, auth()->user()));
             }
-            if(!empty($language)) {
+            if (! empty($language)) {
                 $user->preference()->updateOrCreate([
                     'language_id' => $language->id
                 ]);

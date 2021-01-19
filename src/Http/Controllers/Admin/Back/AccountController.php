@@ -2,6 +2,8 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Back;
 
+use Akkurate\LaravelAccountSubmodule\Http\Requests\Account\CreateAccountRequest;
+use Akkurate\LaravelAccountSubmodule\Http\Requests\Account\UpdateAccountRequest;
 use Akkurate\LaravelContact\Models\Address;
 use Akkurate\LaravelContact\Models\Email;
 use Akkurate\LaravelContact\Models\Phone;
@@ -10,8 +12,6 @@ use Akkurate\LaravelCore\Forms\Admin\Account\AccountCreateForm;
 use Akkurate\LaravelCore\Forms\Admin\Account\AccountSearchForm;
 use Akkurate\LaravelCore\Forms\Admin\Account\AccountUpdateForm;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelAccountSubmodule\Http\Requests\Account\CreateAccountRequest;
-use Akkurate\LaravelAccountSubmodule\Http\Requests\Account\UpdateAccountRequest;
 use Akkurate\LaravelCore\Repositories\Admin\AccountsRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -150,7 +150,7 @@ class AccountController extends Controller
     {
         $account = account()->where('id', $accountId)->first();
 
-        if(empty($account)) {
+        if (empty($account)) {
             return back()->withError('Aucun compte trouvé');
         }
 
@@ -169,7 +169,7 @@ class AccountController extends Controller
     {
         $account = account()->where('id', $accountId)->first();
 
-        if(empty($account)) {
+        if (empty($account)) {
             return back()->withError('Aucun compte trouvé');
         }
 
@@ -195,7 +195,7 @@ class AccountController extends Controller
     {
         $account = account()->where('id', $accountId)->first();
 
-        if(empty($account)) {
+        if (empty($account)) {
             return back()->withError('Aucun compte trouvé');
         }
 
@@ -234,7 +234,7 @@ class AccountController extends Controller
     {
         $account = account()->where('id', $accountId)->first();
 
-        if(empty($account)) {
+        if (empty($account)) {
             return back()->withError('Aucun compte trouvé');
         }
 
@@ -248,7 +248,7 @@ class AccountController extends Controller
     {
         $account = account()->where('id', $accountId)->first();
 
-        if(empty($account)) {
+        if (empty($account)) {
             return back()->withError('Aucun compte trouvé');
         }
 
@@ -267,7 +267,7 @@ class AccountController extends Controller
     {
         $account = account()->where('uuid', $uuid)->first();
 
-        if(empty($account)) {
+        if (empty($account)) {
             return back()->withError('Aucun compte trouvé');
         }
 

@@ -2,11 +2,11 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Auth\Back;
 
+use Akkurate\LaravelAccountSubmodule\Rules\Firstname;
+use Akkurate\LaravelAccountSubmodule\Rules\Lastname;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Notifications\Auth\UserRegisteredNotification;
-use Akkurate\LaravelAccountSubmodule\Rules\Firstname;
-use Akkurate\LaravelAccountSubmodule\Rules\Lastname;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;

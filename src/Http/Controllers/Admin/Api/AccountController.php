@@ -2,14 +2,14 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Api;
 
-use Akkurate\LaravelContact\Models\Address;
-use Akkurate\LaravelContact\Models\Email;
-use Akkurate\LaravelContact\Models\Phone;
-use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelAccountSubmodule\Http\Requests\Account\CreateAccountRequest;
 use Akkurate\LaravelAccountSubmodule\Http\Requests\Account\UpdateAccountRequest;
 use Akkurate\LaravelAccountSubmodule\Http\Resources\Account\Account as AccountResource;
 use Akkurate\LaravelAccountSubmodule\Http\Resources\Account\AccountCollection;
+use Akkurate\LaravelContact\Models\Address;
+use Akkurate\LaravelContact\Models\Email;
+use Akkurate\LaravelContact\Models\Phone;
+use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
