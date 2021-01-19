@@ -37,15 +37,10 @@ class InstallCore extends Command
         $this->call('account-submodule:install');
 
         $this->line('');
-        $this->line('One more things,');
+        $this->line('Fresh migrate is starting now');
+        $this->line('');
 
-        $answer = $this->choice('You prefer to launch fresh migrate or simple migrate ?', ['simple', 'fresh'], 'simple');
-
-        if ($answer === 'simple') {
-            $this->call('migrate', ['--seed' => true]);
-        } else {
-            $this->call('migrate:fresh', ['--seed' => true]);
-        }
+        $this->call('migrate:fresh', ['--seed' => true]);
 
         $this->line('');
         $this->call('passport:install');
