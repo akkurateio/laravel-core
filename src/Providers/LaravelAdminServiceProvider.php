@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Providers;
 
-use Akkurate\LaravelCore\Console\Admin\AdminSeed;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -38,12 +37,6 @@ class LaravelAdminServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../resources/admin/views' => resource_path('views/vendor/admin'),
         ], 'views');
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                AdminSeed::class
-            ]);
-        }
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Notifications\Auth;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Carbon\Carbon;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Bus\Queueable;
@@ -21,9 +20,9 @@ class UserRegisteredNotification extends VerifyEmail implements ShouldQueue
     /**
      * Create a new message instance.
      *
-     * @param User $user
+     * @param $user
      */
-    public function __construct(User $user)
+    public function __construct($user)
     {
         if (empty($user->activation_token)) {
             $user->update([

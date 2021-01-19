@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Tests\Auth;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
@@ -11,7 +10,7 @@ class RegisterApiTest extends TestCase
 {
     use WithFaker;
 
-    /** @test **/
+    /** @test * */
     public function it_should_register_a_user_with_password()
     {
         $this->withoutNotifications();
@@ -31,11 +30,11 @@ class RegisterApiTest extends TestCase
         ]));
         $response->assertStatus(201);
 
-        $user = User::where('email', $email)->first();
+        $user = user()->where('email', $email)->first();
         $this->assertDatabaseHas('users', ['id' => $user->id]);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_register_a_user_without_password()
     {
         $this->withoutNotifications();
@@ -50,7 +49,7 @@ class RegisterApiTest extends TestCase
         ]));
         $response->assertStatus(201);
 
-        $user = User::where('email', $email)->first();
+        $user = user()->where('email', $email)->first();
         $this->assertDatabaseHas('users', ['id' => $user->id]);
     }
 }

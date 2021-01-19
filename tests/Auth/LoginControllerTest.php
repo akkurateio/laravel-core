@@ -9,7 +9,7 @@ class LoginControllerTest extends TestCase
 {
     use WithFaker;
 
-    /** @test **/
+    /** @test * */
     public function it_should_log_out_user()
     {
         $this->assertAuthenticatedAs($this->user);

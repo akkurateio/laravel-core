@@ -3,7 +3,7 @@
 namespace Akkurate\LaravelCore\Http\Controllers\Auth\Api;
 
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelCore\Http\Resources\Admin\User as UserResource;
+use Akkurate\LaravelAccountSubmodule\Http\Resources\User\User as UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;

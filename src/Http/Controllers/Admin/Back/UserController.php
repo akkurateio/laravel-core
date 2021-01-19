@@ -8,8 +8,8 @@ use Akkurate\LaravelCore\Forms\Admin\User\UserUpdateForm;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Repositories\Admin\UsersRepository;
-use Akkurate\LaravelCore\Rules\Firstname;
-use Akkurate\LaravelCore\Rules\Lastname;
+use Akkurate\LaravelAccountSubmodule\Rules\Firstname;
+use Akkurate\LaravelAccountSubmodule\Rules\Lastname;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -20,7 +20,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(User::class, 'user');
+        $this->authorizeResource(userClass(), 'user');
     }
 
     /**
@@ -45,12 +45,12 @@ class UserController extends Controller
         $roleFilter = request('role') && request('role') != 'all';
         $search = $q || $statusFilter || $accountFilter || $roleFilter;
         $searchResults = $repository->search($q);
-        $all = User::FromAdministrableAccount()->get()->mapToGroups(function ($item, $key) {
+        $all = user()->FromAdministrableAccount()->get()->mapToGroups(function ($item, $key) {
             return [substr($item['lastname'], 0, 1) => $item];
         })->sortKeys();
 
-        $lastUpdated = User::fromAdministrableAccount()->orderBy('updated_at', 'desc')->take(pagination())->get();
-        $lastCreated = User::fromAdministrableAccount()->orderBy('created_at', 'desc')->take(pagination())->get();
+        $lastUpdated = user()->fromAdministrableAccount()->orderBy('updated_at', 'desc')->take(pagination())->get();
+        $lastCreated = user()->fromAdministrableAccount()->orderBy('created_at', 'desc')->take(pagination())->get();
 
         return view('admin::back.users.search', compact('form', 'q', 'search', 'searchResults', 'all', 'lastUpdated', 'lastCreated'));
     }
@@ -58,9 +58,9 @@ class UserController extends Controller
     public function show($uuid, $userId)
     {
         if (config('laravel-i18n')) {
-            $user = User::where('id', $userId)->with(['preference.language'])->first();
+            $user = user()->where('id', $userId)->with(['preference.language'])->first();
         } else {
-            $user = User::where('id', $userId)->first();
+            $user = user()->where('id', $userId)->first();
         }
 
         if (empty($user)) {
@@ -73,9 +73,9 @@ class UserController extends Controller
     public function edit($uuid, FormBuilder $formBuilder, $userId)
     {
         if (config('laravel-i18n')) {
-            $user = User::where('id', $userId)->with(['preference.language'])->first();
+            $user = user()->where('id', $userId)->with(['preference.language'])->first();
         } else {
-            $user = User::where('id', $userId)->first();
+            $user = user()->where('id', $userId)->first();
         }
         if (empty($user)) {
             return back()->withError('Utilisateur introuvable');
@@ -95,7 +95,7 @@ class UserController extends Controller
 
     public function update($uuid, Request $request, $userId)
     {
-        $user = User::where('id', $userId)->first();
+        $user = user()->where('id', $userId)->first();
 
         if (empty($user)) {
             return back()->withError('Utilisateur introuvable');
@@ -138,7 +138,7 @@ class UserController extends Controller
 
     public function assignRole($uuid, Request $request, $userId)
     {
-        $user = User::where('id', $userId)->first();
+        $user = user()->where('id', $userId)->first();
 
         if (empty($user)) {
             return back()->withError('Utilisateur introuvable');
@@ -167,7 +167,7 @@ class UserController extends Controller
      */
     public function destroy($uuid, Request $request, $userId)
     {
-        $user = User::where('id', $userId)->first();
+        $user = user()->where('id', $userId)->first();
 
         if (empty($user)) {
             return back()->withError(__('Utilisateur introuvable'));

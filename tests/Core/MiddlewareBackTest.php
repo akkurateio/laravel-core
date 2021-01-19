@@ -11,7 +11,7 @@ class MiddlewareBackTest extends TestCase
     /** @test */
     public function it_should_redirect_the_user_to_login()
     {
-        $user = User::forceCreate([
+        $user = user()->forceCreate([
             'firstname' => 'User',
             'lastname' => 'Lastname',
             'email' => 'user@email.com',

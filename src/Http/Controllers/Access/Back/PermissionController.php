@@ -2,8 +2,6 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Access\Back;
 
-use Akkurate\LaravelAccountSubmodule\Models\Account;
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Forms\Access\Permission\PermissionAbstractForm;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Exception;
@@ -164,9 +162,9 @@ class PermissionController extends Controller
      */
     public function givePermission($uuid, $modelUuid, Request $request)
     {
-        $model = User::where('uuid', $modelUuid)->first();
+        $model = user()->where('uuid', $modelUuid)->first();
         if (empty($model)) {
-            $model = Account::where('uuid', $modelUuid)->first();
+            $model = account()->where('uuid', $modelUuid)->first();
         }
         if (empty($model)) {
             return back()->withError(trans('Aucun model trouvé'));
@@ -191,9 +189,9 @@ class PermissionController extends Controller
      */
     public function revokePermission($uuid, $modelUuid, Request $request)
     {
-        $model = User::where('uuid', $modelUuid)->first();
+        $model = user()->where('uuid', $modelUuid)->first();
         if (! $model) {
-            $model = Account::where('uuid', $modelUuid)->first();
+            $model = account()->where('uuid', $modelUuid)->first();
         }
         if (! $model) {
             return back()->withError(trans('Aucun model trouvé'));

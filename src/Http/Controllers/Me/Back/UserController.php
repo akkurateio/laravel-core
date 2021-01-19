@@ -2,13 +2,12 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Me\Back;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Forms\Me\User\CreateForm;
 use Akkurate\LaravelCore\Forms\Me\User\UpdateForm;
 use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Notifications\Me\InvitationNotification;
-use Akkurate\LaravelCore\Rules\Firstname;
-use Akkurate\LaravelCore\Rules\Lastname;
+use Akkurate\LaravelAccountSubmodule\Rules\Firstname;
+use Akkurate\LaravelAccountSubmodule\Rules\Lastname;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\RedirectResponse;
@@ -34,7 +33,7 @@ class UserController extends Controller
      */
     public function index($uuid)
     {
-        $all = User::where('account_id', auth()->user()->account_id)
+        $all = user()->where('account_id', auth()->user()->account_id)
             ->get();
 
         return view('me::back.users.index', compact('all'));
@@ -80,21 +79,26 @@ class UserController extends Controller
                 ->withInput();
         }
 
-        $language = Language::where('is_default', true)->first();
-        $userEmailAlreadyExist = User::where('email', $validator->validated()['email'])->withTrashed()->first();
+        if (config('laravel-i18n')) {
+            $language = Language::where('id', $request->language)->first();
+        }
+
+        $userEmailAlreadyExist = user()->where('email', $validator->validated()['email'])->withTrashed()->first();
 
         if (! empty($userEmailAlreadyExist) && $userEmailAlreadyExist->restore()) {
-            $user = User::where('email', $validator->validated()['email'])->first();
+            $user = user()->where('email', $validator->validated()['email'])->first();
 
-            $user->preference()->updateOrCreate([
-                'language_id' => $language->id
-            ]);
+            if (!empty($language)) {
+                $user->preference()->updateOrCreate([
+                    'language_id' => $language->id
+                ]);
+            }
 
             return redirect()
                 ->route('brain.me.users.index', ['uuid' => $uuid])
                 ->withSuccess(__($validator->validated()['firstname'] . ' ' . $validator->validated()['lastname'] . ' a été réactivé avec succès'));
         } else {
-            $user = User::create([
+            $user = user()->create([
                 'firstname' => ucfirst($validator->validated()['firstname']),
                 'lastname' => ucfirst($validator->validated()['lastname']),
                 'email' => $validator->validated()['email'],
@@ -109,10 +113,11 @@ class UserController extends Controller
             if (config('laravel-me.send_invitation')) {
                 $user->notify(new InvitationNotification($user->activation_token, $user, auth()->user()));
             }
-
-            $user->preference()->updateOrCreate([
-                'language_id' => $language->id
-            ]);
+            if(!empty($language)) {
+                $user->preference()->updateOrCreate([
+                    'language_id' => $language->id
+                ]);
+            }
 
             return redirect()
                 ->route('brain.me.users.index', ['uuid' => $uuid])
@@ -130,7 +135,7 @@ class UserController extends Controller
      */
     public function edit($uuid, $userUuid, FormBuilder $formBuilder)
     {
-        $user = User::where('uuid', $userUuid)->first();
+        $user = user()->where('uuid', $userUuid)->first();
 
         if (empty($user)) {
             return back()->withError(__('Utilisateur introuvable'));
@@ -157,7 +162,7 @@ class UserController extends Controller
      */
     public function update($uuid, $userUuid, Request $request)
     {
-        $user = User::where('uuid', $userUuid)->where('is_active', true)->first();
+        $user = user()->where('uuid', $userUuid)->where('is_active', true)->first();
 
         if (empty($user)) {
             return back()->withError(__('Utilisateur inactif'));
@@ -193,7 +198,7 @@ class UserController extends Controller
      */
     public function softDelete($uuid, $userUuid, Request $request)
     {
-        $user = User::where('uuid', $userUuid)->first();
+        $user = user()->where('uuid', $userUuid)->first();
 
         if (empty($user)) {
             return back()->withError(__('Utilisateur introuvable'));
@@ -213,7 +218,7 @@ class UserController extends Controller
      */
     public function reinvit($accountUuid, $userUuid)
     {
-        $user = User::where('uuid', $userUuid)->firstOrFail();
+        $user = user()->where('uuid', $userUuid)->firstOrFail();
 
         $user->notify(new InvitationNotification($user->activation_token, $user, auth()->user()));
 
@@ -229,7 +234,7 @@ class UserController extends Controller
      */
     public function toggle($accountUuid, $userUuid)
     {
-        $user = User::where('uuid', $userUuid)->first();
+        $user = user()->where('uuid', $userUuid)->first();
 
         $user->update([
             'is_active' => ! $user->is_active

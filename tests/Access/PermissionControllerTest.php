@@ -12,7 +12,7 @@ class PermissionControllerTest extends TestCase
     use WithFaker;
     use WithoutMiddleware;
 
-    /** @test **/
+    /** @test * */
     public function it_should_return_the_permissions_index()
     {
         $response = $this->get(route('brain.access.permissions.index', [
@@ -21,7 +21,7 @@ class PermissionControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_redirect_to_a_permission_edit_view()
     {
         $permission = Permission::first();
@@ -30,10 +30,10 @@ class PermissionControllerTest extends TestCase
             'uuid' => $this->user->account->slug,
             'permission' => $permission->id
         ]));
-        $response->assertRedirect('brain/'. $this->user->account->slug .'/access/permissions/'. $permission->id . '/edit');
+        $response->assertRedirect('brain/' . $this->user->account->slug . '/access/permissions/' . $permission->id . '/edit');
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_return_an_create_permission_view()
     {
         $response = $this->get(route('brain.access.permissions.create', [
@@ -42,7 +42,7 @@ class PermissionControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_create_a_permission()
     {
         $response = $this->post(route('brain.access.permissions.store', [
@@ -50,13 +50,13 @@ class PermissionControllerTest extends TestCase
             'name' => 'test',
         ]));
 
-        $response->assertRedirect('brain/'. $this->user->account->slug .'/access/permissions/');
+        $response->assertRedirect('brain/' . $this->user->account->slug . '/access/permissions/');
 
         $permission = Permission::where('name', 'test')->first();
         $this->assertDatabaseHas('permissions', ['id' => $permission->id]);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_return_an_edit_permission_view()
     {
         $permission = Permission::first();
@@ -81,7 +81,7 @@ class PermissionControllerTest extends TestCase
         $this->assertDatabaseHas('permissions', ['id' => $permission->id]);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_delete_a_permission_and_redirect_back()
     {
         $permission = Permission::first();
@@ -95,7 +95,7 @@ class PermissionControllerTest extends TestCase
         $this->assertDatabaseMissing('permissions', ['id' => $permission->id]);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_give_a_permission_to_a_user_and_redirect_back()
     {
         $response = $this->post(route('brain.access.permission.give', [
@@ -106,7 +106,7 @@ class PermissionControllerTest extends TestCase
         $response->assertRedirect();
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_revoke_a_permission_to_a_user_and_redirect_back()
     {
         $response = $this->post(route('brain.access.permission.revoke', [

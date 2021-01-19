@@ -2,13 +2,11 @@
 
 namespace Akkurate\LaravelCore\Repositories\Admin;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
-
 class UsersRepository implements UsersRepositoryInterface
 {
     public function search(string $query = null)
     {
-        $users = User::whereHas('account', function ($q) {
+        $users = user()->whereHas('account', function ($q) {
             $query = request('q');
             $q->where('name', 'like', "%{$query}%");
         })

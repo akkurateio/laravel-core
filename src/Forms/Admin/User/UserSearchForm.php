@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Forms\Admin\User;
 
-use Akkurate\LaravelAccountSubmodule\Models\Account;
 use Illuminate\Support\Arr;
 use Kris\LaravelFormBuilder\Form;
 use Spatie\Permission\Models\Role;
@@ -11,7 +10,7 @@ class UserSearchForm extends Form
 {
     public function buildForm()
     {
-        $accounts = Account::administrable()->active()->orderBy('name')->get();
+        $accounts = account()->administrable()->active()->orderBy('name')->get();
         $accountsSelect = Arr::prepend($accounts->pluck('name', 'id')->toArray(), 'Tous', 0);
 
         $roles = Role::all();

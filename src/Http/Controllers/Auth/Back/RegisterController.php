@@ -2,12 +2,11 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Auth\Back;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Akkurate\LaravelCore\Models\Language;
 use Akkurate\LaravelCore\Notifications\Auth\UserRegisteredNotification;
-use Akkurate\LaravelCore\Rules\Firstname;
-use Akkurate\LaravelCore\Rules\Lastname;
+use Akkurate\LaravelAccountSubmodule\Rules\Firstname;
+use Akkurate\LaravelAccountSubmodule\Rules\Lastname;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -85,18 +84,18 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param array $data
-     * @return User
+     * @return mixed
      */
-    protected function create(array $data): User
+    protected function create(array $data)
     {
         if (! \Schema::hasColumn('users', 'firstname') && ! \Schema::hasColumn('users', 'lastname')) {
-            $user = User::create([
+            $user = user()->create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => config('laravel-auth.allow_register') ? Hash::make($data['password']) : Hash::make(Str::random(20)),
             ]);
         } else {
-            $user = User::create([
+            $user = user()->create([
                 'firstname' => $data['firstname'],
                 'lastname' => $data['lastname'],
                 'email' => $data['email'],

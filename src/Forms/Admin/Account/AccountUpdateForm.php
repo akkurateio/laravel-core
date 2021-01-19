@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Forms\Admin\Account;
 
-use Akkurate\LaravelCore\Models\Country;
 use Kris\LaravelFormBuilder\Form;
 
 class AccountUpdateForm extends Form
@@ -15,7 +14,7 @@ class AccountUpdateForm extends Form
             ->add('website', 'text', ['label' => __('Website'), 'attr' => ['class' => 'form-control form-control-sm']]);
 
         if (config('laravel-i18n')) {
-            $countries = Country::where('is_active', 1)->get();
+            $countries = \Akkurate\LaravelCore\Models\Country::where('is_active', 1)->get();
             $countriesSelect = $countries->pluck('name', 'id')->toArray();
             $this->add('country_id', 'select', ['label' => __('Pays'), 'rules' => 'integer', 'choices' => $countriesSelect, 'attr' => ['class' => 'form-control form-control-sm'], 'wrapper' => ['class' => 'mb-3']]);
         }

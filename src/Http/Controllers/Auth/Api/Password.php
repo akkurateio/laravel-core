@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Auth\Api;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -10,7 +9,7 @@ class Password
 {
     public function update(Request $request, $userId)
     {
-        $user = User::where('id', $userId)->first();
+        $user = user()->where('id', $userId)->first();
 
         if (empty($user)) {
             return response()->json(['message' => 'Utilisateur introuvable'], 404);

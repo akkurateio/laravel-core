@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Forms\Me;
 
-use Akkurate\LaravelCore\Models\Language;
 use Kris\LaravelFormBuilder\Form;
 
 class PreferencesForm extends Form
@@ -25,7 +24,7 @@ class PreferencesForm extends Form
             ]);
 
         if (config('laravel-i18n')) {
-            $languages = Language::orderBy('locale_php', 'asc')->get();
+            $languages = \Akkurate\LaravelCore\Models\Language::orderBy('locale_php', 'asc')->get();
             $languagesChoices = [];
             foreach ($languages as $language) {
                 $languagesChoices[$language->id] = $language->locale_php;

@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Forms\Admin\Account;
 
-use Akkurate\LaravelCore\Models\Country;
 use Kris\LaravelFormBuilder\Form;
 
 class AccountCreateForm extends Form
@@ -24,7 +23,7 @@ class AccountCreateForm extends Form
         }
 
         if (config('laravel-i18n')) {
-            $countries = Country::where('is_active', 1)->get();
+            $countries = \Akkurate\LaravelCore\Models\Country::where('is_active', 1)->get();
             $countriesSelect = $countries->pluck('name', 'id')->toArray();
             $this->add('country_id', 'select', ['label' => __('Pays'), 'rules' => 'integer', 'choices' => $countriesSelect, 'attr' => ['class' => 'form-control form-control-sm']]);
         }
@@ -42,7 +41,7 @@ class AccountCreateForm extends Form
         }
 
         if (config('laravel-business')) {
-            $legal_formsSelect = Akkurate\LaravelBusiness\Models\LegalForm::all()->pluck('name', 'id')->toArray();
+            $legal_formsSelect = \Akkurate\LaravelBusiness\Models\LegalForm::all()->pluck('name', 'id')->toArray();
             if (count($legal_formsSelect) == 0) {
                 $this->add('legal_form_id', 'select', ['label' => __('Forme juridique'), 'choices' => $legal_formsSelect, 'attr' => ['class' => 'form-control form-control-sm'], 'empty_value' => 'Vous devez ajoutez des formes juridiques']);
             } elseif (count($legal_formsSelect) == 1) {

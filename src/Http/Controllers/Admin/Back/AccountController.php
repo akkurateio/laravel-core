@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Back;
 
-use Akkurate\LaravelAccountSubmodule\Models\Account;
 use Akkurate\LaravelContact\Models\Address;
 use Akkurate\LaravelContact\Models\Email;
 use Akkurate\LaravelContact\Models\Phone;
@@ -11,8 +10,8 @@ use Akkurate\LaravelCore\Forms\Admin\Account\AccountCreateForm;
 use Akkurate\LaravelCore\Forms\Admin\Account\AccountSearchForm;
 use Akkurate\LaravelCore\Forms\Admin\Account\AccountUpdateForm;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelCore\Http\Requests\Admin\Account\CreateAccountRequest;
-use Akkurate\LaravelCore\Http\Requests\Admin\Account\UpdateAccountRequest;
+use Akkurate\LaravelAccountSubmodule\Http\Requests\Account\CreateAccountRequest;
+use Akkurate\LaravelAccountSubmodule\Http\Requests\Account\UpdateAccountRequest;
 use Akkurate\LaravelCore\Repositories\Admin\AccountsRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -22,7 +21,7 @@ class AccountController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Account::class, 'account');
+        $this->authorizeResource(accountClass(), 'account');
     }
 
     /**
@@ -42,12 +41,12 @@ class AccountController extends Controller
         $q = (string)request('q');
         $search = $q ;
         $searchResults = $repository->search($q);
-        $all = Account::administrable()->get()->mapToGroups(function ($item, $key) {
+        $all = account()->administrable()->get()->mapToGroups(function ($item, $key) {
             return [strtoupper(substr($item['name'], 0, 1)) => $item];
         })->sortKeys();
 
-        $lastUpdated = Account::administrable()->orderBy('updated_at', 'desc')->take(pagination())->get();
-        $lastCreated = Account::administrable()->orderBy('created_at', 'desc')->take(pagination())->get();
+        $lastUpdated = account()->administrable()->orderBy('updated_at', 'desc')->take(pagination())->get();
+        $lastCreated = account()->administrable()->orderBy('created_at', 'desc')->take(pagination())->get();
 
         return view('admin::back.accounts.search', compact('form', 'q', 'search', 'searchResults', 'all', 'lastUpdated', 'lastCreated'));
     }
@@ -79,7 +78,7 @@ class AccountController extends Controller
      */
     public function store($uuid, CreateAccountRequest $request)
     {
-        $account = Account::create($request->validated());
+        $account = account()->create($request->validated());
 
         $params = json_encode([
             'registry_siret' => $request['registry_siret'] ?? '',
@@ -149,7 +148,11 @@ class AccountController extends Controller
 
     public function show($uuid, $accountId)
     {
-        $account = Account::where('id', $accountId)->first();
+        $account = account()->where('id', $accountId)->first();
+
+        if(empty($account)) {
+            return back()->withError('Aucun compte trouvé');
+        }
 
         return redirect()->route('brain.admin.accounts.edit', ['account' => $account, 'uuid' => $uuid]);
     }
@@ -164,7 +167,12 @@ class AccountController extends Controller
      */
     public function edit($uuid, FormBuilder $formBuilder, $accountId)
     {
-        $account = Account::where('id', $accountId)->first();
+        $account = account()->where('id', $accountId)->first();
+
+        if(empty($account)) {
+            return back()->withError('Aucun compte trouvé');
+        }
+
         $form = $formBuilder->create(AccountUpdateForm::class, [
             'method' => 'PUT',
             'url' => route('brain.admin.accounts.update', ['account' => $account, 'uuid' => $uuid]),
@@ -185,7 +193,12 @@ class AccountController extends Controller
      */
     public function update($uuid, $accountId, UpdateAccountRequest $request)
     {
-        $account = Account::where('id', $accountId)->first();
+        $account = account()->where('id', $accountId)->first();
+
+        if(empty($account)) {
+            return back()->withError('Aucun compte trouvé');
+        }
+
         $account->update(array_merge(
             $request->validated(),
             ['is_active' => $request->filled('is_active')]
@@ -219,15 +232,26 @@ class AccountController extends Controller
      */
     public function destroy($uuid, $accountId)
     {
-        $account = Account::where('id', $accountId)->first();
+        $account = account()->where('id', $accountId)->first();
+
+        if(empty($account)) {
+            return back()->withError('Aucun compte trouvé');
+        }
+
         $account->delete();
 
         return redirect()->route('brain.admin.accounts.index', ['uuid' => $uuid])
             ->withSuccess(trans('Compte') . ' ' . trans('supprimé avec succès'));
     }
 
-    public function toggle(Account $account)
+    public function toggle($accountId)
     {
+        $account = account()->where('id', $accountId)->first();
+
+        if(empty($account)) {
+            return back()->withError('Aucun compte trouvé');
+        }
+
         $account->update([
             'is_active' => ! $account->is_active
         ]);
@@ -241,6 +265,12 @@ class AccountController extends Controller
      */
     public function getTarget($uuid)
     {
-        return response()->json(Account::where('uuid', $uuid)->firstOrFail()->target(), 200);
+        $account = account()->where('uuid', $uuid)->first();
+
+        if(empty($account)) {
+            return back()->withError('Aucun compte trouvé');
+        }
+
+        return response()->json($account->target(), 200);
     }
 }

@@ -2,16 +2,14 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Api;
 
-use Akkurate\LaravelAccountSubmodule\Models\Account;
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelContact\Models\Address;
 use Akkurate\LaravelContact\Models\Email;
 use Akkurate\LaravelContact\Models\Phone;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelCore\Http\Requests\Admin\Account\CreateAccountRequest;
-use Akkurate\LaravelCore\Http\Requests\Admin\Account\UpdateAccountRequest;
-use Akkurate\LaravelCore\Http\Resources\Admin\Account as AccountResource;
-use Akkurate\LaravelCore\Http\Resources\Admin\AccountCollection;
+use Akkurate\LaravelAccountSubmodule\Http\Requests\Account\CreateAccountRequest;
+use Akkurate\LaravelAccountSubmodule\Http\Requests\Account\UpdateAccountRequest;
+use Akkurate\LaravelAccountSubmodule\Http\Resources\Account\Account as AccountResource;
+use Akkurate\LaravelAccountSubmodule\Http\Resources\Account\AccountCollection;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +20,7 @@ class AccountController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Account::class, 'account');
+        $this->authorizeResource(accountClass(), 'account');
     }
 
     /**
@@ -33,7 +31,7 @@ class AccountController extends Controller
     public function index()
     {
         return new AccountCollection(
-            QueryBuilder::for(Account::class)
+            QueryBuilder::for(accountClass())
             ->administrable()
             ->allowedFilters([
                 'uuid',
@@ -60,7 +58,7 @@ class AccountController extends Controller
      */
     public function store($uuid, CreateAccountRequest $request)
     {
-        $account = Account::create($request->validated());
+        $account = account()->create($request->validated());
 
         $params = json_encode([
             'registry_siret' => $request['registry_siret'] ?? '',
@@ -131,12 +129,13 @@ class AccountController extends Controller
      * Update the specified resource in storage.
      *
      * @param $uuid
-     * @param Account $account
+     * @param $accountId
      * @param UpdateAccountRequest $request
      * @return AccountResource
      */
-    public function update($uuid, Account $account, UpdateAccountRequest $request)
+    public function update($uuid, $accountId, UpdateAccountRequest $request)
     {
+        $account = account()->where('id', $accountId)->firstOrFail();
         $account->update($request->validated());
 
         return new AccountResource($account);
@@ -146,11 +145,13 @@ class AccountController extends Controller
      * Display the specified resource.
      *
      * @param $uuid
-     * @param Account $account
-     * @return AccountResource
+     * @param $accountId
+     * @return JsonResponse | AccountResource
      */
-    public function show($uuid, Account $account)
+    public function show($uuid, $accountId)
     {
+        $account = account()->where('id', $accountId)->firstOrFail();
+
         return new AccountResource($account);
     }
 
@@ -158,12 +159,14 @@ class AccountController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $uuid
-     * @param Account $account
+     * @param $accountId
      * @return JsonResponse
      * @throws Exception
      */
-    public function destroy($uuid, Account $account)
+    public function destroy($uuid, $accountId)
     {
+        $account = account()->where('id', $accountId)->firstOrFail();
+        
         if ($account->id === auth()->user()->account->id) {
             return response()->json([
                 'message' => 'Vous ne pouvez pas supprimer votre propre compte.'
@@ -177,36 +180,42 @@ class AccountController extends Controller
 
     /**
      * @param $uuid
-     * @param Account $account
+     * @param $accountId
      * @return JsonResponse
      */
-    public function findUsers($uuid, Account $account)
+    public function findUsers($uuid, $accountId)
     {
+        $account = account()->where('id', $accountId)->firstOrFail();
+
         return response()->json($account->users, 200);
     }
 
     /**
      * @param $uuid
-     * @param Account $account
+     * @param $accountId
      * @param Request $request
      * @return JsonResponse
      */
-    public function attachUser($uuid, Account $account, Request $request)
+    public function attachUser($uuid, $accountId, Request $request)
     {
-        $account->users()->attach(User::whereIn('id', $request->get('users'))->get());
+        $account = account()->where('id', $accountId)->firstOrFail();
+
+        $account->users()->attach(user()->whereIn('id', $request->get('users'))->get());
 
         return response()->json($account, 200);
     }
 
     /**
      * @param $uuid
-     * @param Account $account
+     * @param $accountId
      * @param Request $request
      * @return JsonResponse
      */
-    public function detachUser($uuid, Account $account, Request $request)
+    public function detachUser($uuid, $accountId, Request $request)
     {
-        $account->users()->detach(User::whereIn('id', $request->get('users'))->get());
+        $account = account()->where('id', $accountId)->firstOrFail();
+
+        $account->users()->detach(user()->whereIn('id', $request->get('users'))->get());
 
         return response()->json($account, 200);
     }
@@ -217,6 +226,8 @@ class AccountController extends Controller
      */
     public function getTarget($uuid)
     {
-        return response()->json(Account::where('uuid', $uuid)->firstOrFail()->target(), 200);
+        $account = account()->where('uuid', $uuid)->firstOrFail();
+
+        return response()->json($account->target(), 200);
     }
 }

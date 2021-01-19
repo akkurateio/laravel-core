@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Tests\Core;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\Passport;
@@ -12,7 +11,7 @@ class MiddlewareApiTest extends TestCase
     /** @test */
     public function it_should_return_an_invalid_user_response()
     {
-        $user = User::forceCreate([
+        $user = user()->forceCreate([
             'firstname' => 'User',
             'lastname' => 'Lastname',
             'email' => 'user@email.com',

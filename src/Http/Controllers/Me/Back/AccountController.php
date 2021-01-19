@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Me\Back;
 
-use Akkurate\LaravelAccountSubmodule\Models\Account;
 use Akkurate\LaravelBusiness\Models\LegalForm;
 use Akkurate\LaravelContact\Models\Address;
 use Akkurate\LaravelContact\Models\Email;
@@ -10,7 +9,7 @@ use Akkurate\LaravelContact\Models\Phone;
 use Akkurate\LaravelContact\Models\Type;
 use Akkurate\LaravelCore\Forms\Me\AccountForm;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelCore\Http\Requests\Admin\Account\CreateAccountRequest;
+use Akkurate\LaravelAccountSubmodule\Http\Requests\Account\CreateAccountRequest;
 use Akkurate\LaravelCore\Models\Language;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -48,7 +47,7 @@ class AccountController extends Controller
      */
     public function store($uuid, CreateAccountRequest $request)
     {
-        $account = Account::create($request->validated());
+        $account = account()->create($request->validated());
 
         $params = json_encode([
             'registry_siret' => $request['registry_siret'] ?? '',

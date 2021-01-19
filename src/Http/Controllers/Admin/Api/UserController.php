@@ -2,11 +2,10 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Admin\Api;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelCore\Http\Requests\Admin\User\UpdateUserRequest;
-use Akkurate\LaravelCore\Http\Resources\Admin\User as UserResource;
-use Akkurate\LaravelCore\Http\Resources\Admin\UserCollection;
+use Akkurate\LaravelAccountSubmodule\Http\Requests\User\UpdateUserRequest;
+use Akkurate\LaravelAccountSubmodule\Http\Resources\User\User as UserResource;
+use Akkurate\LaravelAccountSubmodule\Http\Resources\User\UserCollection;
 use Illuminate\Http\JsonResponse;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -15,7 +14,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(User::class, 'user');
+        $this->authorizeResource(userClass(), 'user');
     }
 
     /**
@@ -26,7 +25,7 @@ class UserController extends Controller
     public function index()
     {
         return new UserCollection(
-            QueryBuilder::for(User::class)
+            QueryBuilder::for(userClass())
             ->fromAdministrableAccount()
             ->allowedFilters([
                 'account_id',
@@ -48,11 +47,13 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param $uuid
-     * @param  User $user
+     * @param  $userId
      * @return UserResource
      */
-    public function show($uuid, User $user)
+    public function show($uuid, $userId)
     {
+        $user = user()->where('id', $userId)->firstOrFail();
+        
         return new UserResource($user);
     }
 
@@ -60,11 +61,13 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  UpdateUserRequest $request
-     * @param  User $user
+     * @param  $userId
      * @return UserResource
      */
-    public function update($uuid, UpdateUserRequest $request, User $user)
+    public function update($uuid, UpdateUserRequest $request, $userId)
     {
+        $user = user()->where('id', $userId)->firstOrFail();
+
         $user->update($request->all());
 
         return new UserResource($user);
@@ -79,7 +82,7 @@ class UserController extends Controller
      */
     public function destroy($uuid, $userId)
     {
-        $user = User::where('id', $userId)->firstOrFail();
+        $user = user()->where('id', $userId)->firstOrFail();
 
         if (auth()->user()->account->id != $user->account->id) {
             return response()->json(['message' => 'You are not authorized to delete this user'], 403);

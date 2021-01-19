@@ -3,8 +3,8 @@
 namespace Akkurate\LaravelCore\Http\Controllers\Access\Api;
 
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelCore\Http\Resources\Access\Role as RoleResource;
-use Akkurate\LaravelCore\Http\Resources\Access\RoleCollection;
+use Akkurate\LaravelAccountSubmodule\Http\Resources\Role\Role as RoleResource;
+use Akkurate\LaravelAccountSubmodule\Http\Resources\Role\RoleCollection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;

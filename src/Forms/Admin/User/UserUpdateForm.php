@@ -2,14 +2,13 @@
 
 namespace Akkurate\LaravelCore\Forms\Admin\User;
 
-use Akkurate\LaravelAccountSubmodule\Models\Account;
 use Kris\LaravelFormBuilder\Form;
 
 class UserUpdateForm extends Form
 {
     public function buildForm()
     {
-        $accounts = Account::where('is_active', 1)->orderBy('name', 'asc')->get();
+        $accounts = account()->where('is_active', 1)->orderBy('name', 'asc')->get();
         $accountsSelect = $accounts->pluck('name', 'id')->toArray();
 
         $this

@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Events\Auth;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -18,10 +17,10 @@ class UserConfirmed implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
-     * @param User $user
+     * @param $user
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct($user)
     {
         $this->user = $user;
     }

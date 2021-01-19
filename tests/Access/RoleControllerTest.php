@@ -15,7 +15,7 @@ class RoleControllerTest extends TestCase
     use WithFaker;
     use WithoutMiddleware;
 
-    /** @test **/
+    /** @test * */
     public function it_should_return_the_roles_index()
     {
         $response = $this->get(route('brain.access.roles.index', [
@@ -24,7 +24,7 @@ class RoleControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_redirect_to_a_role_edit_view()
     {
         $role = Role::first();
@@ -33,10 +33,10 @@ class RoleControllerTest extends TestCase
             'uuid' => $this->user->account->slug,
             'role' => $role->id
         ]));
-        $response->assertRedirect('brain/'. $this->user->account->slug .'/access/roles/'. $role->id . '/edit');
+        $response->assertRedirect('brain/' . $this->user->account->slug . '/access/roles/' . $role->id . '/edit');
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_return_an_create_role_view()
     {
         $response = $this->get(route('brain.access.roles.create', [
@@ -45,7 +45,7 @@ class RoleControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_create_a_role()
     {
         $response = $this->post(route('brain.access.roles.store', [
@@ -53,13 +53,13 @@ class RoleControllerTest extends TestCase
             'name' => 'test',
         ]));
 
-        $response->assertRedirect('brain/'. $this->user->account->slug .'/access/roles/');
+        $response->assertRedirect('brain/' . $this->user->account->slug . '/access/roles/');
 
         $role = Role::where('name', 'test')->first();
         $this->assertDatabaseHas('roles', ['id' => $role->id]);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_return_an_edit_role_view()
     {
         $role = Role::first();
@@ -84,7 +84,7 @@ class RoleControllerTest extends TestCase
         $this->assertDatabaseHas('roles', ['id' => $role->id]);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_delete_a_role_and_redirect_back()
     {
         $role = Role::first();
@@ -98,7 +98,7 @@ class RoleControllerTest extends TestCase
         $this->assertDatabaseMissing('roles', ['id' => $role->id]);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_give_a_role_to_a_user_and_redirect_back()
     {
         $response = $this->post(route('brain.access.roles.permission.give', [
@@ -109,7 +109,7 @@ class RoleControllerTest extends TestCase
         $response->assertRedirect();
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_revoke_a_role_to_a_user_and_redirect_back()
     {
         $response = $this->post(route('brain.access.roles.permission.revoke', [

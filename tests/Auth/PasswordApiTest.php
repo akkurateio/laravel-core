@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Tests\Auth;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Tests\TestCase;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -51,7 +50,7 @@ class PasswordApiTest extends TestCase
     {
         Passport::actingAs($this->user);
 
-        $user = User::create([
+        $user = user()->create([
             'firstname' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
             'email' => 'email@test.com',

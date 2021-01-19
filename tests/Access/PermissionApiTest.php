@@ -12,7 +12,7 @@ class PermissionApiTest extends TestCase
     use WithFaker;
     use WithoutMiddleware;
 
-    /** @test **/
+    /** @test * */
     public function it_should_return_all_permissions()
     {
         $response = $this->get(route('api.access.permissions.index', [
@@ -21,7 +21,7 @@ class PermissionApiTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_read_a_permission()
     {
         $response = $this->get(route('api.access.permissions.show', [
@@ -31,7 +31,7 @@ class PermissionApiTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_create_a_permission()
     {
         $response = $this->post(route('api.access.permissions.store', [
@@ -42,7 +42,7 @@ class PermissionApiTest extends TestCase
         $response->assertStatus(201);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_update_a_permission()
     {
         $response = $this->put(route('api.access.permissions.update', [
@@ -54,7 +54,7 @@ class PermissionApiTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_delete_a_permission()
     {
         $response = $this->delete(route('api.access.permissions.destroy', [

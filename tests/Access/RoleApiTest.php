@@ -12,7 +12,7 @@ class RoleApiTest extends TestCase
     use WithFaker;
     use WithoutMiddleware;
 
-    /** @test **/
+    /** @test * */
     public function it_should_return_all_roles()
     {
         $response = $this->get(route('api.access.roles.index', [
@@ -21,7 +21,7 @@ class RoleApiTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_read_a_role()
     {
         $response = $this->get(route('api.access.roles.show', [
@@ -31,7 +31,7 @@ class RoleApiTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_create_a_role()
     {
         $response = $this->post(route('api.access.roles.store', [
@@ -42,7 +42,7 @@ class RoleApiTest extends TestCase
         $response->assertStatus(201);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_update_a_role()
     {
         $response = $this->put(route('api.access.roles.update', [
@@ -54,7 +54,7 @@ class RoleApiTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_delete_a_role()
     {
         $response = $this->delete(route('api.access.roles.destroy', [

@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Tests\Auth;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Tests\TestCase;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -12,17 +11,17 @@ class InvitationControllerTest extends TestCase
 {
     use WithFaker;
 
-    /** @test **/
+    /** @test * */
     public function it_should_verify_user_and_log_in_him_then_redirect()
     {
         $this->assertAuthenticatedAs($this->user);
 
-        $user = User::create([
+        $user = user()->create([
             'email' => 'email@test.com',
             'account_id' => $this->user->account->id,
             'firstname' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
-            'activation_token' => Str::random(60).'_'.time()
+            'activation_token' => Str::random(60) . '_' . time()
         ]);
 
         $response = $this->get(route('verify.user', [
@@ -34,10 +33,10 @@ class InvitationControllerTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_update_profile_with_firstname_and_lastname_then_redirect_to_dashboard()
     {
-        $user = User::create([
+        $user = user()->create([
             'firstname' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
             'email' => 'email@test.com',
@@ -58,10 +57,10 @@ class InvitationControllerTest extends TestCase
         $response->assertRedirect(config('laravel-core.admin.route'));
     }
 
-    /** @test **/
+    /** @test * */
     public function it_should_update_profile_without_firstname_and_lastname_then_redirect_to_dashboard()
     {
-        $user = User::create([
+        $user = user()->create([
             'email' => 'email@test.com',
             'account_id' => $this->user->account->id,
             'activated_at' => Carbon::now(),

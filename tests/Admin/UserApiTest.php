@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Tests\Admin;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -15,7 +14,7 @@ class UserApiTest extends TestCase
     /** @test **/
     public function it_should_return_all_users()
     {
-        User::factory()->count(2)->make();
+        user()->factory()->count(2)->make();
 
         $response = $this->get(route('api.admin.users.index', [
             'uuid' => $this->user->account->uuid
@@ -28,7 +27,7 @@ class UserApiTest extends TestCase
     {
         $response = $this->get(route('api.admin.users.show', [
             'uuid' => $this->user->account->uuid,
-            'user' => User::factory()->create()
+            'user' => user()->factory()->create()
         ]));
         $response->assertStatus(200);
     }
@@ -38,7 +37,7 @@ class UserApiTest extends TestCase
     {
         $response = $this->put(route('api.admin.users.update', [
             'uuid' => $this->user->account->uuid,
-            'user' => User::factory()->create(),
+            'user' => user()->factory()->create(),
             'firstname' => 'Test',
             'lastname' => 'Test',
             'email' => 'test@subvitamine.com',
@@ -51,7 +50,7 @@ class UserApiTest extends TestCase
     {
         $response = $this->delete(route('api.admin.users.destroy', [
             'uuid' => $this->user->account->uuid,
-            'user' => User::factory()->create()
+            'user' => user()->factory()->create()
         ]));
         $response->assertStatus(403);
     }
@@ -59,7 +58,7 @@ class UserApiTest extends TestCase
     /** @test **/
     public function it_should_delete_an_user()
     {
-        $user = User::factory()->create();
+        $user = user()->factory()->create();
 
         $user->update([
            'account_id' => $this->user->account->id

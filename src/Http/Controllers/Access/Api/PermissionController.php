@@ -2,11 +2,9 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Access\Api;
 
-use Akkurate\LaravelAccountSubmodule\Models\Account;
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
-use Akkurate\LaravelCore\Http\Resources\Access\Permission as PermissionResource;
-use Akkurate\LaravelCore\Http\Resources\Access\PermissionCollection;
+use Akkurate\LaravelAccountSubmodule\Http\Resources\Permission\Permission as PermissionResource;
+use Akkurate\LaravelAccountSubmodule\Http\Resources\Permission\PermissionCollection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
@@ -105,9 +103,9 @@ class PermissionController extends Controller
      */
     public function givePermission($uuid, Permission $permission, $modelUuid)
     {
-        $model = User::where('uuid', $modelUuid)->first();
+        $model = user()->where('uuid', $modelUuid)->first();
         if (! $model) {
-            $model = Account::where('uuid', $modelUuid)->first();
+            $model = account()->where('uuid', $modelUuid)->first();
         }
         if (! $model) {
             return response()->json([
@@ -134,9 +132,9 @@ class PermissionController extends Controller
      */
     public function revokePermission($uuid, Permission $permission, $modelUuid)
     {
-        $model = User::where('uuid', $modelUuid)->first();
+        $model = user()->where('uuid', $modelUuid)->first();
         if (! $model) {
-            $model = Account::where('uuid', $modelUuid)->first();
+            $model = account()->where('uuid', $modelUuid)->first();
         }
         if (! $model) {
             return response()->json([

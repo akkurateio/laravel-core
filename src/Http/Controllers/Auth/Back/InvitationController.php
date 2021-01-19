@@ -2,7 +2,6 @@
 
 namespace Akkurate\LaravelCore\Http\Controllers\Auth\Back;
 
-use Akkurate\LaravelAccountSubmodule\Models\User;
 use Akkurate\LaravelCore\Events\Auth\UserConfirmed;
 use Akkurate\LaravelCore\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -29,7 +28,7 @@ class InvitationController extends Controller
      */
     public function verifyUser(string $token)
     {
-        $user = User::where('activation_token', $token)->first();
+        $user = user()->where('activation_token', $token)->first();
         if (empty($user)) {
             return redirect('/login');
         }
@@ -54,14 +53,14 @@ class InvitationController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed']
         ]);
 
-        $user = User::find(auth()->user()->id);
+        $user = user()->find(auth()->user()->id);
 
         $user->update([
             'is_active' => 1,
             'password' => Hash::make($validated['password']),
             'activation_token' => null,
-            'firstname' => $validated['firstname'] ?? null,
-            'lastname' => $validated['lastname'] ?? null,
+            'firstname' => array_key_exists('firstname', $validated) ? $validated['firstname'] : auth()->user()->firstname,
+            'lastname' => array_key_exists('lastname', $validated) ? $validated['lastname'] : auth()->user()->lastname
         ]);
 
         event(new UserConfirmed($user));
