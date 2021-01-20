@@ -18,10 +18,8 @@ class LaravelCoreServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Router $router)
     {
-        $router = $this->app->make(Router::class);
-        $router->pushMiddlewareToGroup('web', CoreKernel::class);
         $router->pushMiddlewareToGroup('akk-back', CoreKernel::class);
         $router->pushMiddlewareToGroup('akk-api', CoreKernel::class);
 

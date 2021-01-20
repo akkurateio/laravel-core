@@ -12,10 +12,6 @@ class CoreKernel extends HttpKernel
      * @var array
      */
     protected $middlewareGroups = [
-        'web' => [
-            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
-        ],
-
         'akk-back' => [
             \Akkurate\LaravelCore\Http\Middleware\Back\CheckUserStatus::class,
             \Akkurate\LaravelCore\Http\Middleware\Back\Account::class,
