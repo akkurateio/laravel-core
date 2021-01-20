@@ -28,7 +28,7 @@ class LaravelAccessServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/access/views', 'access');
 
         $this->publishes([
-            __DIR__.'/../../config/access/laravel-access.php' => config_path('laravel-access.php')
+            __DIR__.'/../../config/access.php' => config_path('laravel-access.php')
         ], 'config');
     }
 
@@ -40,7 +40,7 @@ class LaravelAccessServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/access/laravel-access.php',
+            __DIR__.'/../../config/access.php',
             'laravel-access'
         );
     }

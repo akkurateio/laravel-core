@@ -40,7 +40,7 @@ class LaravelAuthServiceProvider extends ServiceProvider
         ], 'views');
 
         $this->publishes([
-            __DIR__.'/../../config/auth/laravel-auth.php' => config_path('laravel-auth.php'),
+            __DIR__.'/../../config/auth.php' => config_path('laravel-auth.php'),
         ], 'config');
     }
 
@@ -52,7 +52,7 @@ class LaravelAuthServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/auth/laravel-auth.php',
+            __DIR__.'/../../config/auth.php',
             'laravel-auth'
         );
     }

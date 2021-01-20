@@ -33,7 +33,7 @@ Module for managing accounts, users, languages, countries and preferences for La
 
 Optionally, you can publish the config file with this command:
 ```bash
-php artisan vendor:publish --provider="Akkurate\LaravelAdmin\LaravelAdminServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Akkurate\LaravelCore\Providers\LaravelAdminServiceProvider" --tag="config"
 ```
 
 ## Laravel Access
@@ -42,7 +42,7 @@ Module for managing roles and permissions.
 
 If you want to overwrite the config file:
 ```bash
-php artisan vendor:publish --provider="Akkurate\LaravelAccess\LaravelAccessServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Akkurate\LaravelCore\Providers\LaravelAccessServiceProvider" --tag="config"
 ```
 
 ## Laravel Me
@@ -51,17 +51,17 @@ Module for managing the user profile.
 
 If you want to overwrite the config with:
 ```bash
-php artisan vendor:publish --provider="Akkurate\LaravelMe\LaravelMeServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Akkurate\LaravelCore\Providers\LaravelMeServiceProvider" --tag="config"
 ```
 
 If you want to overwrite the users delete partial:
 ```bash
-php artisan vendor:publish --provider="Akkurate\LaravelMe\LaravelMeServiceProvider" --tag="user-partials"
+php artisan vendor:publish --provider="Akkurate\LaravelCore\Providers\LaravelMeServiceProvider" --tag="user-partials"
 ```
 
 If you want to publish all the views:
 ```bash
-php artisan vendor:publish --provider="Akkurate\LaravelMe\LaravelMeServiceProvider" --tag="views"
+php artisan vendor:publish --provider="Akkurate\LaravelCore\Providers\LaravelMeServiceProvider" --tag="views"
 ```
 
 ## Tests

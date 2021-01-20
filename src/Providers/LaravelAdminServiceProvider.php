@@ -31,7 +31,7 @@ class LaravelAdminServiceProvider extends ServiceProvider
         ], 'js');
 
         $this->publishes([
-            __DIR__.'/../../config/admin/laravel-admin.php' => config_path('laravel-admin.php')
+            __DIR__.'/../../config/admin.php' => config_path('laravel-admin.php')
         ], 'config');
 
         $this->publishes([
@@ -47,7 +47,7 @@ class LaravelAdminServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/admin/laravel-admin.php',
+            __DIR__.'/../../config/admin.php',
             'laravel-admin'
         );
     }

@@ -24,7 +24,7 @@ class LaravelMeServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/me/views', 'me');
 
         $this->publishes([
-            __DIR__.'/../../config/me/laravel-me.php' => config_path('laravel-me.php')
+            __DIR__.'/../../config/me.php' => config_path('laravel-me.php')
         ], 'config');
 
         $this->publishes([
@@ -44,7 +44,7 @@ class LaravelMeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/me/laravel-me.php',
+            __DIR__.'/../../config/me.php',
             'laravel-me'
         );
     }
