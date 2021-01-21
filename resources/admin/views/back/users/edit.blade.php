@@ -80,7 +80,7 @@
                     <template v-slot:container>
                         <div class="px-4 pb-5">
                             <div class="row">
-                                @if(config('laravel-contact'))
+                                @if(config('laravel-i18n'))
                                     <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label for="language"
