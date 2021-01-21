@@ -46,6 +46,11 @@ class InstallCore extends Command
         $this->call('passport:install');
         $this->line('');
         $this->call('back-components:install');
+
+        $this->call('vendor:publish --provider="Akkurate\LaravelBackComponents\LaravelBackComponentsServiceProvider" --tag="sass"');
+        $this->call('vendor:publish --provider="Akkurate\LaravelBackComponents\LaravelBackComponentsServiceProvider" --tag="js"');
+        $this->call('vendor:publish --provider="Akkurate\LaravelCore\Providers\LaravelAdminServiceProvider" --tag="js"');
+        $this->call('vendor:publish --provider="Akkurate\LaravelCore\Providers\LaravelAuthServiceProvider" --tag="sass"');
     }
 
     /**
